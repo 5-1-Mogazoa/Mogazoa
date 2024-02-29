@@ -18,7 +18,8 @@
     "react-hook-form": "^7.50.1",
     "react-query": "^3.39.3",
     "styled-component": "^2.8.0",
-    "styled-components": "^6.1.8"
+    "styled-components": "^6.1.8",
+    "usehooks-ts": "^2.15.1"
   },
   "devDependencies": {
     "@types/node": "^20",
@@ -26,6 +27,8 @@
     "@types/react-dom": "^18",
     "eslint": "^8",
     "eslint-config-next": "14.1.0",
+    "eslint-config-prettier": "^9.1.0",
+    "prettier": "^3.2.5",
     "typescript": "^5"
   }
 }
