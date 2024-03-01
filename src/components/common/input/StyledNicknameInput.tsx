@@ -15,14 +15,14 @@ const StyledNicknameInput = styled.input`
   color: var(--color-white_f1, #f1f1f5);
   font-family: Pretendard;
   font-style: normal;
-  ${fontStyle({ w: 400, s: 14, l: 10 })}
+  ${fontStyle({ w: 400, s: 14, l: 10 })};
 
   &:placeholder {
     color: var(--color-gray-6e, #6e6e82);
   }
 
   &:focus {
-    border: 1px solid var(--color-main_gradation, #5097fa);
+    border: 1px solid var(--color-main-blue, #5097fa);
   }
 
   @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
@@ -33,7 +33,7 @@ const StyledNicknameInput = styled.input`
     width: 640px;
     height: 70px;
 
-    ${fontStyle({ w: 400, s: 16, l: 10 })}
+    ${fontStyle({ w: 400, s: 16, l: 10 })};
   }
 `;
 
@@ -41,10 +41,10 @@ const StyledNicknameLabel = styled.label`
   color: var(--color-white_f1, #f1f1f5);
   font-family: Pretendard;
   font-style: normal;
-  ${fontStyle({ w: 400, s: 14, l: 10 })}
+  ${fontStyle({ w: 400, s: 14, l: 10 })};
 
   @media (min-width: ${({ theme }) => theme.deviceSizes.desktop}) {
-    ${fontStyle({ w: 400, s: 16, l: 10 })}
+    ${fontStyle({ w: 400, s: 16, l: 10 })};
   }
 `;
 
@@ -52,10 +52,10 @@ const StyledNicknameDescription = styled.span`
   color: var(--color-gray_6e, #6e6e82);
   font-family: Pretendard;
   font-style: normal;
-  ${fontStyle({ w: 400, s: 12, l: 10 })}
+  ${fontStyle({ w: 400, s: 12, l: 10 })};
 
   @media (min-width: ${({ theme }) => theme.deviceSizes.desktop}) {
-    ${fontStyle({ w: 400, s: 14, l: 10 })}
+    ${fontStyle({ w: 400, s: 14, l: 10 })};
   }
 `;
 

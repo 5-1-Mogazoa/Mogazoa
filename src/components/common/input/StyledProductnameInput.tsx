@@ -15,14 +15,14 @@ const StyledProductNameInput = styled.input`
   color: var(--color-white_f1, #f1f1f5);
   font-family: Pretendard;
   font-style: normal;
-  ${fontStyle({ w: 400, s: 14, l: 10 })}
+  ${fontStyle({ w: 400, s: 14, l: 10 })};
 
   &:placeholder {
     color: var(--color-gray-6e, #6e6e82);
   }
 
   &:focus {
-    border: 1px solid var(--color-main_gradation, #5097fa);
+    border: 1px solid var(--color-main-blue, #5097fa);
   }
 
   @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
@@ -33,7 +33,7 @@ const StyledProductNameInput = styled.input`
     width: 400px;
     height: 70px;
 
-    ${fontStyle({ w: 400, s: 16, l: 10 })}
+    ${fontStyle({ w: 400, s: 16, l: 10 })};
   }
 `;
 
