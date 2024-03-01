@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { fontStyle } from "@/styles/theme";
 
-type StyledCategoryProps = {
+type StyledCategoryChipProps = {
   $category:
     | "음악"
     | "영화/드라마"
@@ -15,7 +15,7 @@ type StyledCategoryProps = {
     | "앱";
 };
 
-export const StyledCategory = styled.div<StyledCategoryProps>`
+export const StyledCategoryChip = styled.div<StyledCategoryChipProps>`
   display: inline-flex;
   padding: 4px 8px;
   justify-content: center;
