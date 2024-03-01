@@ -12,12 +12,9 @@ export const API_ROUTE = {
   USERS_MYDATA: "/users/me",
   USERS_RANK: "/users/ranking",
   USERS_DATA: (userId: number) => `/users/${userId}`,
-  USERS_CREATED_PRODUCT: (userId: number) =>
-    `/users/${userId}/created-products`,
-  USERS_REVIEWED_PRODUCT: (userId: number) =>
-    `/users/${userId}/reviewed-products`,
-  USERS_FAVORITE_PRODUCT: (userId: number) =>
-    `/users/${userId}/favorite-products`,
+  USERS_CREATED_PRODUCT: (userId: number) => `/users/${userId}/created-products`,
+  USERS_REVIEWED_PRODUCT: (userId: number) => `/users/${userId}/reviewed-products`,
+  USERS_FAVORITE_PRODUCT: (userId: number) => `/users/${userId}/favorite-products`,
   USERS_FOLLOWEES: (userId: number) => `/users/${userId}/followees`,
   USERS_FOLLOWERS: (userId: number) => `/users/${userId}/followers`,
 
@@ -26,8 +23,8 @@ export const API_ROUTE = {
   REVIEWS_EDIT_DELETE: (reviewId: number) => `/reviews/${reviewId}`,
 
   PRODUCTS: "/products",
-  PRODUCT_DETAIL: (productId: number) => `/ products/${productId}`,
-  PRODUCT_REVIEWS: (productId: number) => `/ products/${productId}/reviews`,
+  PRODUCT_DETAIL: (productId: number) => `/products/${productId}`,
+  PRODUCT_REVIEWS: (productId: number) => `/products/${productId}/reviews`,
   PRODUCT_FAVORITE: (productId: number) => `/products/${productId}/favorite`,
 
   OATUH: "/oatuhApps",

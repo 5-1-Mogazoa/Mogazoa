@@ -6,11 +6,11 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     font-family: "Pretendard";
     word-break: keep-all;
-    background-color: var(--color-black-17);
   }
 
   html {
     font-size: 62.5%;
+    background-color: var(--color-black-17);
   }
 
   body {
