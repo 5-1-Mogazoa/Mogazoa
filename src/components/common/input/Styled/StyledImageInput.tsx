@@ -11,6 +11,7 @@ const StyledImageInput = styled.input`
 `;
 
 const StyledImageBox = styled.div<StyledImageBoxProps>`
+  cursor: pointer;
   width: 140px;
   height: 140px;
   display: inline-flex;

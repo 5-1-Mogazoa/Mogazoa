@@ -1,4 +1,4 @@
-import { StyledLetterCount, StyledTextBox, StyledTextBoxContainer } from "./StyledTextBox";
+import { StyledLetterCount, StyledTextBox, StyledTextBoxContainer } from "./Styled/StyledTextBox";
 
 type TextBoxProps = {
   $placeHolderText: string;

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { StyledEmptyImageIcon, StyledImageBox, StyledImageInput } from "./StyledImageInput";
+import { StyledEmptyImageIcon, StyledImageBox, StyledImageInput } from "./Styled/StyledImageInput";
 
 export default function ImageInput() {
   const [imageURL, setImageURL] = useState<string>("");
