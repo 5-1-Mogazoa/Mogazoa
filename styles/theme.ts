@@ -11,8 +11,8 @@ export interface themeType {
 
 export const theme: themeType = {
   deviceSizes: {
-    mobile: "744px",
-    tablet: "1600px",
+    tablet: "744px",
+    desktop: "1600px",
   },
   zIndex: {
     default: "1",
@@ -37,7 +37,5 @@ interface FontStyleType {
 }
 
 export const fontStyle = ({ w, s, l }: FontStyleType) => {
-  return `font-size: ${s / 10}rem; font-weight: ${w}; line-height: ${
-    l / 10
-  }rem`;
+  return `font-size: ${s / 10}rem; font-weight: ${w}; line-height: ${l / 10}rem`;
 };
