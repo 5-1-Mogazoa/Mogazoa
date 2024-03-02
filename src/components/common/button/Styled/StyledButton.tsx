@@ -1,10 +1,6 @@
 import styled from "styled-components";
 import { fontStyle } from "@/styles/theme";
 
-//   @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
-//     ${fontStyle({ w: 400, s: 16, l: 18 })};
-//   }
-
 const StyledPrimaryButton = styled.button`
   display: flex;
   width: 335px;
