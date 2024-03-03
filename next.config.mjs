@@ -4,6 +4,18 @@ const nextConfig = {
   compiler: {
     styledComponents: true,
   },
+  images: {
+    domains: [
+      "img.siksinhot.com",
+      "ak-d.tripcdn.com",
+      "assets.untappd.com",
+      "contents.sixshop.com",
+      "blog.kakaocdn.net",
+      "static.hubzum.zumst.com",
+      "junggutongsin.com",
+      "d12zq4w4guyljn.cloudfront.net",
+    ],
+  },
 };
 
 export default nextConfig;
