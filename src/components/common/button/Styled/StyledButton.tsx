@@ -3,7 +3,7 @@ import { fontStyle } from "@/styles/theme";
 
 const StyledPrimaryButton = styled.button`
   display: flex;
-  width: 335px;
+  width: 100%;
   height: 50px;
   padding: 24px;
   justify-content: center;
@@ -29,6 +29,7 @@ const StyledPrimaryButton = styled.button`
   @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
     width: 440px;
     height: 55px;
+    flex-shrink: 1;
   }
 
   @media (min-width: ${({ theme }) => theme.deviceSizes.desktop}) {
@@ -60,4 +61,29 @@ const StyledTertiaryButton = styled(StyledPrimaryButton)`
   }
 `;
 
-export { StyledPrimaryButton, StyledSecondaryButton, StyledTertiaryButton };
+// product 페이지 버튼 추가
+type StyledProductButtonProps = {
+  $createdByMe: Boolean;
+  $buttonType: "compare" | "edit";
+};
+
+const StyledProductButton = styled(StyledSecondaryButton)<StyledProductButtonProps>`
+  width: 100%;
+  ${({ $buttonType }) =>
+    $buttonType === "edit"
+      ? `border: 1px solid var(--color-gray-9f, #9fa6b2);
+  background: unset;
+  color: var(--color-gray-9f, #9fa6b2);`
+      : ""}
+
+  @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
+    width: ${({ $createdByMe }) => ($createdByMe ? "10.7rem" : "12.3rem")};
+    flex-shrink: 0;
+  }
+
+  @media (min-width: ${({ theme }) => theme.deviceSizes.desktop}) {
+    width: ${({ $createdByMe }) => ($createdByMe ? "16rem" : "18rem")};
+  }
+`;
+
+export { StyledPrimaryButton, StyledSecondaryButton, StyledTertiaryButton, StyledProductButton };
