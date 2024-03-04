@@ -172,7 +172,6 @@ export default function SignUpForm() {
           <StyledDescription $isError>{errors.passwordConfirmation.message} </StyledDescription>
         )}
       </StyledInputContainer>
-      {/* TODO: 제출 버튼 추가 예정 */}
       <StyledSignUpButtonContainer>
         <StyledPrimaryButton disabled={hasError ? true : false}>가입하기</StyledPrimaryButton>
       </StyledSignUpButtonContainer>
