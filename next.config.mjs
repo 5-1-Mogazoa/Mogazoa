@@ -14,6 +14,7 @@ const nextConfig = {
       "static.hubzum.zumst.com",
       "junggutongsin.com",
       "d12zq4w4guyljn.cloudfront.net",
+      "example.com",
     ],
   },
 };
