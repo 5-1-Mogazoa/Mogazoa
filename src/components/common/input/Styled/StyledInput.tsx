@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 type StyledInputProps = {
   $isError?: boolean;
+  $isVisibility?: boolean;
 };
 
 const StyledInput = styled.input<StyledInputProps>`
@@ -71,4 +72,42 @@ const StyledInputContainer = styled.div`
   gap: 10px;
 `;
 
-export { StyledInputContainer, StyledDescription, StyledInput, StyledLabel };
+const StyledPasswordInputContainer = styled.div`
+  position: relative;
+  width: 335px;
+  height: 55px;
+
+  @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
+    width: 440px;
+  }
+
+  @media (min-width: ${({ theme }) => theme.deviceSizes.desktop}) {
+    width: 640px;
+    height: 70px;
+  }
+`;
+
+const StyledPasswordOnOffButton = styled.button<StyledInputProps>`
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  background: url(${({ $isVisibility }) => ($isVisibility ? "/icons/visibilityOn.svg" : "/icons/visibilityOff.svg")})
+    no-repeat center / cover;
+
+  @media (min-width: ${({ theme }) => theme.deviceSizes.desktop}) {
+    width: 24px;
+    height: 24px;
+  }
+`;
+
+export {
+  StyledPasswordInputContainer,
+  StyledPasswordOnOffButton,
+  StyledInputContainer,
+  StyledDescription,
+  StyledInput,
+  StyledLabel,
+};
