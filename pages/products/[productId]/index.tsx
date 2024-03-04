@@ -1,5 +1,6 @@
 import { getProductDetail } from "@/src/apis/product";
 import ProductDetail from "@/src/components/product/ProductDetail";
+import ProductLayout from "@/src/components/product/ProductLayout";
 import { HydrationBoundary, QueryClient, dehydrate, useQuery } from "@tanstack/react-query";
 import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
@@ -13,9 +14,17 @@ export function Product() {
     queryFn: () => getProductDetail(productId),
   });
 
-  console.log(productDetail);
+  if (!productDetail) {
+    return null;
+  }
 
-  return <>{productDetail && <ProductDetail productDetail={productDetail} />}</>;
+  const createdByMe = true; // 추후 use데이터에 따라 수정
+
+  return (
+    <ProductLayout>
+      <ProductDetail productDetail={productDetail} createdByMe={createdByMe} />
+    </ProductLayout>
+  );
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {

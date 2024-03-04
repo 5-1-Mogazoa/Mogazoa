@@ -13,6 +13,7 @@ type StyledCategoryChipProps = {
     | "화장품"
     | "의류/악세서리"
     | "앱";
+  $small: boolean;
 };
 
 export const StyledCategoryChip = styled.div<StyledCategoryChipProps>`
@@ -80,6 +81,8 @@ export const StyledCategoryChip = styled.div<StyledCategoryChipProps>`
   }};
 
   @media (min-width: ${({ theme }) => theme.deviceSizes.desktop}) {
-    ${fontStyle({ w: 500, s: 18, l: 20 })};
+    font-size: ${({ $small }) => ($small ? "1.2rem" : "1.8rem")};
+    font-weight: ${({ $small }) => ($small ? "400" : "500")};
+    line-height: ${({ $small }) => ($small ? "1.4rem" : "2rem")};
   }
 `;
