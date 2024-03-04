@@ -1,6 +1,8 @@
 import { getProductDetail } from "@/src/apis/product";
 import ProductDetail from "@/src/components/product/ProductDetail";
 import ProductLayout from "@/src/components/product/ProductLayout";
+import StatisticsItem from "@/src/components/product/StatisticsItem";
+import StatisticsList from "@/src/components/product/StatisticsList";
 import { HydrationBoundary, QueryClient, dehydrate, useQuery } from "@tanstack/react-query";
 import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
@@ -18,11 +20,22 @@ export function Product() {
     return null;
   }
 
-  const createdByMe = true; // 추후 use데이터에 따라 수정
+  const createdByMe = true; // 추후 수정
+  const ratingCount = 4.3; // 별점 점수. 추후 수정
+  const ratingAverage = 4; // 별점 평균. 추후 수정 rating은 .toFixed(1)
+  const favoriteCount = 12; // 찜 개수. 추후 수정
+  const favoriteAverage = 5; // 찜 평균. 소수점 없게 만들기
+  const reviewCount = 26; // 리뷰 개수. 추후 수정
+  const reviewAverage = 9; // 리뷰 평균. 소수점 없게 만들기
 
   return (
     <ProductLayout>
       <ProductDetail productDetail={productDetail} createdByMe={createdByMe} />
+      <StatisticsList>
+        <StatisticsItem statType="rating" count={ratingCount} average={ratingAverage} />
+        <StatisticsItem statType="favoriteCount" count={favoriteCount} average={favoriteAverage} />
+        <StatisticsItem statType="reviewCount" count={reviewCount} average={reviewAverage} />
+      </StatisticsList>
     </ProductLayout>
   );
 }
