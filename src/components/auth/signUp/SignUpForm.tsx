@@ -63,8 +63,8 @@ export default function SignUpForm() {
               value: true,
               message: ERROR_MESSAGE.REQUIRED_NICKNAME,
             },
-            max: {
-              value: 30,
+            maxLength: {
+              value: 20,
               message: ERROR_MESSAGE.NICKNAME_MAX_LENGTH,
             },
           })}
@@ -74,7 +74,7 @@ export default function SignUpForm() {
       </StyledInputContainer>
 
       {/* TODO: 제출 버튼 추가 예정 */}
-      {/* <input type="submit" /> */}
+      <input type="submit" />
     </form>
   );
 }
