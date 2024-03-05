@@ -1,18 +1,9 @@
 import styled from "styled-components";
 import { fontStyle } from "@/styles/theme";
+import { CategoryType } from "@/src/apis/product/schema";
 
 type StyledCategoryChipProps = {
-  $category:
-    | "음악"
-    | "영화/드라마"
-    | "강의/책"
-    | "호텔"
-    | "가구/인테리어"
-    | "식당"
-    | "전자기기"
-    | "화장품"
-    | "의류/악세서리"
-    | "앱";
+  $category: CategoryType | undefined;
   $small: boolean;
 };
 
@@ -22,6 +13,7 @@ export const StyledCategoryChip = styled.div<StyledCategoryChipProps>`
   justify-content: center;
   align-items: center;
   gap: 10px;
+  width: fit-content;
 
   border-radius: 6px;
 

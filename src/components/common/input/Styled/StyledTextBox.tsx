@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const StyledTextBox = styled.textarea`
   display: flex;
-  width: 295px;
+  width: 100%;
   height: 120px;
   padding: 20px;
   flex-direction: column;
@@ -30,12 +30,12 @@ const StyledTextBox = styled.textarea`
   }
 
   @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
-    width: 360px;
+    width: 100%;
+    height: 16rem;
   }
 
   @media (min-width: ${({ theme }) => theme.deviceSizes.desktop}) {
-    width: 400px;
-    height: 128px;
+    width: 100%;
 
     ${fontStyle({ w: 400, s: 16, l: 22 })};
   }

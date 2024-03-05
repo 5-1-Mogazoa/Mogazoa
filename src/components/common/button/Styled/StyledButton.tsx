@@ -22,7 +22,6 @@ const StyledPrimaryButton = styled.button`
   color: var(--color-white-f1, #f1f1f5);
   text-align: center;
   font-family: Pretendard;
-  font-size: 16px;
   font-style: normal;
   ${fontStyle({ w: 600, s: 16, l: 18 })};
 

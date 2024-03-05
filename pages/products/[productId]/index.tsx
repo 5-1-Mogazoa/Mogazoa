@@ -9,8 +9,11 @@ import { useRouter } from "next/router";
 import mockData from "../../../src/components/product/reviewFakeData.json";
 import ReviewList from "@/src/components/product/ReviewList";
 import ReviewItem from "@/src/components/product/ReviewItem";
+import ModalReview from "@/src/components/product/ModalReview";
+import { useState } from "react";
 
 export function Product() {
+  const [isModal, setIsModal] = useState(true);
   const router = useRouter();
   const productId = Number(router.query.productId);
 
@@ -24,6 +27,8 @@ export function Product() {
   if (!productDetail) {
     return null;
   }
+
+  const { name, category } = productDetail;
 
   const createdByMe = true; // TODO
   const ratingCount = 4.3; // TODO 별점 점수
@@ -46,6 +51,9 @@ export function Product() {
         <StatisticsItem statType="favoriteCount" count={favoriteCount} average={favoriteAverage} />
         <StatisticsItem statType="reviewCount" count={reviewCount} average={reviewAverage} />
       </StatisticsList> */}
+      {isModal && (
+        <ModalReview productId={productId} name={name} category={category.name} onClose={() => setIsModal(false)} />
+      )}
     </ProductLayout>
   );
 }

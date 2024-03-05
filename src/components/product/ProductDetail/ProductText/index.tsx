@@ -2,21 +2,12 @@ import { StyledCategoryChip } from "@/src/components/common/chip/Styled/StyledCa
 import Image from "next/image";
 import * as S from "./styled";
 import ShareButtons from "../ShareButtons";
+import { CategoryType } from "@/src/apis/product/schema";
 
 type ProductTextProps = {
   name: string;
   category: {
-    name:
-      | "음악"
-      | "영화/드라마"
-      | "강의/책"
-      | "호텔"
-      | "가구/인테리어"
-      | "식당"
-      | "전자기기"
-      | "화장품"
-      | "의류/악세서리"
-      | "앱";
+    name: CategoryType;
   };
   isFavorite: boolean;
   description: string;
