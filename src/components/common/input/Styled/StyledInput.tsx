@@ -87,8 +87,9 @@ const StyledPasswordInputContainer = styled.div`
   }
 `;
 
-const StyledPasswordOnOffButton = styled.button<StyledInputProps>`
+const StyledPasswordOnOffButton = styled.div<StyledInputProps>`
   position: absolute;
+  cursor: pointer;
   width: 22px;
   height: 22px;
   top: 50%;
