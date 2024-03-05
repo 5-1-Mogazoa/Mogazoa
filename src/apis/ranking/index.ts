@@ -7,3 +7,17 @@ export const getUserRank = async () => {
 
   return await apiCall(requestProps);
 };
+
+// 유저를 팔로우한 유저 조회
+export const getUserFollowers = async (userId: number) => {
+  const requestProps = { method: "get", endPoint: API_ROUTE.USERS_FOLLOWERS(userId) };
+
+  return await apiCall(requestProps);
+};
+
+// 유저가 리뷰한 상품 조회
+export const getUserReviewed = async (userId: number) => {
+  const requestProps = { method: "get", endPoint: API_ROUTE.USERS_REVIEWED_PRODUCT(userId) };
+
+  return await apiCall(requestProps);
+};
