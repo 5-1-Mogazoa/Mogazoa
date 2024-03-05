@@ -12,6 +12,12 @@ import ERROR_MESSAGE from "@/src/constant/ERROR_MESSAGE";
 import REGEX from "@/src/constant/REGEX";
 import { StyledPrimaryButton } from "../../common/button/Styled/StyledButton";
 import styled from "styled-components";
+import { useMutation } from "@tanstack/react-query";
+import { postSignUpData } from "@/src/apis/auth/signUp";
+import SignUpData from "@/src/types/auth/signUp/signUpData";
+import { useRouter } from "next/router";
+import SignUpResponseType from "@/src/apis/auth/signUp/schema";
+import { getAccessToken } from "@/src/utils/getCookieData";
 
 const StyledSignUpForm = styled.form`
   display: flex;
@@ -50,37 +56,53 @@ const StyledSignUpButtonContainer = styled.div`
   }
 `;
 
-type SignUpData = {
-  email: String;
-  nickname: string;
-  password: string;
-  passwordConfirmation: string;
-};
-
 export default function SignUpForm() {
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
     setError,
     formState: { errors },
   } = useForm<SignUpData>({ mode: "onBlur" });
-  const onSubmit = (data: SignUpData) => {
+
+  const postMutation = useMutation({
+    mutationFn: (data: SignUpData) => postSignUpData(data),
+  });
+
+  const onSubmit = async (data: SignUpData) => {
     if (data.password !== data.passwordConfirmation) {
       setError("passwordConfirmation", { type: "matched", message: ERROR_MESSAGE.NOT_MATCH_PASSWORD });
       return;
     }
-    console.log(data);
+    try {
+      const result = (await postMutation.mutateAsync(data)) as SignUpResponseType;
+
+      const expirationDate = new Date();
+      expirationDate.setHours(expirationDate.getHours() + 1);
+
+      const accessToken = result.accessToken;
+      const userId = result.user.id;
+      document.cookie = `accessToken=${accessToken}; expires=${expirationDate.toUTCString()}; path=/; HttpOnly`;
+      document.cookie = `userId=${userId}; expires=${expirationDate.toUTCString()}; path=/; HttpOnly`;
+      router.push("/");
+      return;
+    } catch (error: any) {
+      //TODO : error 타입 지정하기
+      if (error.response.data.details.email) {
+        setError("email", { type: "duplicated", message: ERROR_MESSAGE.DUPLICATE_EMAIL });
+      } else if (error.response.data.details.nickname) {
+        setError("nickname", { type: "duplicated", message: ERROR_MESSAGE.DUPLICATE_NICKNAME });
+      }
+    }
   };
+
   const hasError = Object.values(errors).length;
 
   const [isPWView, setIsPWView] = useState(false);
   const [isPWConfirmationView, setIsPWConfirmationView] = useState(false);
   const handlePWView = () => setIsPWView(!isPWView);
   const handlePWConfirmationView = () => setIsPWConfirmationView(!isPWConfirmationView);
-
-  // TODO : email, nickname 중복시 사용할 에러추가 코드 추가 예정
-  // setError("email", { type: "duplicated", message: ERROR_MESSAGE.DUPLICATE_EMAIL });
-  // setError("nickname", { type: "duplicated", message: ERROR_MESSAGE.DUPLICATE_NICKNAME });
 
   return (
     <StyledSignUpForm onSubmit={handleSubmit(onSubmit)}>
