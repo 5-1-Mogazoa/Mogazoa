@@ -38,6 +38,6 @@ export async function apiCall<T, U>({ method, endPoint, data, config }: apiCallP
     });
     return response.data;
   } catch (error) {
-    console.error(error);
+    throw error;
   }
 }
