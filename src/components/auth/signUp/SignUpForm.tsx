@@ -16,6 +16,7 @@ import { useRouter } from "next/router";
 import { AuthDataType, AuthResponseType } from "@/src/types/auth/authDataType";
 import { postSignUpData } from "@/src/apis/auth";
 import { StyledSignUpButtonContainer, StyledSignUpForm } from "../Styled/StyledAuthForm";
+import PLACEHODLER_MESSAGE from "@/src/constant/PLACEHOLDER_MESSAGE";
 
 export default function SignUpForm() {
   const router = useRouter();
@@ -69,7 +70,7 @@ export default function SignUpForm() {
         <StyledInput
           $isError={errors.email ? true : false}
           type="email"
-          placeholder="이메일을 입력해 주세요"
+          placeholder={PLACEHODLER_MESSAGE.REQUIRED_EMAIL}
           {...register("email", {
             required: {
               value: true,
@@ -89,7 +90,7 @@ export default function SignUpForm() {
         <StyledInput
           $isError={errors.nickname ? true : false}
           type="nickname"
-          placeholder="닉네임을 입력해 주세요"
+          placeholder={PLACEHODLER_MESSAGE.REQUIRED_NICKNAME}
           {...register("nickname", {
             required: {
               value: true,
@@ -102,7 +103,11 @@ export default function SignUpForm() {
           })}
           id="signUpNickname"
         />
-        {errors.nickname && <StyledDescription $isError>{errors.nickname.message} </StyledDescription>}
+        {errors.nickname ? (
+          <StyledDescription $isError>{errors.nickname.message} </StyledDescription>
+        ) : (
+          <StyledDescription>최대 20자 가능</StyledDescription>
+        )}
       </StyledInputContainer>
       <StyledInputContainer>
         <StyledLabel htmlFor="signUpPassword">비밀번호</StyledLabel>
@@ -110,7 +115,7 @@ export default function SignUpForm() {
           <StyledInput
             $isError={errors.password ? true : false}
             type={isPWView ? "text" : "password"}
-            placeholder="비밀번호를 입력해 주세요"
+            placeholder={PLACEHODLER_MESSAGE.REQUIRED_PASSWORD}
             {...register("password", {
               required: {
                 value: true,
@@ -129,7 +134,11 @@ export default function SignUpForm() {
           />
           <StyledPasswordOnOffButton onClick={handlePWView} $isVisibility={isPWView} />
         </StyledPasswordInputContainer>
-        {errors.password && <StyledDescription $isError>{errors.password.message} </StyledDescription>}
+        {errors.password ? (
+          <StyledDescription $isError>{errors.password.message}</StyledDescription>
+        ) : (
+          <StyledDescription>최소 8자 이상</StyledDescription>
+        )}
       </StyledInputContainer>
       <StyledInputContainer>
         <StyledLabel htmlFor="signUpPasswordConfirmation">비밀번호 확인</StyledLabel>
@@ -137,7 +146,7 @@ export default function SignUpForm() {
           <StyledInput
             $isError={errors.passwordConfirmation ? true : false}
             type={isPWConfirmationView ? "text" : "password"}
-            placeholder="비밀번호를 한번 더 입력해 주세요"
+            placeholder={PLACEHODLER_MESSAGE.REQUIRED_PASSWORD_CONFIRMATION}
             {...register("passwordConfirmation", {
               required: {
                 value: true,

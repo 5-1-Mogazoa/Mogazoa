@@ -16,6 +16,7 @@ import { useRouter } from "next/router";
 import { AuthDataType, AuthResponseType } from "@/src/types/auth/authDataType";
 import { postSignInData } from "@/src/apis/auth";
 import { StyledSignInButtonContainer, StyledSignInForm } from "../Styled/StyledAuthForm";
+import PLACEHODLER_MESSAGE from "@/src/constant/PLACEHOLDER_MESSAGE";
 
 export default function SignInForm() {
   const router = useRouter();
@@ -63,7 +64,7 @@ export default function SignInForm() {
         <StyledInput
           $isError={errors.email ? true : false}
           type="email"
-          placeholder="이메일을 입력해 주세요"
+          placeholder={PLACEHODLER_MESSAGE.REQUIRED_EMAIL}
           {...register("email", {
             required: {
               value: true,
@@ -84,7 +85,7 @@ export default function SignInForm() {
           <StyledInput
             $isError={errors.password ? true : false}
             type={isPWView ? "text" : "password"}
-            placeholder="비밀번호를 입력해 주세요"
+            placeholder={PLACEHODLER_MESSAGE.REQUIRED_PASSWORD}
             {...register("password", {
               required: {
                 value: true,
