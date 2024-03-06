@@ -37,7 +37,8 @@ export const RankingListWrap = styled.div`
 
 export const BaseCardListWrap = styled.div`
   @media (min-width: ${({ theme }) => theme.deviceSizes.desktop}) {
+    width: 100%;
     grid-area: main;
-    margin: 0 auto;
+    padding: 0 60px 0 90px;
   }
 `;
