@@ -7,3 +7,10 @@ export const getProductDetail = async (productId: number) => {
 
   return await apiCall(requestProps);
 };
+
+//상품 전체 조회하는 함수
+export const getProductList = async () => {
+  const requestProps = { method: "get", endPoint: API_ROUTE.PRODUCTS };
+
+  return await apiCall(requestProps);
+};

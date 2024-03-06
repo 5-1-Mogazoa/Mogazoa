@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import RankingListItem from "../../common/menu/RankingListItem";
-import { getUserRank, getUserReviewed, getUserFollowers } from "@/src/apis/ranking";
+import { getUserRank, getUserReviewed, getUserFollowers } from "@/src/apis/user";
 import { useEffect, useState } from "react";
 
 export default function Ranking() {

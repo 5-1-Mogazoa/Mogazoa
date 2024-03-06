@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getProductList } from "@/src/apis/apiHome";
+import { getProductList } from "@/src/apis/product";
 import RateTop6CardList from "./RateTop6CardList";
 import ReviewTop6CardList from "./ReviewTop6CardList";
 import * as S from "./Styled/StyledBaseCardList";
