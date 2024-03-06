@@ -31,7 +31,7 @@ export default function Card({ imageUrl, imageAlt, cardProductTitle, review, pic
             </S.UserReactionWarp>
             <S.Rate>
               <S.RateImage src="/icons/star.svg" alt="별점아이콘" width={12} height={12}></S.RateImage>
-              <S.RateScore>숫자{rateScore}</S.RateScore>
+              <S.RateScore>{`${Math.round(rateScore * 10) / 10}`}</S.RateScore>
             </S.Rate>
           </S.CardUserReaction>
         </S.CardTextBox>
