@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import {
   StyledDescription,
@@ -17,7 +17,6 @@ import { postSignUpData } from "@/src/apis/auth/signUp";
 import SignUpData from "@/src/types/auth/signUp/signUpData";
 import { useRouter } from "next/router";
 import SignUpResponseType from "@/src/apis/auth/signUp/schema";
-import { getAccessToken } from "@/src/utils/getCookieData";
 
 const StyledSignUpForm = styled.form`
   display: flex;
@@ -83,8 +82,8 @@ export default function SignUpForm() {
 
       const accessToken = result.accessToken;
       const userId = result.user.id;
-      document.cookie = `accessToken=${accessToken}; expires=${expirationDate.toUTCString()}; path=/; HttpOnly`;
-      document.cookie = `userId=${userId}; expires=${expirationDate.toUTCString()}; path=/; HttpOnly`;
+      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("userId", String(userId));
       router.push("/");
       return;
     } catch (error: any) {
