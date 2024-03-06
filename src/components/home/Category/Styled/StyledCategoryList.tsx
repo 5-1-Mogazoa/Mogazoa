@@ -2,6 +2,7 @@ import { fontStyle } from "@/styles/theme";
 import styled from "styled-components";
 
 export const CategoryListWrap = styled.div`
+  margin-top: 45px;
   @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
     width: 180px;
   }

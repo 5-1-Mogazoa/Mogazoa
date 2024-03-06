@@ -1,4 +1,5 @@
 import Head from "next/head";
+import HomeLayout from "@/src/components/home/HomeLayout/HomeLayout";
 
 export default function Home() {
   return (
@@ -9,7 +10,8 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>메인 페이지</main>
+      {/* <main>메인 페이지</main> */}
+      <HomeLayout />
     </>
   );
 }
