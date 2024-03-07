@@ -32,6 +32,18 @@ const StyledSignInForm = styled(StyledSignUpForm)`
   }
 `;
 
+const StyledOauthSignUpForm = styled(StyledSignUpForm)`
+  padding-top: 228px;
+
+  @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
+    padding-top: 376px;
+  }
+
+  @media (min-width: ${({ theme }) => theme.deviceSizes.desktop}) {
+    padding-top: 315px;
+  }
+`;
+
 const StyledSignUpButtonContainer = styled.div`
   margin-top: 126px;
   width: 335px;
@@ -57,4 +69,13 @@ const StyledSignInButtonContainer = styled(StyledSignUpButtonContainer)`
   }
 `;
 
-export { StyledSignUpButtonContainer, StyledSignUpForm, StyledSignInButtonContainer, StyledSignInForm };
+const StyledOauthSignUpButtonContainer = styled(StyledSignInButtonContainer)``;
+
+export {
+  StyledOauthSignUpButtonContainer,
+  StyledOauthSignUpForm,
+  StyledSignUpButtonContainer,
+  StyledSignUpForm,
+  StyledSignInButtonContainer,
+  StyledSignInForm,
+};
