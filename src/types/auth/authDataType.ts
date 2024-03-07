@@ -1,5 +1,5 @@
 export type AuthDataType = {
-  email: String;
+  email: string;
   nickname?: string;
   password: string;
   passwordConfirmation?: string;
@@ -10,7 +10,7 @@ export type AuthResponseType = {
   user: {
     id: number;
     email: string;
-    image: null;
+    image: null | string;
     teamId: string;
     nickname: string;
     updatedAt: string;
