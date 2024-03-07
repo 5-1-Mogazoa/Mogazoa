@@ -6,11 +6,12 @@ const StyledSearchContainer = styled.div`
   justify-content: flex-end;
   align-items: center;
   z-index: 10;
-  right: -8rem;
+  right: 5px;
   @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
     z-index: 0;
     right: 0;
     gap: 3rem;
+    position: unset;
   }
   @media (min-width: ${({ theme }) => theme.deviceSizes.desktop}) {
     gap: 6rem;
