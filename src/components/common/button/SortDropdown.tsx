@@ -1,39 +1,47 @@
 import { useState } from "react";
-import {
-  StyledSortDropdownButton,
-  StyledSortDropdownContainer,
-  StyledSortDropdownContent,
-  StyledSortDropdownIcon,
-  StyledSortDropdownItem,
-} from "./Styled/StyledSortDropdown";
+import * as S from "./Styled/StyledSortDropdown";
 
-const SortDropdown = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [testValue, setTestValue] = useState("");
+type Item = {
+  id: string;
+  name: string;
+};
 
-  const toggleDropdown = () => {
-    setIsOpen(!isOpen);
+type SortDropProps = {
+  list: Item[];
+  selectedItem: Item;
+  handleSortButtonClick: (e: any) => void;
+};
+
+export default function SortDropDown({ list, selectedItem, handleSortButtonClick }: SortDropProps) {
+  const [isDropBoxOpen, setIsDropBoxOpen] = useState(false);
+  const toggleDropdown = () => setIsDropBoxOpen((prev) => !prev);
+
+  const handleDropBoxBlur = () => {
+    setTimeout(() => {
+      setIsDropBoxOpen(false);
+    }, 150);
   };
 
-  const handleItemClick = (item: any) => {
-    setTestValue(item);
-    setIsOpen(false);
+  const handleSelectSort = (e) => {
+    setIsDropBoxOpen(false);
+    handleSortButtonClick(e);
   };
 
   return (
-    <StyledSortDropdownContainer>
-      <StyledSortDropdownButton $isOpen={isOpen} onClick={toggleDropdown}>
-        {testValue ? testValue : "최신순"}
-        <StyledSortDropdownIcon $isOpen={isOpen} />
-      </StyledSortDropdownButton>
-      <StyledSortDropdownContent $isOpen={isOpen}>
-        <StyledSortDropdownItem onClick={() => handleItemClick("최신순")}>최신순</StyledSortDropdownItem>
-        <StyledSortDropdownItem onClick={() => handleItemClick("별점 높은순")}>별점 높은순</StyledSortDropdownItem>
-        <StyledSortDropdownItem onClick={() => handleItemClick("별점 낮은순")}>별점 낮은순</StyledSortDropdownItem>
-        <StyledSortDropdownItem onClick={() => handleItemClick("좋아요순")}>좋아요순</StyledSortDropdownItem>
-      </StyledSortDropdownContent>
-    </StyledSortDropdownContainer>
+    <S.StyledSortDropdownContainer>
+      <S.StyledSortDropdownButton $isOpen={isDropBoxOpen} onBlur={handleDropBoxBlur} onClick={toggleDropdown}>
+        {selectedItem.name}
+        <S.StyledSortDropdownIcon $isOpen={isDropBoxOpen} />
+      </S.StyledSortDropdownButton>
+      <S.StyledSortDropdownContent $isOpen={isDropBoxOpen}>
+        {list.map(({ id, name }) => (
+          <S.StyledSortDropdownItemWrap key={id}>
+            <S.StyledSortDropdownItem value={id} onClick={handleSelectSort}>
+              {name}
+            </S.StyledSortDropdownItem>
+          </S.StyledSortDropdownItemWrap>
+        ))}
+      </S.StyledSortDropdownContent>
+    </S.StyledSortDropdownContainer>
   );
-};
-
-export default SortDropdown;
+}
