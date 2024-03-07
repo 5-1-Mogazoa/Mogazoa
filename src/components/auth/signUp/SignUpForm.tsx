@@ -11,49 +11,12 @@ import {
 import ERROR_MESSAGE from "@/src/constant/ERROR_MESSAGE";
 import REGEX from "@/src/constant/REGEX";
 import { StyledPrimaryButton } from "../../common/button/Styled/StyledButton";
-import styled from "styled-components";
 import { useMutation } from "@tanstack/react-query";
-import { postSignUpData } from "@/src/apis/auth/signUp";
-import SignUpData from "@/src/types/auth/signUp/signUpData";
 import { useRouter } from "next/router";
-import SignUpResponseType from "@/src/apis/auth/signUp/schema";
-
-const StyledSignUpForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  width: 335px;
-  gap: 30px;
-  padding-top: 30px;
-  margin: 0 auto;
-
-  @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
-    padding-top: 180px;
-    width: 440px;
-    gap: 40px;
-  }
-
-  @media (min-width: ${({ theme }) => theme.deviceSizes.desktop}) {
-    padding-top: 90px;
-    width: 640px;
-  }
-`;
-
-const StyledSignUpButtonContainer = styled.div`
-  margin-top: 126px;
-  width: 335px;
-  height: 50px;
-
-  @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
-    margin-top: 20px;
-    width: 440px;
-    height: 55px;
-  }
-
-  @media (min-width: ${({ theme }) => theme.deviceSizes.desktop}) {
-    width: 640px;
-    height: 65px;
-  }
-`;
+import { AuthDataType, AuthResponseType } from "@/src/types/auth/authDataType";
+import { postSignUpData } from "@/src/apis/auth";
+import { StyledSignUpButtonContainer, StyledSignUpForm } from "../Styled/StyledAuthForm";
+import PLACEHODLER_MESSAGE from "@/src/constant/PLACEHOLDER_MESSAGE";
 
 export default function SignUpForm() {
   const router = useRouter();
@@ -63,22 +26,19 @@ export default function SignUpForm() {
     handleSubmit,
     setError,
     formState: { errors },
-  } = useForm<SignUpData>({ mode: "onBlur" });
+  } = useForm<AuthDataType>({ mode: "onBlur" });
 
   const postMutation = useMutation({
-    mutationFn: (data: SignUpData) => postSignUpData(data),
+    mutationFn: (data: AuthDataType) => postSignUpData(data),
   });
 
-  const onSubmit = async (data: SignUpData) => {
+  const onSubmit = async (data: AuthDataType) => {
     if (data.password !== data.passwordConfirmation) {
       setError("passwordConfirmation", { type: "matched", message: ERROR_MESSAGE.NOT_MATCH_PASSWORD });
       return;
     }
     try {
-      const result = (await postMutation.mutateAsync(data)) as SignUpResponseType;
-
-      const expirationDate = new Date();
-      expirationDate.setHours(expirationDate.getHours() + 1);
+      const result = (await postMutation.mutateAsync(data)) as AuthResponseType;
 
       const accessToken = result.accessToken;
       const userId = result.user.id;
@@ -110,7 +70,7 @@ export default function SignUpForm() {
         <StyledInput
           $isError={errors.email ? true : false}
           type="email"
-          placeholder="이메일을 입력해 주세요"
+          placeholder={PLACEHODLER_MESSAGE.REQUIRED_EMAIL}
           {...register("email", {
             required: {
               value: true,
@@ -130,7 +90,7 @@ export default function SignUpForm() {
         <StyledInput
           $isError={errors.nickname ? true : false}
           type="nickname"
-          placeholder="닉네임을 입력해 주세요"
+          placeholder={PLACEHODLER_MESSAGE.REQUIRED_NICKNAME}
           {...register("nickname", {
             required: {
               value: true,
@@ -143,7 +103,11 @@ export default function SignUpForm() {
           })}
           id="signUpNickname"
         />
-        {errors.nickname && <StyledDescription $isError>{errors.nickname.message} </StyledDescription>}
+        {errors.nickname ? (
+          <StyledDescription $isError>{errors.nickname.message} </StyledDescription>
+        ) : (
+          <StyledDescription>최대 20자 가능</StyledDescription>
+        )}
       </StyledInputContainer>
       <StyledInputContainer>
         <StyledLabel htmlFor="signUpPassword">비밀번호</StyledLabel>
@@ -151,7 +115,7 @@ export default function SignUpForm() {
           <StyledInput
             $isError={errors.password ? true : false}
             type={isPWView ? "text" : "password"}
-            placeholder="비밀번호를 입력해 주세요"
+            placeholder={PLACEHODLER_MESSAGE.REQUIRED_PASSWORD}
             {...register("password", {
               required: {
                 value: true,
@@ -170,7 +134,11 @@ export default function SignUpForm() {
           />
           <StyledPasswordOnOffButton onClick={handlePWView} $isVisibility={isPWView} />
         </StyledPasswordInputContainer>
-        {errors.password && <StyledDescription $isError>{errors.password.message} </StyledDescription>}
+        {errors.password ? (
+          <StyledDescription $isError>{errors.password.message}</StyledDescription>
+        ) : (
+          <StyledDescription>최소 8자 이상</StyledDescription>
+        )}
       </StyledInputContainer>
       <StyledInputContainer>
         <StyledLabel htmlFor="signUpPasswordConfirmation">비밀번호 확인</StyledLabel>
@@ -178,7 +146,7 @@ export default function SignUpForm() {
           <StyledInput
             $isError={errors.passwordConfirmation ? true : false}
             type={isPWConfirmationView ? "text" : "password"}
-            placeholder="비밀번호를 한번 더 입력해 주세요"
+            placeholder={PLACEHODLER_MESSAGE.REQUIRED_PASSWORD_CONFIRMATION}
             {...register("passwordConfirmation", {
               required: {
                 value: true,
