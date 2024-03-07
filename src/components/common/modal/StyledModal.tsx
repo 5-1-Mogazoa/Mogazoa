@@ -49,6 +49,7 @@ export const CloseButton = styled.div`
   right: 0;
   width: 2.4rem;
   height: 2.4rem;
+  cursor: pointer;
 
   @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
     top: -1.8rem;

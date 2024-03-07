@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { SetStateAction, useState } from "react";
 import {
   StyledSortDropdownButton,
   StyledSortDropdownContainer,
@@ -6,31 +6,48 @@ import {
   StyledSortDropdownIcon,
   StyledSortDropdownItem,
 } from "./Styled/StyledSortDropdown";
+import { OrderOptionType } from "../../product/ReviewList";
 
-const SortDropdown = () => {
+interface SortDropdownProps {
+  order: OrderOptionType;
+  setOrder: React.Dispatch<SetStateAction<OrderOptionType>>;
+}
+
+const SortDropdown = ({ order, setOrder }: SortDropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [testValue, setTestValue] = useState("");
+  // const [testValue, setTestValue] = useState("");
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
 
-  const handleItemClick = (item: any) => {
-    setTestValue(item);
+  const handleItemClick = (option: OrderOptionType) => {
+    setOrder(option);
     setIsOpen(false);
+    console.log(option);
+  };
+
+  const orderOptions: OrderOptionType[] = ["recent", "ratingDesc", "ratingAsc", "likeCount"];
+
+  const OrderOptionsTranslation = {
+    recent: "최신순",
+    ratingDesc: "별점 높은순",
+    ratingAsc: "별점 낮은순",
+    likeCount: "좋아요순",
   };
 
   return (
     <StyledSortDropdownContainer>
       <StyledSortDropdownButton $isOpen={isOpen} onClick={toggleDropdown}>
-        {testValue ? testValue : "최신순"}
+        {OrderOptionsTranslation[order]}
         <StyledSortDropdownIcon $isOpen={isOpen} />
       </StyledSortDropdownButton>
       <StyledSortDropdownContent $isOpen={isOpen}>
-        <StyledSortDropdownItem onClick={() => handleItemClick("최신순")}>최신순</StyledSortDropdownItem>
-        <StyledSortDropdownItem onClick={() => handleItemClick("별점 높은순")}>별점 높은순</StyledSortDropdownItem>
-        <StyledSortDropdownItem onClick={() => handleItemClick("별점 낮은순")}>별점 낮은순</StyledSortDropdownItem>
-        <StyledSortDropdownItem onClick={() => handleItemClick("좋아요순")}>좋아요순</StyledSortDropdownItem>
+        {orderOptions.map((option) => (
+          <StyledSortDropdownItem key={option} onClick={() => handleItemClick(option)}>
+            {OrderOptionsTranslation[option]}
+          </StyledSortDropdownItem>
+        ))}
       </StyledSortDropdownContent>
     </StyledSortDropdownContainer>
   );

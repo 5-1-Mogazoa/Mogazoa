@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import StarIcon from "../../../../public/icons/star.svg";
+import StarIcon from "../../../../public/icons/ratingStar.svg";
 
 export const Container = styled.div`
   display: flex;
@@ -11,24 +11,27 @@ export const Container = styled.div`
 `;
 
 type StarProps = {
+  $type: "modal" | "page";
   $selected: boolean;
 };
 
 export const Star = styled(StarIcon)<StarProps>`
   position: relative;
-  width: 2.8rem;
-  height: 2.8rem;
+  width: ${({ $type }) => ($type === "modal" ? "2.8rem" : "1.2rem")};
+  height: ${({ $type }) => ($type === "modal" ? "2.8rem" : "1.2rem")};
   cursor: pointer;
-  svg {
-    width: 100%;
-    height: 100%;
-  }
+
   path {
     fill: ${({ $selected }) => ($selected === true ? "var(--color-yellow)" : "var(--color-gray-9f)")};
   }
 
   @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
-    width: 3.2rem;
-    height: 3.2rem;
+    width: ${({ $type }) => ($type === "modal" ? "3.2rem" : "1.2rem")};
+    height: ${({ $type }) => ($type === "modal" ? "3.2rem" : "1.2rem")};
+  }
+
+  @media (min-width: ${({ theme }) => theme.deviceSizes.desktop}) {
+    width: ${({ $type }) => ($type === "modal" ? "3.2rem" : "1.8rem")};
+    height: ${({ $type }) => ($type === "modal" ? "3.2rem" : "1.8rem")};
   }
 `;

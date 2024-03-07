@@ -12,8 +12,9 @@ const StyledSortDropdownContainer = styled.div`
 
 const StyledSortDropdownButton = styled.button<SortDropdownProps>`
   display: inline-flex;
+  justify-content: flex-end;
   align-items: center;
-  width: 100px;
+  width: 100%;
   gap: 5px;
 
   color: ${(props) => (props.$isOpen ? "var(--color-white-f1, #F1F1F5)" : "var(--color-gray-6e, #6e6e82)")};
@@ -32,10 +33,6 @@ const StyledSortDropdownButton = styled.button<SortDropdownProps>`
 `;
 
 const StyledSortDropdownIcon = styled.div<SortDropdownProps>`
-  position: absolute;
-  top: 50%;
-  right: 0px;
-  transform: translateY(-50%);
   width: 20px;
   height: 20px;
 
@@ -56,7 +53,7 @@ const StyledSortDropdownContent = styled.div<SortDropdownProps>`
   display: ${(props) => (props.$isOpen ? "block" : "none")};
   position: absolute;
   top: 105%;
-  left: 0;
+  left: -3.7rem;
   z-index: 1;
 
   width: 100px;
@@ -70,6 +67,7 @@ const StyledSortDropdownContent = styled.div<SortDropdownProps>`
   background: var(--black-black_252530, #252530);
 
   @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
+    left: 0;
     width: 140px;
   }
 

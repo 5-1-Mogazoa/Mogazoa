@@ -33,7 +33,7 @@ function ModalReview({ productId, name, category, onClose, callback }: ModalRevi
       <S.Container>
         <S.Rating>
           별점
-          <RatingStars score={score} setScore={setScore} />
+          <RatingStars type="modal" score={score} setScore={setScore} />
         </S.Rating>
         <StyledTextBox
           id="content"

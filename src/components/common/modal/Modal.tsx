@@ -51,7 +51,7 @@ function Modal({ title, modalType, category, callback, onClose, children }: Moda
             )}
             {title}
             <S.CloseButton onClick={onClose}>
-              <Image fill src="/icons/close.svg" alt="닫기 아이콘 이미지" />
+              <Image fill src="/icons/closeSvgr.svg" alt="닫기 아이콘 이미지" />
             </S.CloseButton>
           </S.Header>
           {children}

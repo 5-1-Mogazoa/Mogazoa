@@ -9,12 +9,14 @@ export interface ProductDetailResponseType {
   updatedAt: string;
   writerId: number;
   description: string;
-  category: {
-    id: number;
-    name: CategoryType;
-  };
+  category: ProductDetailCategoryType;
   isFavorite: boolean;
   favoriteCount: number;
+}
+
+export interface ProductDetailCategoryType {
+  id: number;
+  name: CategoryType;
 }
 
 export type CategoryType =
@@ -28,3 +30,33 @@ export type CategoryType =
   | "화장품"
   | "의류/악세서리"
   | "앱";
+
+export interface ReviewUserType {
+  id: number;
+  nickname: string;
+  image: string | null;
+}
+
+export interface ReviewImagesType {
+  id: number;
+  source: string;
+}
+
+export interface ReviewListType {
+  id: number;
+  rating: number;
+  content: string;
+  likeCount: number;
+  createdAt: string;
+  updatedAt: string;
+  userId: number;
+  productId: number;
+  user: ReviewUserType;
+  reviewImages: ReviewImagesType[];
+  isLiked: boolean;
+}
+
+export interface getReviewsListResponseType {
+  nextCursor: number | null;
+  list: ReviewListType[];
+}

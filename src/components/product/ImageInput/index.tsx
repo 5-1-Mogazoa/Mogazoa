@@ -31,7 +31,6 @@ function ImageInput({ register, value }: ImageInputProps) {
       if (previewImageUrl) {
         setPreviewImages([...previewImages, previewImageUrl]);
       }
-      console.log(previewImageUrl);
     };
   };
 
