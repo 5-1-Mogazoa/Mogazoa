@@ -2,6 +2,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React from "react";
 import type { AppProps } from "next/app";
 import { ThemeProvider } from "styled-components";
+import "@/styles/font.css";
 import GlobalStyle from "@/styles/GlobalStyle";
 import { theme } from "@/styles/theme";
 

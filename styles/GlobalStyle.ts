@@ -4,7 +4,6 @@ const GlobalStyle = createGlobalStyle`
   * {
     box-sizing: border-box;
     margin: 0;
-    font-family: "Pretendard";
     word-break: keep-all;
   }
   
@@ -131,30 +130,6 @@ const GlobalStyle = createGlobalStyle`
     --color-gray-6e: #6e6e82;
     --color-gray-9f: #9fa6b2;
     --color-white: #f1f1f5;
-  }
-
-  @font-face {
-    font-family: "Pretendard";
-    font-weight: 300;
-    src: url("/fonts/Pretendard-Light.woff") format("woff"); 
-  }
-
-  @font-face {
-    font-family: "Pretendard";
-    font-weight: 400;
-    src: url("/fonts/Pretendard-Regular.woff") format("woff"); 
-  }
-
-  @font-face {
-    font-family: "Pretendard";
-    font-weight: 500;
-    src: url("/fonts/Pretendard-Medium.woff") format("woff"); 
-  }
-
-  @font-face {
-    font-family: "Pretendard";
-    font-weight: 600;
-    src: url("/fonts/Pretendard-Bold.woff") format("woff"); 
   }
 `;
 
