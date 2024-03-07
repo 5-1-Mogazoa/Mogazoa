@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import {
   StyledDescription,
@@ -11,8 +11,10 @@ import { StyledPrimaryButton } from "../../common/button/Styled/StyledButton";
 import { StyledOauthSignUpButtonContainer, StyledOauthSignUpForm } from "../Styled/StyledAuthForm";
 import PLACEHODLER_MESSAGE from "@/src/constant/PLACEHOLDER_MESSAGE";
 import { OauthDataType } from "@/src/types/oauth/oauthDataType";
+import OauthError from "./OauthError";
 
 export default function OauthSignUpForm() {
+  const [isErrorTest, setIsErrorTest] = useState(false); //임시 에러 설정
   const {
     register,
     handleSubmit,
@@ -27,7 +29,9 @@ export default function OauthSignUpForm() {
 
   const hasError = Object.values(errors).length;
 
-  return (
+  return isErrorTest ? (
+    <OauthError />
+  ) : (
     <StyledOauthSignUpForm onSubmit={handleSubmit(onSubmit)}>
       <StyledInputContainer>
         <StyledLabel htmlFor="signUpNickname">닉네임</StyledLabel>
