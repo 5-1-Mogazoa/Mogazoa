@@ -16,12 +16,12 @@ const StyledContainer = styled.div`
 
     width: 100%;
     height: 100%;
-    padding: 2.2rem 3rem;
+    padding: 1.6rem 3rem;
   }
   @media (min-width: ${({ theme }) => theme.deviceSizes.desktop}) {
     width: 100%;
     height: 100%;
-    padding: 3.6rem 12rem;
+    padding: 1.6rem 9rem;
   }
 `;
 

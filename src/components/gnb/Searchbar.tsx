@@ -1,6 +1,4 @@
-import { PAGE_ROUTES } from "@/src/routes";
 import { fontStyle } from "@/styles/theme";
-import router from "next/router";
 import { useState } from "react";
 import styled from "styled-components";
 
@@ -37,9 +35,9 @@ const SearchInput = styled.input<SearchInputProps>`
   width: 0;
   height: 4.8rem;
   padding: 1.6rem 1.5rem 1.6rem 6rem;
-  color: var(--white-white_F1F1F5, #f1f1f5);
+  color: var(--color-white-f1, #f1f1f5);
   border-radius: 2.8rem;
-  background: transparent;
+  background: var(--color-black-17, #17171c);
   gap: 1rem;
   transition: 1s;
   @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
@@ -58,7 +56,7 @@ const SearchInput = styled.input<SearchInputProps>`
     `
     width: 30rem;
     transition: 1s; 
-    background: var(--black-black_252530, #252530);
+    background: var(--color-black-25, #252530);
     @media (min-width: 1600px) {
       width: 40rem;
     }
