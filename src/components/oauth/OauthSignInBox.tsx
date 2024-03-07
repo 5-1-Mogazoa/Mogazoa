@@ -7,7 +7,7 @@ import {
   StyledOauthText,
 } from "./Styled/StyledOauth";
 
-export default function OatuhSignInBox() {
+export default function OauthSignInBox() {
   return (
     <StyledOauthContainer>
       <StyledOauthText>SNS로 바로 시작하기</StyledOauthText>

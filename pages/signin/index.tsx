@@ -1,4 +1,5 @@
 import SignInForm from "@/src/components/auth/signIn/SignInForm";
+import OauthSignInBox from "@/src/components/oauth/OauthSignInBox";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
@@ -14,5 +15,12 @@ export default function SignIn() {
     }
   }, []);
 
-  return !isLoggedIn && <SignInForm />;
+  return (
+    !isLoggedIn && (
+      <>
+        <SignInForm />
+        <OauthSignInBox />
+      </>
+    )
+  );
 }
