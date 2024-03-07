@@ -1,22 +1,12 @@
-import { useCallback, useEffect, useState } from "react";
-import { PAGE_ROUTES } from "@/src/routes";
-import { ProductsearchInput } from "./Styled/StyledSearchInput";
 import { StyleContainer } from "./Styled/StyledContainer";
-import { Logo } from "./Styled/StyledMenu";
-import { MenuButton } from "./Styled/StyledMenu";
+import { Logo } from "./Styled/StyledMenuLogo";
+import { MenuButton } from "./Styled/StyledMenuLogo";
 import { InputContainer } from "./Styled/StyledSearchContainer";
-import router from "next/router";
+
 import GnbButton from "./GnbButton";
 import Searchbar from "./Searchbar";
-import styled from "styled-components";
 
 const logo = require("@/public/icons/LogoLarge.svg");
-
-type GnbProps = {
-  value: string;
-  searchClick: boolean;
-};
-const MobileContainer = styled.div``;
 
 export default function Gnb() {
   return (

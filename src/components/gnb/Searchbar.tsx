@@ -59,7 +59,7 @@ const SearchInput = styled.input<SearchInputProps>`
     width: 30rem;
     transition: 1s; 
     background: var(--black-black_252530, #252530);
-    @media (min-width: ${({ theme }) => theme.deviceSizes.desktop}) {
+    @media (min-width: 1600px) {
       width: 40rem;
     }
     `}
