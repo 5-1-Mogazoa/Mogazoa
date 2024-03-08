@@ -1,6 +1,7 @@
 import { fontStyle } from "@/styles/theme";
 import { useState } from "react";
 import styled from "styled-components";
+import useFilterSearch, { filterSearchProps } from "../search/useFilterSearch";
 
 type SearchInputProps = {
   $isOpen: boolean;
@@ -63,10 +64,16 @@ const SearchInput = styled.input<SearchInputProps>`
     `}
 `;
 export default function Searchbar() {
+  const filterSearch = useFilterSearch();
   const [search, setSearch] = useState<SearchbarProps["value"]>("");
   const [isOpen, setIsOpen] = useState(false);
   const handleClick = () => {
     setIsOpen(!isOpen);
+  };
+
+  const handleChange = (e) => {
+    setSearch(e.target.value);
+    filterSearch({ searchQuery: e.target.value });
   };
 
   return (
@@ -80,7 +87,7 @@ export default function Searchbar() {
           autoFocus
           autoComplete="off"
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={handleChange}
         />
       </Container>
     </>
