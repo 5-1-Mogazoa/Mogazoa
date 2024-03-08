@@ -35,7 +35,7 @@ export default function SearchProducts() {
     <>
       <SearchTitle searchKeyword={searchKeyword} />
       <SortDropDown type="home" selectedItem={order} handleOrderButtonClick={handleSortButtonClick} />
-      <SearchCardList />
+      <SearchCardList order={order} />
     </>
   );
 }
