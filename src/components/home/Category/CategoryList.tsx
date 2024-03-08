@@ -1,21 +1,40 @@
 import { useState } from "react";
+import { useRouter } from "next/router";
 import { useQuery } from "@tanstack/react-query";
 import { getCategoryList } from "@/src/apis/category";
 import Category from "./category";
 import * as S from "./Styled/StyledCategoryList";
+
+export type filterSearchProps = {
+  category?: string;
+  sort?: string;
+  searchQuery?: string;
+};
 
 export default function CategoryList() {
   const { data: categoryList } = useQuery({
     queryKey: ["categoryList"],
     queryFn: () => getCategoryList(),
   });
-  console.log(categoryList);
   if (!categoryList) {
     return null;
   }
 
   const onChange = (e) => {
     console.log(e.target.value);
+    filterSearch({ category: e.target.value });
+  };
+  const router = useRouter();
+  const filterSearch = ({ category, sort, searchQuery }: filterSearchProps) => {
+    const { query } = router;
+    if (searchQuery !== undefined) query.searchQuery = searchQuery;
+    if (sort !== undefined) query.sortValue = sort;
+    if (category !== undefined) query.category = category;
+
+    router.push({
+      pathname: router.pathname,
+      query: query,
+    });
   };
 
   return (
