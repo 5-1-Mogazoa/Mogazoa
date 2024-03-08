@@ -1,16 +1,18 @@
 import { useState } from "react";
 import * as S from "./Styled/StyledSortDropdown";
 import { OrderOptionType, OrderType } from "@/pages/products/[productId]";
-import { REVIEW_ORDER } from "@/src/constant/DROPDOWN_BUTTON";
+import { PRODUCT_ORDER, REVIEW_ORDER } from "@/src/constant/DROPDOWN_BUTTON";
 
 type SortDropProps = {
+  type: "home" | "products";
   selectedItem: OrderType;
   handleOrderButtonClick: (selectedOrder: OrderType) => void;
 };
 
-export default function SortDropDown({ selectedItem, handleOrderButtonClick }: SortDropProps) {
+export default function SortDropDown({ type, selectedItem, handleOrderButtonClick }: SortDropProps) {
   const [isDropBoxOpen, setIsDropBoxOpen] = useState(false);
   const toggleDropdown = () => setIsDropBoxOpen((prev) => !prev);
+  const orderList = type === "home" ? PRODUCT_ORDER : REVIEW_ORDER;
 
   const handleDropBoxBlur = () => {
     setTimeout(() => {
@@ -30,7 +32,7 @@ export default function SortDropDown({ selectedItem, handleOrderButtonClick }: S
         <S.StyledSortDropdownIcon $isOpen={isDropBoxOpen} />
       </S.StyledSortDropdownButton>
       <S.StyledSortDropdownContent $isOpen={isDropBoxOpen}>
-        {REVIEW_ORDER.map((orderItem) => (
+        {orderList.map((orderItem) => (
           <S.StyledSortDropdownItemWrap key={orderItem.id}>
             <S.StyledSortDropdownItem
               value={orderItem.id as OrderOptionType}
