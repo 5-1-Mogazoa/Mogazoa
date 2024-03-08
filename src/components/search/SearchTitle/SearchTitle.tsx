@@ -6,7 +6,7 @@ type SearchTitleProps = {
 export default function SearchTitle({ searchKeyword }: SearchTitleProps) {
   return (
     <div>
-      <SearchTitleName>{searchKeyword}의 모든 상품</SearchTitleName>
+      <SearchTitleName>{searchKeyword}</SearchTitleName>
     </div>
   );
 }

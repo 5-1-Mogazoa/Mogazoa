@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SortDropDown from "../../common/button/SortDropdown";
 import SearchCardList from "../SearchCardList/SearchCardList";
 import SearchTitle from "../SearchTitle/SearchTitle";
@@ -17,9 +17,23 @@ export default function SearchProducts() {
     filterSearch({ sort: orderName });
   };
 
+  const router = useRouter();
+  const { searchQuery, category, sortValue } = router.query;
+  const [searchKeyword, setSearchKeyword] = useState("");
+
+  useEffect(() => {
+    if (searchQuery && category) {
+      setSearchKeyword(`${category} 카테고리의 ${searchQuery}로 검색한 상품`);
+    } else if (category) {
+      setSearchKeyword(`${category}의 모든 상품`);
+    } else if (searchQuery && category) {
+      setSearchKeyword(`${searchQuery}로 검색한 상품`);
+    }
+  }, [searchQuery, category]);
+
   return (
     <>
-      <SearchTitle searchKeyword={"테스트제목"} />
+      <SearchTitle searchKeyword={searchKeyword} />
       <SortDropDown type="home" selectedItem={order} handleOrderButtonClick={handleSortButtonClick} />
       <SearchCardList />
     </>
