@@ -2,11 +2,11 @@ import styled from "styled-components";
 import { fontStyle } from "@/styles/theme";
 
 type StyledRankingChipProps = {
-  $ranking: "1등" | "2등" | "3등" | "4등" | "5등";
+  $ranking: "1등" | "2등" | "3등" | "4등" | "5등" | "없음";
 };
 
 export const StyledRankingChip = styled.div<StyledRankingChipProps>`
-  display: inline-flex;
+  display: ${({ $ranking }) => ($ranking === "없음" ? "none" : "inline-flex")};
   padding: 2px 6px;
   justify-content: center;
   align-items: center;

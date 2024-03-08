@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import PhotoIcon from "../../../../public/icons/photo.svg";
-import DeleteIcon from "../../../../public/icons/close.svg";
+import PhotoIcon from "../../../../public/icons/photoSvgr.svg";
+import DeleteIcon from "../../../../public/icons/closeSvgr.svg";
 
 export const Container = styled.div`
   display: flex;

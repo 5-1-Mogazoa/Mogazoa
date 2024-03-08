@@ -1,18 +1,14 @@
 import { useState } from "react";
 import * as S from "./Styled/StyledSortDropdown";
-
-type Item = {
-  id: string;
-  name: string;
-};
+import { OrderOptionType, OrderType } from "@/pages/products/[productId]";
+import { REVIEW_ORDER } from "@/src/constant/DROPDOWN_BUTTON";
 
 type SortDropProps = {
-  list: Item[];
-  selectedItem: Item;
-  handleSortButtonClick: (e: any) => void;
+  selectedItem: OrderType;
+  handleOrderButtonClick: (selectedOrder: OrderType) => void;
 };
 
-export default function SortDropDown({ list, selectedItem, handleSortButtonClick }: SortDropProps) {
+export default function SortDropDown({ selectedItem, handleOrderButtonClick }: SortDropProps) {
   const [isDropBoxOpen, setIsDropBoxOpen] = useState(false);
   const toggleDropdown = () => setIsDropBoxOpen((prev) => !prev);
 
@@ -22,9 +18,9 @@ export default function SortDropDown({ list, selectedItem, handleSortButtonClick
     }, 150);
   };
 
-  const handleSelectSort = (e) => {
+  const handleSelectSort = (orderItem: OrderType) => {
     setIsDropBoxOpen(false);
-    handleSortButtonClick(e);
+    handleOrderButtonClick(orderItem);
   };
 
   return (
@@ -34,10 +30,12 @@ export default function SortDropDown({ list, selectedItem, handleSortButtonClick
         <S.StyledSortDropdownIcon $isOpen={isDropBoxOpen} />
       </S.StyledSortDropdownButton>
       <S.StyledSortDropdownContent $isOpen={isDropBoxOpen}>
-        {list.map(({ id, name }) => (
-          <S.StyledSortDropdownItemWrap key={id}>
-            <S.StyledSortDropdownItem value={id} onClick={handleSelectSort}>
-              {name}
+        {REVIEW_ORDER.map((orderItem) => (
+          <S.StyledSortDropdownItemWrap key={orderItem.id}>
+            <S.StyledSortDropdownItem
+              value={orderItem.id as OrderOptionType}
+              onClick={() => handleSelectSort(orderItem as OrderType)}>
+              {orderItem.name}
             </S.StyledSortDropdownItem>
           </S.StyledSortDropdownItemWrap>
         ))}

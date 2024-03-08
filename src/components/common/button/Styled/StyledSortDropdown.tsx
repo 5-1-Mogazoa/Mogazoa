@@ -1,4 +1,6 @@
+import { OrderOptionType, OrderType } from "@/pages/products/[productId]";
 import { fontStyle } from "@/styles/theme";
+import { HTMLAttributes } from "react";
 import styled from "styled-components";
 
 type SortDropdownProps = {
@@ -86,7 +88,12 @@ export const StyledSortDropdownItemWrap = styled.li`
   list-style: none;
 `;
 
-export const StyledSortDropdownItem = styled.div`
+type StyledSortDropdownItemProps = HTMLAttributes<HTMLDivElement> & {
+  value: OrderOptionType;
+  onClick: (selectedOrder: OrderType) => void;
+};
+
+export const StyledSortDropdownItem = styled.div<StyledSortDropdownItemProps>`
   cursor: pointer;
   display: flex;
   padding: 6px 5px;

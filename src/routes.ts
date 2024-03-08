@@ -40,3 +40,14 @@ export const API_ROUTE = {
   AUTH_SIGNUP_OAUTH: (provider: string) => `/auth/signUp/${provider}`,
   AUTH_SIGNIN_OAUTH: (provider: string) => `/auth/signIn/${provider}`,
 };
+
+export const QUERY_KEY = {
+  RANKING: "ranking",
+  PRODUCTS: "products",
+  REVIEWS: "reviews",
+  FOLLOWEES: "followees",
+  FOLLOWERS: "followers",
+  FAVORITE: "favorite",
+};
+
+export const REVIEWS_LIMIT = 5;

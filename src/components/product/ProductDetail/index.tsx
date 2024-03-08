@@ -21,6 +21,7 @@ function ProductDetail({ productDetail, createdByMe }: ProductDetailProps) {
           placeholder="blur"
           blurDataURL={"/icons/blurData.svg"}
           style={{ objectFit: "cover" }}
+          sizes="(min-width: 1600px) 35.5rem, (min-width: 744px) 28rem, 100vw"
         />
       </S.ProductImage>
       <S.ProductTextWithButtons>
