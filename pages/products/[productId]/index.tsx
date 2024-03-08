@@ -15,15 +15,19 @@ import {
 } from "@tanstack/react-query";
 import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
-import ReviewList, { OrderOptionType } from "@/src/components/product/ReviewList";
+import ReviewList from "@/src/components/product/ReviewList";
 import ModalReview from "@/src/components/product/ModalReview";
 import React, { useState } from "react";
 import { QUERY_KEY, REVIEWS_LIMIT } from "@/src/routes";
 import { postReview } from "@/src/apis/review";
 import { ReviewListType } from "@/src/apis/product/schema";
 
+export type OrderOptionType = "recent" | "ratingDesc" | "ratingAsc" | "likeCount" | "reviewCount" | "rating";
+
+export type OrderType = { id: OrderOptionType; name: string };
+
 export function Product() {
-  const [order, setOrder] = useState<OrderOptionType>("recent");
+  const [order, setOrder] = useState<OrderType>({ id: "recent", name: "최신순" });
   const [isModal, setIsModal] = useState(false);
 
   const router = useRouter();
@@ -45,7 +49,7 @@ export function Product() {
     isFetchingNextPage,
   } = useInfiniteQuery({
     queryKey: [QUERY_KEY.REVIEWS, productId, order],
-    queryFn: ({ pageParam }) => getProductReviews(productId, order, pageParam, REVIEWS_LIMIT),
+    queryFn: ({ pageParam }) => getProductReviews(productId, order.id, pageParam, REVIEWS_LIMIT),
     initialPageParam: 0,
     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) =>
       lastPage.hasMore ? lastPageParam + 1 : undefined,
@@ -72,6 +76,11 @@ export function Product() {
   // const reviewList: getReviewsListResponseType =
   //   reviewsData?.pages && reviewsData.pages.length > 0 ? (reviewsData.pages[0] as ReviewListType[]) : [];
 
+  // 리뷰목록의 정렬기준 버튼클릭 이벤트
+  const handleOrderButtonClick = (orderItem: OrderType) => {
+    setOrder(orderItem);
+  };
+
   if (!productDetail) {
     return null;
   }
@@ -94,7 +103,7 @@ export function Product() {
         <StatisticsItem statType="favoriteCount" count={favoriteCount} average={favoriteAverage} />
         <StatisticsItem statType="reviewCount" count={reviewCount} average={reviewAverage} />
       </StatisticsList>
-      <ReviewList reviewList={reviewList} order={order} setOrder={setOrder} />
+      <ReviewList reviewList={reviewList} order={order} handleOrderButtonClick={handleOrderButtonClick} />
       {isModal && (
         <ModalReview productId={productId} name={name} category={category.name} onClose={() => setIsModal(false)} />
       )}

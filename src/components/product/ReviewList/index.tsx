@@ -3,20 +3,20 @@ import * as S from "./styled";
 import ReviewItem from "../ReviewItem";
 import { ReviewListType } from "@/src/apis/product/schema";
 import SortDropdown from "../../common/button/SortDropdown";
-
-export type OrderOptionType = "recent" | "ratingDesc" | "ratingAsc" | "likeCount";
+import { OrderType } from "@/pages/products/[productId]";
 
 type ReviewListProps = {
   reviewList: ReviewListType[];
-  order: OrderOptionType;
-  setOrder: React.Dispatch<SetStateAction<OrderOptionType>>;
+  order: OrderType;
+  handleOrderButtonClick: (selectedOrder: OrderType) => void;
 };
 
-function ReviewList({ reviewList, order, setOrder }: ReviewListProps) {
+function ReviewList({ reviewList, order, handleOrderButtonClick }: ReviewListProps) {
   return (
     <S.Container>
       <S.TitleWithOrer>
-        상품 리뷰<SortDropdown order={order} setOrder={setOrder}></SortDropdown>
+        상품 리뷰
+        <SortDropdown selectedItem={order} handleOrderButtonClick={handleOrderButtonClick} />
       </S.TitleWithOrer>
       <S.List>
         {reviewList.map((review) => (

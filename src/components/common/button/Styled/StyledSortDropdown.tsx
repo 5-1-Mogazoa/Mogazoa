@@ -1,21 +1,22 @@
+import { OrderOptionType, OrderType } from "@/pages/products/[productId]";
 import { fontStyle } from "@/styles/theme";
+import { HTMLAttributes } from "react";
 import styled from "styled-components";
 
 type SortDropdownProps = {
   $isOpen: boolean;
 };
 
-const StyledSortDropdownContainer = styled.div`
+export const StyledSortDropdownContainer = styled.div`
   position: relative;
   display: inline-block;
 `;
 
-const StyledSortDropdownButton = styled.button<SortDropdownProps>`
+export const StyledSortDropdownButton = styled.button<SortDropdownProps>`
   display: inline-flex;
-  justify-content: flex-end;
   align-items: center;
-  width: 100%;
-  gap: 5px;
+  width: 100px;
+  padding: 0 10px;
 
   color: ${(props) => (props.$isOpen ? "var(--color-white-f1, #F1F1F5)" : "var(--color-gray-6e, #6e6e82)")};
   font-family: Pretendard;
@@ -27,34 +28,42 @@ const StyledSortDropdownButton = styled.button<SortDropdownProps>`
   }
 
   @media (min-width: ${({ theme }) => theme.deviceSizes.desktop}) {
+    padding: 0 20px;
     width: 160px;
     ${fontStyle({ w: 400, s: 16, l: 18 })};
   }
 `;
 
-const StyledSortDropdownIcon = styled.div<SortDropdownProps>`
+export const StyledSortDropdownIcon = styled.div<SortDropdownProps>`
+  position: absolute;
+  top: 50%;
+  right: 0px;
+  transform: translateY(-50%);
   width: 20px;
   height: 20px;
 
   background: url(${(props) => (props.$isOpen ? "/icons/dropup.svg" : "/icons/dropdown.svg")}) no-repeat center / cover;
 
   @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
+    right: 10px;
     width: 22px;
     height: 22px;
   }
 
   @media (min-width: ${({ theme }) => theme.deviceSizes.desktop}) {
+    right: 20px;
     width: 24px;
     height: 24px;
   }
 `;
 
-const StyledSortDropdownContent = styled.div<SortDropdownProps>`
+export const StyledSortDropdownContent = styled.div<SortDropdownProps>`
   display: ${(props) => (props.$isOpen ? "block" : "none")};
   position: absolute;
   top: 105%;
-  left: -3.7rem;
+  left: 0;
   z-index: 1;
+  margin-top: 5px;
 
   width: 100px;
   padding: 10px;
@@ -67,7 +76,6 @@ const StyledSortDropdownContent = styled.div<SortDropdownProps>`
   background: var(--black-black_252530, #252530);
 
   @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
-    left: 0;
     width: 140px;
   }
 
@@ -76,7 +84,16 @@ const StyledSortDropdownContent = styled.div<SortDropdownProps>`
   }
 `;
 
-const StyledSortDropdownItem = styled.div`
+export const StyledSortDropdownItemWrap = styled.li`
+  list-style: none;
+`;
+
+type StyledSortDropdownItemProps = HTMLAttributes<HTMLDivElement> & {
+  value: OrderOptionType;
+  onClick: (selectedOrder: OrderType) => void;
+};
+
+export const StyledSortDropdownItem = styled.div<StyledSortDropdownItemProps>`
   cursor: pointer;
   display: flex;
   padding: 6px 5px;
@@ -101,11 +118,3 @@ const StyledSortDropdownItem = styled.div`
     padding: 6px 20px;
   }
 `;
-
-export {
-  StyledSortDropdownButton,
-  StyledSortDropdownContainer,
-  StyledSortDropdownContent,
-  StyledSortDropdownIcon,
-  StyledSortDropdownItem,
-};

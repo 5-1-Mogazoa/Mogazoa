@@ -1,56 +1,45 @@
-import { SetStateAction, useState } from "react";
-import {
-  StyledSortDropdownButton,
-  StyledSortDropdownContainer,
-  StyledSortDropdownContent,
-  StyledSortDropdownIcon,
-  StyledSortDropdownItem,
-} from "./Styled/StyledSortDropdown";
-import { OrderOptionType } from "../../product/ReviewList";
+import { useState } from "react";
+import * as S from "./Styled/StyledSortDropdown";
+import { OrderOptionType, OrderType } from "@/pages/products/[productId]";
+import { REVIEW_ORDER } from "@/src/constant/DROPDOWN_BUTTON";
 
-interface SortDropdownProps {
-  order: OrderOptionType;
-  setOrder: React.Dispatch<SetStateAction<OrderOptionType>>;
-}
+type SortDropProps = {
+  selectedItem: OrderType;
+  handleOrderButtonClick: (selectedOrder: OrderType) => void;
+};
 
-const SortDropdown = ({ order, setOrder }: SortDropdownProps) => {
-  const [isOpen, setIsOpen] = useState(false);
-  // const [testValue, setTestValue] = useState("");
+export default function SortDropDown({ selectedItem, handleOrderButtonClick }: SortDropProps) {
+  const [isDropBoxOpen, setIsDropBoxOpen] = useState(false);
+  const toggleDropdown = () => setIsDropBoxOpen((prev) => !prev);
 
-  const toggleDropdown = () => {
-    setIsOpen(!isOpen);
+  const handleDropBoxBlur = () => {
+    setTimeout(() => {
+      setIsDropBoxOpen(false);
+    }, 150);
   };
 
-  const handleItemClick = (option: OrderOptionType) => {
-    setOrder(option);
-    setIsOpen(false);
-    console.log(option);
-  };
-
-  const orderOptions: OrderOptionType[] = ["recent", "ratingDesc", "ratingAsc", "likeCount"];
-
-  const OrderOptionsTranslation = {
-    recent: "최신순",
-    ratingDesc: "별점 높은순",
-    ratingAsc: "별점 낮은순",
-    likeCount: "좋아요순",
+  const handleSelectSort = (orderItem: OrderType) => {
+    setIsDropBoxOpen(false);
+    handleOrderButtonClick(orderItem);
   };
 
   return (
-    <StyledSortDropdownContainer>
-      <StyledSortDropdownButton $isOpen={isOpen} onClick={toggleDropdown}>
-        {OrderOptionsTranslation[order]}
-        <StyledSortDropdownIcon $isOpen={isOpen} />
-      </StyledSortDropdownButton>
-      <StyledSortDropdownContent $isOpen={isOpen}>
-        {orderOptions.map((option) => (
-          <StyledSortDropdownItem key={option} onClick={() => handleItemClick(option)}>
-            {OrderOptionsTranslation[option]}
-          </StyledSortDropdownItem>
+    <S.StyledSortDropdownContainer>
+      <S.StyledSortDropdownButton $isOpen={isDropBoxOpen} onBlur={handleDropBoxBlur} onClick={toggleDropdown}>
+        {selectedItem.name}
+        <S.StyledSortDropdownIcon $isOpen={isDropBoxOpen} />
+      </S.StyledSortDropdownButton>
+      <S.StyledSortDropdownContent $isOpen={isDropBoxOpen}>
+        {REVIEW_ORDER.map((orderItem) => (
+          <S.StyledSortDropdownItemWrap key={orderItem.id}>
+            <S.StyledSortDropdownItem
+              value={orderItem.id as OrderOptionType}
+              onClick={() => handleSelectSort(orderItem as OrderType)}>
+              {orderItem.name}
+            </S.StyledSortDropdownItem>
+          </S.StyledSortDropdownItemWrap>
         ))}
-      </StyledSortDropdownContent>
-    </StyledSortDropdownContainer>
+      </S.StyledSortDropdownContent>
+    </S.StyledSortDropdownContainer>
   );
-};
-
-export default SortDropdown;
+}
