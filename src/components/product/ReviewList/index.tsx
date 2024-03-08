@@ -16,7 +16,7 @@ function ReviewList({ reviewList, order, handleOrderButtonClick }: ReviewListPro
     <S.Container>
       <S.TitleWithOrer>
         상품 리뷰
-        <SortDropdown selectedItem={order} handleOrderButtonClick={handleOrderButtonClick} />
+        <SortDropdown type="products" selectedItem={order} handleOrderButtonClick={handleOrderButtonClick} />
       </S.TitleWithOrer>
       <S.List>
         {reviewList.map((review) => (
