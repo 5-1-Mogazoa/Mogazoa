@@ -1,6 +1,6 @@
 export type OauthDataType = {
   nickname?: string;
-  redirectUri: string;
+  redirectUri?: string;
   token: string;
 };
 

@@ -6,6 +6,7 @@ import "@/styles/font.css";
 import GlobalStyle from "@/styles/GlobalStyle";
 import { theme } from "@/styles/theme";
 import Gnb from "@/src/components/gnb/gnb";
+import { OauthProvider } from "@/src/lib/OauthProvider";
 
 export default function App({ Component, pageProps }: AppProps) {
   const [queryClient] = React.useState(() => new QueryClient());
@@ -13,9 +14,11 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
-        <GlobalStyle />
-        <Gnb />
-        <Component {...pageProps} />
+        <OauthProvider>
+          <GlobalStyle />
+          <Gnb />
+          <Component {...pageProps} />
+        </OauthProvider>
       </ThemeProvider>
     </QueryClientProvider>
   );

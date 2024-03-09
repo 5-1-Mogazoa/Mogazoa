@@ -7,36 +7,45 @@ import {
   StyledOauthText,
 } from "./Styled/StyledOauth";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { OauthDataType, OauthResponseType } from "@/src/types/oauth/oauthDataType";
+import { useEffect } from "react";
+import { OauthResponseType } from "@/src/types/oauth/oauthDataType";
 import { postOauthSignInData } from "@/src/apis/oauth";
 import { PAGE_ROUTES } from "@/src/routes";
+import { useOauth } from "@/src/lib/OauthProvider";
 
 type mutationParameterType = {
-  id_token: string;
+  idToken: string;
   provider: string;
 };
 
 export default function OauthSignInBox() {
   const router = useRouter();
   const postMutation = useMutation({
-    mutationFn: ({ id_token, provider }: mutationParameterType) => postOauthSignInData(id_token, provider),
+    mutationFn: ({ idToken, provider }: mutationParameterType) => postOauthSignInData(idToken, provider),
   });
+  const { setToken } = useOauth();
 
   useEffect(() => {
     if (router.asPath.split("/signin")[1]) {
-      const id_token = router.asPath.split("id_token=")[1].split("&")[0];
+      const idToken = router.asPath.split("id_token=")[1].split("&")[0];
       (async () => {
         try {
-          const result = (await postMutation.mutateAsync({ id_token, provider: "google" })) as OauthResponseType;
+          const result = (await postMutation.mutateAsync({
+            idToken,
+            provider: "google",
+          })) as OauthResponseType;
           const accessToken = result.accessToken;
           const userId = result.user.id;
           localStorage.setItem("accessToken", accessToken);
           localStorage.setItem("userId", String(userId));
           router.push("/");
-        } catch (error) {
-          alert("회원가입이 필요합니다.");
-          router.push(PAGE_ROUTES.OAUTH_SIGNUP);
+        } catch (error: any) {
+          //TODO: error 타입 지정
+          if (error.response.status === 403) {
+            alert("회원가입이 필요합니다.");
+            setToken(idToken);
+            router.push(`${PAGE_ROUTES.OAUTH_SIGNUP}/google`);
+          }
         }
       })();
     }
