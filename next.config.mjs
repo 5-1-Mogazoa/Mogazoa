@@ -6,6 +6,7 @@ const nextConfig = {
   },
   images: {
     domains: [
+      "sprint-fe-project.s3.ap-northeast-2.amazonaws.com",
       "img.siksinhot.com",
       "ak-d.tripcdn.com",
       "assets.untappd.com",

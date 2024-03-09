@@ -6,9 +6,10 @@ import ProductText from "./ProductText";
 type ProductDetailProps = {
   productDetail: any; // 추후 수정예정
   createdByMe: boolean;
+  reviewToggle: boolean;
 };
 
-function ProductDetail({ productDetail, createdByMe }: ProductDetailProps) {
+function ProductDetail({ productDetail, createdByMe, reviewToggle }: ProductDetailProps) {
   const { id, name, image, description, category, isFavorite } = productDetail;
 
   return (
@@ -27,7 +28,7 @@ function ProductDetail({ productDetail, createdByMe }: ProductDetailProps) {
       <S.ProductTextWithButtons>
         <ProductText name={name} category={category} isFavorite={isFavorite} description={description} />
         <S.ButtonContainer>
-          <StyledPrimaryButton>리뷰 작성하기</StyledPrimaryButton>
+          <StyledPrimaryButton onClick={reviewToggle}>리뷰 작성하기</StyledPrimaryButton>
           <StyledProductButton $createdByMe={createdByMe} $buttonType="compare">
             비교하기
           </StyledProductButton>
