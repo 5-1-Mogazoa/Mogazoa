@@ -2,14 +2,18 @@ import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 
 const instance = axios.create({
   baseURL: "https://mogazoa-api.vercel.app/2-4",
-  headers: {
-    "Content-type": "application/json",
-  },
 });
 
 // 요청 전에 토큰을 포함시키는 인터셉터
 instance.interceptors.request.use((config) => {
-  const accessToken = localStorage.getItem("login");
+  config.headers = config.headers ?? {};
+  if (config.data instanceof FormData) {
+    config.headers["Content-Type"] = "multipart/form-data";
+  } else {
+    config.headers["Content-Type"] = "application/json";
+  }
+
+  const accessToken = localStorage.getItem("accessToken");
   if (accessToken) config.headers.Authorization = `Bearer ${accessToken}`;
 
   return config;

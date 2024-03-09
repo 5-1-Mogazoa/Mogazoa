@@ -20,7 +20,11 @@ import ModalReview from "@/src/components/product/ModalReview";
 import React, { useState } from "react";
 import { QUERY_KEY, REVIEWS_LIMIT } from "@/src/routes";
 import { postReview } from "@/src/apis/review";
-import { ReviewListType } from "@/src/apis/product/schema";
+import { PostReviewRequestType } from "@/src/apis/review/schema";
+import { useToggle } from "usehooks-ts";
+import { FieldValues } from "react-hook-form";
+import { postImage } from "@/src/apis/image";
+import { postImageResponseType } from "@/src/apis/image/schema";
 
 export type OrderOptionType = "recent" | "ratingDesc" | "ratingAsc" | "likeCount" | "reviewCount" | "rating";
 
@@ -28,7 +32,8 @@ export type OrderType = { id: OrderOptionType; name: string };
 
 export function Product() {
   const [order, setOrder] = useState<OrderType>({ id: "recent", name: "최신순" });
-  const [isModal, setIsModal] = useState(false);
+  const [reviewModal, reviewToggle, setReviewMdodal] = useToggle();
+  const [formImageUrl, setFormImageUrls] = useState([]);
 
   const router = useRouter();
   const productId = Number(router.query.productId);
@@ -55,6 +60,7 @@ export function Product() {
       lastPage.hasMore ? lastPageParam + 1 : undefined,
   });
 
+  // 리뷰 생성 요청
   const postReviewMutation = useMutation({
     mutationFn: (newReview) => postReview(newReview),
     onSuccess: () => {
@@ -62,8 +68,32 @@ export function Product() {
     },
   });
 
-  const handlePostReview = (newReview) => {
-    postReviewMutation.mutate(newReview, {
+  // 리뷰 생성 버튼 클릭시 발생 이벤트
+  const postReviewCallback = async (data: FieldValues) => {
+    const formData: PostReviewRequestType = {
+      productId: productId,
+      images: [],
+      content: data.content,
+      rating: data.rating,
+    };
+
+    // data 이미지 파일이 있을 경우 파일들을 업로드하고 새로운 URL 받아서 formData.images에 추가
+    const getImageUrlPromises = [];
+
+    if (data.images !== undefined) {
+      for (const file of data.images) {
+        let newImageUrl: postImageResponseType = await postImage(file);
+        getImageUrlPromises.push(newImageUrl);
+      }
+
+      try {
+        const imageUrlResponse = await Promise.all(getImageUrlPromises);
+        formData.images = imageUrlResponse.map((response) => response.url);
+      } catch (erroe) {
+        console.log("이미지 업로드를 실패했어요.");
+      }
+    }
+    postReviewMutation.mutate(formData, {
       onSuccess: () => {
         console.log("리뷰가 성공적으로 업로드 되었습니다!");
       },
@@ -72,9 +102,6 @@ export function Product() {
 
   const reviewList: ReviewListType[] =
     reviewsData?.pages && reviewsData.pages.length > 0 ? reviewsData.pages[0].list : [];
-
-  // const reviewList: getReviewsListResponseType =
-  //   reviewsData?.pages && reviewsData.pages.length > 0 ? (reviewsData.pages[0] as ReviewListType[]) : [];
 
   // 리뷰목록의 정렬기준 버튼클릭 이벤트
   const handleOrderButtonClick = (orderItem: OrderType) => {
@@ -97,15 +124,21 @@ export function Product() {
 
   return (
     <ProductLayout>
-      <ProductDetail productDetail={productDetail} createdByMe={createdByMe} />
+      <ProductDetail productDetail={productDetail} createdByMe={createdByMe} reviewToggle={reviewToggle} />
       <StatisticsList>
         <StatisticsItem statType="rating" count={ratingCount} average={ratingAverage} />
         <StatisticsItem statType="favoriteCount" count={favoriteCount} average={favoriteAverage} />
         <StatisticsItem statType="reviewCount" count={reviewCount} average={reviewAverage} />
       </StatisticsList>
       <ReviewList reviewList={reviewList} order={order} handleOrderButtonClick={handleOrderButtonClick} />
-      {isModal && (
-        <ModalReview productId={productId} name={name} category={category.name} onClose={() => setIsModal(false)} />
+      {reviewModal && (
+        <ModalReview
+          productId={productId}
+          name={name}
+          category={category.name}
+          onClose={() => setReviewMdodal(false)}
+          callback={postReviewCallback}
+        />
       )}
     </ProductLayout>
   );

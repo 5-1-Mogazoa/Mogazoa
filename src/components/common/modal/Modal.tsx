@@ -5,33 +5,44 @@ import Image from "next/image";
 import { StyledCategoryChip } from "../chip/Styled/StyledCategoryChip";
 import { CategoryType } from "@/src/apis/product/schema";
 import MODAL_BUTTON from "../../../constant/MODAL_BUTTON";
+import { FieldValues, useFormContext } from "react-hook-form";
 
 interface ModalProps {
   title: string;
   modalType: "follow" | "compare" | "compare_comfirm" | "review" | "edit" | "profile" | "add";
   category?: CategoryType | undefined;
-  callback?: () => void;
+  isFormData?: boolean;
+  callback?: (data: FieldValues) => Promise<T>;
   onClose: () => void;
   children?: ReactNode;
 }
 
 // hasOptionsbutton 대신 modalType으로 review는 헤더부분 다르게 함
-function Modal({ title, modalType, category, callback, onClose, children }: ModalProps) {
+function Modal({ title, modalType, category, isFormData, callback, onClose, children }: ModalProps) {
   const [portalRoot, setPortalRoot] = useState<HTMLElement | null>(null);
+  const formContext = useFormContext();
 
+  const isValid = formContext && formContext.formState.isValid;
   const isReview = modalType === "review";
   const isConpareConfirm = modalType === "compare_comfirm";
 
   const stopEventBubbing = (e: React.MouseEvent) => {
-    // e.preventDefault(); 이걸하면 이미지업로드 input이 클릭안됨.
     e.stopPropagation();
   };
 
-  const handleSubmit = () => {
-    if (callback) {
-      callback();
+  const handleButtonClick = async (data: FieldValues) => {
+    console.log("모달 클릭");
+
+    if (typeof callback === "function") {
+      try {
+        await callback(data);
+        onClose();
+      } catch (error) {
+        throw error;
+      }
+    } else {
+      onClose();
     }
-    onClose();
   };
 
   useEffect(() => {
@@ -56,7 +67,12 @@ function Modal({ title, modalType, category, callback, onClose, children }: Moda
           </S.Header>
           {children}
           {isConpareConfirm && <S.EmptyGapBox />}
-          {!isConpareConfirm && <S.ModalButton onClick={handleSubmit}>{MODAL_BUTTON[modalType]}</S.ModalButton>}
+          {!isConpareConfirm && (
+            <S.ModalButton onClick={formContext.handleSubmit(handleButtonClick)} disabled={!isValid}>
+              {MODAL_BUTTON[modalType]}
+            </S.ModalButton>
+          )}
+          {/* {!isConpareConfirm && <S.ModalButton onClick={handleButtonClick}>{MODAL_BUTTON[modalType]}</S.ModalButton>} */}
         </S.Container>
       </S.Background>,
       document.body,

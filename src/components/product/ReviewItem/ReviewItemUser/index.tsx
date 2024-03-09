@@ -1,8 +1,8 @@
 import Image from "next/image";
 import * as S from "./styled";
 import { ReviewUserType } from "@/src/apis/product/schema";
-import RatingStars from "../../RatingStar";
 import { StyledRankingChip } from "@/src/components/common/chip/Styled/StyledRankingChip";
+import { RatingStars } from "../../RatingStar";
 
 type RankingName = {
   [key: number]: "1등" | "2등" | "3등" | "4등" | "5등";
