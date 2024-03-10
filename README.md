@@ -48,25 +48,31 @@
 
 ### 메인 홈 화면(/)
 
+![Image](https://github.com/5-1-Mogazoa/Mogazoa/assets/131663155/e46ba4c5-01ec-4a2c-a6ec-54a46ecb01d9)
+
 <br/>
 <br/>
 
 ### 회원가입 화면(/signup), 로그인 화면(/signin), 간편 회원가입 화면(/oauth/signup/{google|kakao})
 
+![Image](https://github.com/5-1-Mogazoa/Mogazoa/assets/131663155/1294ef68-d768-45ff-9ad7-51de3891d31e)
 <br/>
 <br/>
 
 ### 상품 상세 화면(/product/{productId})
 
+![Image](https://github.com/5-1-Mogazoa/Mogazoa/assets/131663155/7c70e81c-3507-4412-9e75-83b08117cad2)
 <br/>
 <br/>
 
 ### 비교하기 화면(/compare)
 
+![Image](https://github.com/5-1-Mogazoa/Mogazoa/assets/131663155/cdf9f1ac-c8fe-45a2-b8fd-1f7d5ac4cea6)
 <br/>
 <br/>
 
 ### 유저 프로필 화면(/user/{userId}), 내 프로필 화면(/mypage)
 
+![Image](https://github.com/5-1-Mogazoa/Mogazoa/assets/131663155/c6cb09d2-6dd4-40b1-9a9e-14a0e6038bc7)
 <br/>
 <br/>
