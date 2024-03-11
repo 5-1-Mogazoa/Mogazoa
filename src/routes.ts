@@ -37,8 +37,8 @@ export const API_ROUTE = {
 
   AUTH_SIGNUP: "/auth/signUp",
   AUTH_SIGNIN: "/auth/signIn",
-  AUTH_SIGNUP_OAUTH: (provider: string) => `/auth/signUp/${provider}`,
-  AUTH_SIGNIN_OAUTH: (provider: string) => `/auth/signIn/${provider}`,
+  OAUTH_SIGNUP: (provider: string) => `/auth/signUp/${provider}`,
+  OAUTH_SIGNIN: (provider: string) => `/auth/signIn/${provider}`,
 };
 
 export const QUERY_KEY = {
