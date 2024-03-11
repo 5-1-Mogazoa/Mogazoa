@@ -1,8 +1,8 @@
 import { fontStyle } from "@/styles/theme";
 import styled from "styled-components";
 
-const SearchTitleName = styled.div`
-  margin: 60px 0 30px;
+const SearchTitleName = styled.div<{ dynamicMargin?: boolean }>`
+  margin: ${(props) => (props.$dynamicMargin ? "60px 0 30px" : "60px 0 20px")};
   color: var(--color-white, #f1f1f5);
   ${fontStyle({ w: 600, s: 20, l: 28 })};
 
