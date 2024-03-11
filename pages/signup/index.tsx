@@ -1,8 +1,8 @@
 import SignUpForm from "@/src/components/auth/signUp/SignUpForm";
-import useCheckSignIn from "@/src/hooks/useCheckSignIn";
+import useCheckSignInAuthPage from "@/src/hooks/useCheckSignInAuthPage";
 
 export default function SingUp() {
-  const isLoggedIn = useCheckSignIn();
+  const isLoggedIn = useCheckSignInAuthPage();
 
   return !isLoggedIn && <SignUpForm />;
 }

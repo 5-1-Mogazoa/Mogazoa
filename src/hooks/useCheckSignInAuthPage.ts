@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-const useCheckSignIn = () => {
+const useCheckSignInAuthPage = () => {
   const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   useEffect(() => {
@@ -16,4 +16,4 @@ const useCheckSignIn = () => {
   return isLoggedIn;
 };
 
-export default useCheckSignIn;
+export default useCheckSignInAuthPage;
