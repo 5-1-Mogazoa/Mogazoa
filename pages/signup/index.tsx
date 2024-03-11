@@ -1,18 +1,8 @@
 import SignUpForm from "@/src/components/auth/signUp/SignUpForm";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import useCheckSignInAuthPage from "@/src/hooks/useCheckSignInAuthPage";
 
 export default function SingUp() {
-  const router = useRouter();
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
-  useEffect(() => {
-    if (localStorage.getItem("accessToken")) {
-      router.push("/");
-      return;
-    } else {
-      setIsLoggedIn(false);
-    }
-  }, []);
+  const isLoggedIn = useCheckSignInAuthPage();
 
   return !isLoggedIn && <SignUpForm />;
 }
