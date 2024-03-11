@@ -1,19 +1,9 @@
 import SignInForm from "@/src/components/auth/signIn/SignInForm";
 import OauthSignInBox from "@/src/components/oauth/OauthSignInBox";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import useCheckSignIn from "@/src/hooks/useCheckSignIn";
 
 export default function SignIn() {
-  const router = useRouter();
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
-  useEffect(() => {
-    if (localStorage.getItem("accessToken")) {
-      router.push("/");
-      return;
-    } else {
-      setIsLoggedIn(false);
-    }
-  }, []);
+  const isLoggedIn = useCheckSignIn();
 
   return (
     !isLoggedIn && (
