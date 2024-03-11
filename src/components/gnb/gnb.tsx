@@ -3,19 +3,24 @@ import { Logo } from "./Styled/StyledMenuLogo";
 import { MenuButton } from "./Styled/StyledMenuLogo";
 import { InputContainer } from "./Styled/StyledSearchContainer";
 
-import GnbButton from "./GnbButton";
+import { GnbButton } from "./GnbButton";
 import Searchbar from "./Searchbar";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import Sidebar from "./SideBar";
 
 const logo = "/icons/LogoLarge.svg";
 
 export default function Gnb() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const router = useRouter();
   const currentPath = router.pathname;
 
+  const handleClick = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
     if (token) {
@@ -25,7 +30,8 @@ export default function Gnb() {
 
   return (
     <StyleContainer>
-      <MenuButton />
+      <MenuButton onClick={handleClick} />
+      <Sidebar $isSidebarOpen={isSidebarOpen} isLoggedIn={isLoggedIn} />
       <Link href="/">
         <Logo src={logo} width={112} height={18} alt="mogazoa 로고" />
       </Link>
