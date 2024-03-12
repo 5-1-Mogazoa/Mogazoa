@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { OrderType } from "@/pages/products/[productId]";
-import useFilterSearch, { filterSearchProps } from "../useFilterSearch";
+import useFilterSearch, { filterSearchProps } from "../../../hooks/useFilterSearch";
 import SortDropDown from "../../common/button/SortDropdown";
 import SearchCardList from "../SearchCardList/SearchCardList";
 import SearchTitle from "../SearchTitle/SearchTitle";

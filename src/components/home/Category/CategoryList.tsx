@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getCategoryList } from "@/src/apis/category";
 import Category from "./category";
 import * as S from "./Styled/StyledCategoryList";
-import useFilterSearch from "../../search/useFilterSearch";
+import useFilterSearch from "../../../hooks/useFilterSearch";
 import { useState } from "react";
 import Image from "next/image";
 

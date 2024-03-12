@@ -1,7 +1,7 @@
 import { fontStyle } from "@/styles/theme";
 import { useState } from "react";
 import styled from "styled-components";
-import useFilterSearch, { filterSearchProps } from "../search/useFilterSearch";
+import useFilterSearch, { filterSearchProps } from "../../hooks/useFilterSearch";
 
 type SearchInputProps = {
   $isOpen: boolean;
