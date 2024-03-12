@@ -60,7 +60,8 @@ function ProductText({ id: productId, name, category, isFavorite, description, l
           height="24"
           src={isFavoriteImgSrc}
           alt="favorite 버튼 이미지"
-          onClick={(loginToggle, handleFavoriteClick)}
+          onClick={handleFavoriteClick}
+          style={{ cursor: "pointer" }}
         />
       </S.TitleWithFavorite>
       <S.Description>{description}</S.Description>
