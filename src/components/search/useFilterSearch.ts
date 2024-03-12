@@ -16,7 +16,7 @@ const useFilterSearch = () => {
     if (category !== undefined) query.category = category;
 
     router.push({
-      pathname: router.pathname,
+      pathname: "/search",
       query: query,
     });
   };
