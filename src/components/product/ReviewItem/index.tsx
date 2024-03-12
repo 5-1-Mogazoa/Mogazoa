@@ -14,7 +14,9 @@ type ReviewItemProps = {
 
 function ReviewItem({ review }: ReviewItemProps) {
   const [userCount, setUserCount] = useState({ ranking: 0, follower: 0, reviewed: 0 });
-  const { id, user, reviewImages, createdAt, isLiked, likeCount, content, rating } = review;
+  const { id, user, reviewImages, createdAt, isLiked, likeCount, content, rating, userId: writerId } = review;
+  const userId = Number(localStorage.getItem("userId"));
+  const createdByMe = writerId === userId;
 
   const { data: userRank } = useQuery({
     queryKey: ["userRank"],
@@ -49,7 +51,7 @@ function ReviewItem({ review }: ReviewItemProps) {
       <ReviewItemUser user={user} userCount={userCount} rating={rating} />
       <S.ContentsWithFooter>
         <ReviewContents content={content} reviewImages={reviewImages} />
-        <ReviewFooter id={id} createdAt={createdAt} isLiked={isLiked} likeCount={likeCount} />
+        <ReviewFooter id={id} createdAt={createdAt} isLiked={isLiked} likeCount={likeCount} createdByMe={createdByMe} />
       </S.ContentsWithFooter>
     </S.Container>
   );

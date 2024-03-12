@@ -32,11 +32,7 @@ export const TitleWithFavorite = styled.div`
   @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
     justify-content: flex-start;
     gap: 1.5rem;
-    margin-bottom: 0.8rem;
-  }
-
-  @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
-    margin-bottom: 1rem;
+    margin-bottom: 3.7rem;
   }
 `;
 

@@ -28,7 +28,6 @@ import { postImageResponseType } from "@/src/apis/image/schema";
 import { ProductDetailResponseType } from "@/src/apis/product/schema";
 
 export type OrderOptionType = "recent" | "ratingDesc" | "ratingAsc" | "likeCount" | "reviewCount" | "rating";
-
 export type OrderType = { id: OrderOptionType; name: string };
 
 export default function Product() {
@@ -120,15 +119,15 @@ export default function Product() {
     writerId,
   } = productDetail as ProductDetailResponseType;
   const ratingCount = Number(ratingCountData.toFixed(1)); // 별정평균은 소수점 1자리 까지만
+  const userId = Number(localStorage.getItem("userId"));
 
-  const createdByMe = true; // TODO
   const ratingAverage = 4; // TODO 별점 평균. 추후 수정 rating은 .toFixed(1)
   const favoriteAverage = 5; // TODO 찜 평균. 소수점 없게 만들기
   const reviewAverage = 9; // TODO 리뷰 평균. 소수점 없게 만들기
 
   return (
     <ProductLayout>
-      <ProductDetail productDetail={productDetail} createdByMe={createdByMe} reviewToggle={reviewToggle} />
+      <ProductDetail productDetail={productDetail} userId={userId} reviewToggle={reviewToggle} />
       <StatisticsList>
         <StatisticsItem statType="rating" count={ratingCount} average={ratingAverage} />
         <StatisticsItem statType="favoriteCount" count={favoriteCount} average={favoriteAverage} />

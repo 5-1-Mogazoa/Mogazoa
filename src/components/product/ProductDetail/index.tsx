@@ -6,12 +6,13 @@ import { ProductDetailResponseType } from "@/src/apis/product/schema";
 
 type ProductDetailProps = {
   productDetail: ProductDetailResponseType;
-  createdByMe: boolean;
+  userId: number | null;
   reviewToggle: () => void;
 };
 
-function ProductDetail({ productDetail, createdByMe, reviewToggle }: ProductDetailProps) {
-  const { id, name, image, description, category, isFavorite } = productDetail;
+function ProductDetail({ productDetail, userId, reviewToggle }: ProductDetailProps) {
+  const { id, name, image, description, category, isFavorite, writerId } = productDetail;
+  const createdByMe = writerId === userId;
 
   return (
     <S.Container>
