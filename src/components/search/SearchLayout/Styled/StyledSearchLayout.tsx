@@ -13,7 +13,8 @@ export const SearchLayout = styled.div`
   }
 `;
 export const CategoryListWrap = styled.div`
-  display: none;
+  display: block;
+
   @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
     display: block;
     grid-area: category;
