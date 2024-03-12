@@ -1,7 +1,7 @@
 import { formatDate } from "@/src/utils/formatDate";
 import * as S from "./styled";
 import { useState } from "react";
-import { postReviewLike } from "@/src/apis/review";
+import { deleteReviewLike, postReviewLike } from "@/src/apis/review";
 import Image from "next/image";
 import { useQueryClient } from "@tanstack/react-query";
 import { QUERY_KEY } from "@/src/routes";
@@ -23,15 +23,20 @@ function ReviewFooter({ id, createdAt, isLiked, likeCount, createdByMe }: Review
 
   const handleLikeClick = async () => {
     try {
-      // TODO 리뷰 좋아요 등록 요청 => 401 권한없음 에러 반환
-      await postReviewLike(id);
-      setIsLikedLocal(true);
-      setLikeCountLocal(likeCountLocal + 1);
-
-      // reviewsData 다시 받아오기
-      await queryClient.invalidateQueries({ queryKey: [QUERY_KEY.REVIEWS] });
+      if (!isLikedLocal) {
+        await postReviewLike(id);
+        setIsLikedLocal(true);
+        setLikeCountLocal(likeCountLocal + 1);
+      } else {
+        await deleteReviewLike(id);
+        setIsLikedLocal(false);
+        setLikeCountLocal(likeCountLocal - 1);
+      }
     } catch (error) {
       console.error("리뷰 좋아요 등록 실패", error);
+    } finally {
+      // reviewsData 다시 받아오기
+      await queryClient.invalidateQueries({ queryKey: [QUERY_KEY.REVIEWS] });
     }
   };
 

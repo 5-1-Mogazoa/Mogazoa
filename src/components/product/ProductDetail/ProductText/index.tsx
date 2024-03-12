@@ -36,7 +36,7 @@ function ProductText({ id: productId, name, category, isFavorite, description }:
     } catch (error) {
       console.error(`${name} 찜 클릭 이벤트 실패`, error);
     } finally {
-      await queryClient.invalidateQueries({ queryKey: [QUERY_KEY.REVIEWS] });
+      await queryClient.invalidateQueries({ queryKey: [QUERY_KEY.PRODUCT_DETAIL] });
     }
   };
 
