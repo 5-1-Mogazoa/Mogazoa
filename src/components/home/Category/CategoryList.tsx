@@ -7,8 +7,8 @@ import { useState } from "react";
 import Image from "next/image";
 
 type CategoryListProps = {
-  isCategory: boolean;
-  onClose: () => void;
+  isCategory?: boolean;
+  onClose?: () => void;
 };
 
 export default function CategoryList({ onClose, isCategory }: CategoryListProps) {
