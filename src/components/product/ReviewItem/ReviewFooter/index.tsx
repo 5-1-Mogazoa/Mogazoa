@@ -1,9 +1,9 @@
 import { formatDate } from "@/src/utils/formatDate";
 import * as S from "./styled";
-import { useState } from "react";
-import { postReviewLike } from "@/src/apis/review";
+import { deleteReviewLike, postReviewLike } from "@/src/apis/review";
 import Image from "next/image";
 import { useQueryClient } from "@tanstack/react-query";
+import { QUERY_KEY } from "@/src/routes";
 
 type ReviewFooterProps = {
   id: number;
@@ -14,23 +14,22 @@ type ReviewFooterProps = {
 };
 
 function ReviewFooter({ id, createdAt, isLiked, likeCount, createdByMe }: ReviewFooterProps) {
-  const [isLikedLocal, setIsLikedLocal] = useState(isLiked);
-  const [likeCountLocal, setLikeCountLocal] = useState(likeCount);
   const formatCreatedAt = formatDate(createdAt);
 
   const queryClient = useQueryClient();
 
   const handleLikeClick = async () => {
     try {
-      // TODO 리뷰 좋아요 등록 요청 => 401 권한없음 에러 반환
-      await postReviewLike(id);
-      setIsLikedLocal(true);
-      setLikeCountLocal(likeCountLocal + 1);
-
-      // reviewsData 다시 받아오기
-      await queryClient.invalidateQueries(["reviewsData"]);
+      if (!isLiked) {
+        await postReviewLike(id);
+      } else {
+        await deleteReviewLike(id);
+      }
     } catch (error) {
       console.error("리뷰 좋아요 등록 실패", error);
+    } finally {
+      // reviewsData 다시 받아오기
+      await queryClient.invalidateQueries({ queryKey: [QUERY_KEY.REVIEWS] });
     }
   };
 
@@ -45,15 +44,15 @@ function ReviewFooter({ id, createdAt, isLiked, likeCount, createdByMe }: Review
           </S.EditDeleteButtons>
         )}
       </S.DateWithButtons>
-      <S.LikeButton $isLiked={isLikedLocal} onClick={handleLikeClick}>
+      <S.LikeButton $isLiked={isLiked} onClick={handleLikeClick}>
         <S.LikeIcon>
-          {isLikedLocal ? (
+          {isLiked ? (
             <Image fill src="/icons/upfull.svg" alt="좋아요 클릭 후 이미지" />
           ) : (
             <Image fill src="/icons/upempty.svg" alt="좋아요 클릭 전 이미지" />
           )}
         </S.LikeIcon>
-        {likeCountLocal}
+        {likeCount}
       </S.LikeButton>
     </S.Container>
   );

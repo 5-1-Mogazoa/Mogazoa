@@ -28,7 +28,7 @@ function ProductDetail({ productDetail, userId, reviewToggle }: ProductDetailPro
         />
       </S.ProductImage>
       <S.ProductTextWithButtons>
-        <ProductText name={name} category={category} isFavorite={isFavorite} description={description} />
+        <ProductText id={id} name={name} category={category} isFavorite={isFavorite} description={description} />
         <S.ButtonContainer>
           <StyledPrimaryButton onClick={reviewToggle}>리뷰 작성하기</StyledPrimaryButton>
           <StyledProductButton $createdByMe={createdByMe} $buttonType="compare">
