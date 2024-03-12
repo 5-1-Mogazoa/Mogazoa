@@ -6,6 +6,7 @@ import { CategoryType } from "@/src/apis/product/schema";
 import { deleteFavorite, postFavorite } from "@/src/apis/product";
 import { useQueryClient } from "@tanstack/react-query";
 import { QUERY_KEY } from "@/src/routes";
+import ModalLogin from "../../MadalLogin";
 
 type ProductTextProps = {
   id: number;
@@ -15,14 +16,22 @@ type ProductTextProps = {
   };
   isFavorite: boolean;
   description: string;
+  loginToggle: () => void;
 };
 
-function ProductText({ id: productId, name, category, isFavorite, description }: ProductTextProps) {
+function ProductText({ id: productId, name, category, isFavorite, description, loginToggle }: ProductTextProps) {
   const isFavoriteImgSrc = isFavorite ? "/icons/heartfull.svg" : "/icons/heartempty.svg";
 
   const queryClient = useQueryClient();
 
   const handleFavoriteClick = async () => {
+    const token = localStorage.getItem("accessToken");
+
+    if (!token) {
+      loginToggle();
+      return;
+    }
+
     try {
       if (!isFavorite) {
         await postFavorite(productId);
@@ -46,7 +55,13 @@ function ProductText({ id: productId, name, category, isFavorite, description }:
       </S.TagWithShare>
       <S.TitleWithFavorite>
         {name}
-        <Image width="24" height="24" src={isFavoriteImgSrc} alt="favorite 버튼 이미지" onClick={handleFavoriteClick} />
+        <Image
+          width="24"
+          height="24"
+          src={isFavoriteImgSrc}
+          alt="favorite 버튼 이미지"
+          onClick={(loginToggle, handleFavoriteClick)}
+        />
       </S.TitleWithFavorite>
       <S.Description>{description}</S.Description>
     </S.Container>

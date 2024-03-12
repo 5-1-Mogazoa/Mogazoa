@@ -26,6 +26,7 @@ import { FieldValues } from "react-hook-form";
 import { postImage } from "@/src/apis/image";
 import { postImageResponseType } from "@/src/apis/image/schema";
 import { ProductDetailResponseType } from "@/src/apis/product/schema";
+import ModalLogin from "@/src/components/product/MadalLogin";
 
 export type OrderOptionType = "recent" | "ratingDesc" | "ratingAsc" | "likeCount" | "reviewCount" | "rating";
 export type OrderType = { id: OrderOptionType; name: string };
@@ -37,6 +38,7 @@ export default function Product() {
 
   const [order, setOrder] = useState<OrderType>({ id: "recent", name: "최신순" });
   const [reviewModal, reviewToggle, setReviewMdodal] = useToggle();
+  const [loginModal, loginToggle, setLoginMdodal] = useToggle();
 
   // SSR로 받은 데이터 쿼리로 가져오기
   const { data: productDetail } = useQuery({
@@ -127,13 +129,23 @@ export default function Product() {
 
   return (
     <ProductLayout>
-      <ProductDetail productDetail={productDetail} userId={userId} reviewToggle={reviewToggle} />
+      <ProductDetail
+        productDetail={productDetail}
+        userId={userId}
+        reviewToggle={reviewToggle}
+        loginToggle={loginToggle}
+      />
       <StatisticsList>
         <StatisticsItem statType="rating" count={ratingCount} average={ratingAverage} />
         <StatisticsItem statType="favoriteCount" count={favoriteCount} average={favoriteAverage} />
         <StatisticsItem statType="reviewCount" count={reviewCount} average={reviewAverage} />
       </StatisticsList>
-      <ReviewList reviewList={reviewList} order={order} handleOrderButtonClick={handleOrderButtonClick} />
+      <ReviewList
+        reviewList={reviewList}
+        order={order}
+        loginToggle={loginToggle}
+        handleOrderButtonClick={handleOrderButtonClick}
+      />
       {reviewModal && (
         <ModalReview
           productId={productId}
@@ -143,6 +155,8 @@ export default function Product() {
           callback={postReviewCallback}
         />
       )}
+      {loginModal && <ModalLogin onClose={() => setLoginMdodal(false)} />}
+      {/* <ModalLogin onClose={() => setLoginMdodal(false)} /> */}
     </ProductLayout>
   );
 }
