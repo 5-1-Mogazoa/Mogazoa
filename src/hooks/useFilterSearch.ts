@@ -11,9 +11,21 @@ const useFilterSearch = () => {
 
   const filterSearch = ({ category, sort, searchQuery }: filterSearchProps) => {
     const { query } = router;
-    if (searchQuery !== undefined) query.searchQuery = searchQuery;
-    if (sort !== undefined) query.sortValue = sort;
-    if (category !== undefined) query.category = category;
+    if (searchQuery !== undefined) {
+      query.searchQuery = searchQuery;
+    } else {
+      delete query.sort;
+    }
+    if (sort !== undefined) {
+      query.sortValue = sort;
+    } else {
+      delete query.sort;
+    }
+    if (category !== undefined) {
+      query.category = category;
+    } else {
+      delete query.category;
+    }
 
     router.push({
       pathname: "/search",

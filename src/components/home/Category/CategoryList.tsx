@@ -31,7 +31,7 @@ export default function CategoryList({ onClose, isCategory }: CategoryListProps)
       setIsSelected(undefined);
     } else {
       setIsSelected(selectedValue);
-      filterSearch({ category: e.target.value });
+      filterSearch({ category: selectedValue });
     }
   };
 
