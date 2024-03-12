@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { fontStyle } from "@/styles/theme";
 
-const CategoryFilter = styled.div`
+const CategoryFilter = styled.button`
   display: flex;
   padding: 6px 12px;
   justify-content: center;
