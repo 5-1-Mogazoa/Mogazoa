@@ -8,11 +8,23 @@ type ProductDetailProps = {
   productDetail: ProductDetailResponseType;
   userId: number | null;
   reviewToggle: () => void;
+  loginToggle: () => void;
 };
 
-function ProductDetail({ productDetail, userId, reviewToggle }: ProductDetailProps) {
+function ProductDetail({ productDetail, userId, reviewToggle, loginToggle }: ProductDetailProps) {
   const { id, name, image, description, category, isFavorite, writerId } = productDetail;
   const createdByMe = writerId === userId;
+
+  const handleReviewClick = () => {
+    const token = localStorage.getItem("accessToken");
+
+    if (!token) {
+      loginToggle();
+      return;
+    }
+
+    reviewToggle();
+  };
 
   return (
     <S.Container>
@@ -28,9 +40,16 @@ function ProductDetail({ productDetail, userId, reviewToggle }: ProductDetailPro
         />
       </S.ProductImage>
       <S.ProductTextWithButtons>
-        <ProductText id={id} name={name} category={category} isFavorite={isFavorite} description={description} />
+        <ProductText
+          id={id}
+          name={name}
+          category={category}
+          isFavorite={isFavorite}
+          description={description}
+          loginToggle={loginToggle}
+        />
         <S.ButtonContainer>
-          <StyledPrimaryButton onClick={reviewToggle}>리뷰 작성하기</StyledPrimaryButton>
+          <StyledPrimaryButton onClick={handleReviewClick}>리뷰 작성하기</StyledPrimaryButton>
           <StyledProductButton $createdByMe={createdByMe} $buttonType="compare">
             비교하기
           </StyledProductButton>

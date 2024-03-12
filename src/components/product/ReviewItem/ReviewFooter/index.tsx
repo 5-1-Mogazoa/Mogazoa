@@ -11,14 +11,22 @@ type ReviewFooterProps = {
   isLiked: boolean;
   likeCount: number;
   createdByMe: boolean;
+  loginToggle: () => void;
 };
 
-function ReviewFooter({ id, createdAt, isLiked, likeCount, createdByMe }: ReviewFooterProps) {
+function ReviewFooter({ id, createdAt, isLiked, likeCount, createdByMe, loginToggle }: ReviewFooterProps) {
   const formatCreatedAt = formatDate(createdAt);
 
   const queryClient = useQueryClient();
 
   const handleLikeClick = async () => {
+    const token = localStorage.getItem("accessToken");
+
+    if (!token) {
+      loginToggle();
+      return;
+    }
+
     try {
       if (!isLiked) {
         await postReviewLike(id);

@@ -8,10 +8,11 @@ import { OrderType } from "@/pages/products/[productId]";
 type ReviewListProps = {
   reviewList: ReviewListType[];
   order: OrderType;
+  loginToggle: () => void;
   handleOrderButtonClick: (selectedOrder: OrderType) => void;
 };
 
-function ReviewList({ reviewList, order, handleOrderButtonClick }: ReviewListProps) {
+function ReviewList({ reviewList, order, loginToggle, handleOrderButtonClick }: ReviewListProps) {
   return (
     <S.Container>
       <S.TitleWithOrer>
@@ -20,7 +21,7 @@ function ReviewList({ reviewList, order, handleOrderButtonClick }: ReviewListPro
       </S.TitleWithOrer>
       <S.List>
         {reviewList.map((review) => (
-          <ReviewItem key={review.id} review={review} />
+          <ReviewItem key={review.id} review={review} loginToggle={loginToggle} />
         ))}
       </S.List>
     </S.Container>
