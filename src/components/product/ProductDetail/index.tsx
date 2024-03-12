@@ -2,15 +2,17 @@ import Image from "next/image";
 import * as S from "./styled";
 import { StyledPrimaryButton, StyledProductButton } from "../../common/button/Styled/StyledButton";
 import ProductText from "./ProductText";
+import { ProductDetailResponseType } from "@/src/apis/product/schema";
 
 type ProductDetailProps = {
-  productDetail: any; // 추후 수정예정
-  createdByMe: boolean;
-  reviewToggle: boolean;
+  productDetail: ProductDetailResponseType;
+  userId: number | null;
+  reviewToggle: () => void;
 };
 
-function ProductDetail({ productDetail, createdByMe, reviewToggle }: ProductDetailProps) {
-  const { id, name, image, description, category, isFavorite } = productDetail;
+function ProductDetail({ productDetail, userId, reviewToggle }: ProductDetailProps) {
+  const { id, name, image, description, category, isFavorite, writerId } = productDetail;
+  const createdByMe = writerId === userId;
 
   return (
     <S.Container>

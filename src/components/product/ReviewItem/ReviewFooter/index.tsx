@@ -10,9 +10,10 @@ type ReviewFooterProps = {
   createdAt: string;
   isLiked: boolean;
   likeCount: number;
+  createdByMe: boolean;
 };
 
-function ReviewFooter({ id, createdAt, isLiked, likeCount }: ReviewFooterProps) {
+function ReviewFooter({ id, createdAt, isLiked, likeCount, createdByMe }: ReviewFooterProps) {
   const [isLikedLocal, setIsLikedLocal] = useState(isLiked);
   const [likeCountLocal, setLikeCountLocal] = useState(likeCount);
   const formatCreatedAt = formatDate(createdAt);
@@ -37,7 +38,7 @@ function ReviewFooter({ id, createdAt, isLiked, likeCount }: ReviewFooterProps) 
     <S.Container>
       <S.DateWithButtons>
         {formatCreatedAt}
-        {isLikedLocal && (
+        {createdByMe && (
           <S.EditDeleteButtons>
             <button>수정</button>
             <button>삭제</button>

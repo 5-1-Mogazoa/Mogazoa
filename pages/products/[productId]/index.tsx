@@ -25,26 +25,24 @@ import { useToggle } from "usehooks-ts";
 import { FieldValues } from "react-hook-form";
 import { postImage } from "@/src/apis/image";
 import { postImageResponseType } from "@/src/apis/image/schema";
+import { ProductDetailResponseType } from "@/src/apis/product/schema";
 
 export type OrderOptionType = "recent" | "ratingDesc" | "ratingAsc" | "likeCount" | "reviewCount" | "rating";
-
 export type OrderType = { id: OrderOptionType; name: string };
 
-export function Product() {
-  const [order, setOrder] = useState<OrderType>({ id: "recent", name: "최신순" });
-  const [reviewModal, reviewToggle, setReviewMdodal] = useToggle();
-  const [formImageUrl, setFormImageUrls] = useState([]);
-
+export default function Product() {
+  const queryClient = useQueryClient();
   const router = useRouter();
   const productId = Number(router.query.productId);
+
+  const [order, setOrder] = useState<OrderType>({ id: "recent", name: "최신순" });
+  const [reviewModal, reviewToggle, setReviewMdodal] = useToggle();
 
   // SSR로 받은 데이터 쿼리로 가져오기
   const { data: productDetail } = useQuery({
     queryKey: ["productDetail", productId],
     queryFn: () => getProductDetail(productId),
   });
-
-  const queryClient = useQueryClient();
 
   const {
     data: reviewsData,
@@ -112,19 +110,24 @@ export function Product() {
     return null;
   }
 
-  const { name, category } = productDetail;
+  const {
+    name,
+    category,
+    reviewCount,
+    favoriteCount,
+    rating: ratingCountData,
+    writerId,
+  } = productDetail as ProductDetailResponseType;
+  const ratingCount = Number(ratingCountData.toFixed(1)); // 별정평균은 소수점 1자리 까지만
+  const userId = Number(localStorage.getItem("userId"));
 
-  const createdByMe = true; // TODO
-  const ratingCount = 4.3; // TODO 별점 점수
   const ratingAverage = 4; // TODO 별점 평균. 추후 수정 rating은 .toFixed(1)
-  const favoriteCount = 12; // TODO 찜 개수
   const favoriteAverage = 5; // TODO 찜 평균. 소수점 없게 만들기
-  const reviewCount = 26; // TODO 리뷰 개수
   const reviewAverage = 9; // TODO 리뷰 평균. 소수점 없게 만들기
 
   return (
     <ProductLayout>
-      <ProductDetail productDetail={productDetail} createdByMe={createdByMe} reviewToggle={reviewToggle} />
+      <ProductDetail productDetail={productDetail} userId={userId} reviewToggle={reviewToggle} />
       <StatisticsList>
         <StatisticsItem statType="rating" count={ratingCount} average={ratingAverage} />
         <StatisticsItem statType="favoriteCount" count={favoriteCount} average={favoriteAverage} />
@@ -151,7 +154,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   // 상품 상세 조회 데이터 요청
   await queryClient.prefetchQuery({
-    queryKey: ["productDetail", productId],
+    queryKey: [QUERY_KEY.PRODUCT_DETAIL, productId],
     queryFn: () => getProductDetail(productId),
   });
 
@@ -160,16 +163,4 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       dehydratedState: dehydrate(queryClient),
     },
   };
-}
-
-export default function ProductRoute({ dehydratedState }: any) {
-  const [queryClient] = React.useState(() => new QueryClient());
-
-  return (
-    <QueryClientProvider client={queryClient}>
-      <HydrationBoundary state={dehydratedState}>
-        <Product />
-      </HydrationBoundary>
-    </QueryClientProvider>
-  );
 }
