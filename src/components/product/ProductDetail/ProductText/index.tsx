@@ -3,7 +3,6 @@ import Image from "next/image";
 import * as S from "./styled";
 import ShareButtons from "../ShareButtons";
 import { CategoryType } from "@/src/apis/product/schema";
-import { useState } from "react";
 import { deleteFavorite, postFavorite } from "@/src/apis/product";
 import { useQueryClient } from "@tanstack/react-query";
 import { QUERY_KEY } from "@/src/routes";
@@ -19,19 +18,16 @@ type ProductTextProps = {
 };
 
 function ProductText({ id: productId, name, category, isFavorite, description }: ProductTextProps) {
-  const [isFavoriteLocal, setIsFavoriteLocal] = useState(isFavorite);
-  const isFavoriteImgSrc = isFavoriteLocal ? "/icons/heartfull.svg" : "/icons/heartempty.svg";
+  const isFavoriteImgSrc = isFavorite ? "/icons/heartfull.svg" : "/icons/heartempty.svg";
 
   const queryClient = useQueryClient();
 
   const handleFavoriteClick = async () => {
     try {
-      if (!isFavoriteLocal) {
+      if (!isFavorite) {
         await postFavorite(productId);
-        setIsFavoriteLocal(true);
       } else {
         await deleteFavorite(productId);
-        setIsFavoriteLocal(false);
       }
     } catch (error) {
       console.error(`${name} 찜 클릭 이벤트 실패`, error);

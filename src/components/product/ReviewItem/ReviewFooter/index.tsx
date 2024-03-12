@@ -1,6 +1,5 @@
 import { formatDate } from "@/src/utils/formatDate";
 import * as S from "./styled";
-import { useState } from "react";
 import { deleteReviewLike, postReviewLike } from "@/src/apis/review";
 import Image from "next/image";
 import { useQueryClient } from "@tanstack/react-query";
@@ -15,22 +14,16 @@ type ReviewFooterProps = {
 };
 
 function ReviewFooter({ id, createdAt, isLiked, likeCount, createdByMe }: ReviewFooterProps) {
-  const [isLikedLocal, setIsLikedLocal] = useState(isLiked);
-  const [likeCountLocal, setLikeCountLocal] = useState(likeCount);
   const formatCreatedAt = formatDate(createdAt);
 
   const queryClient = useQueryClient();
 
   const handleLikeClick = async () => {
     try {
-      if (!isLikedLocal) {
+      if (!isLiked) {
         await postReviewLike(id);
-        setIsLikedLocal(true);
-        setLikeCountLocal(likeCountLocal + 1);
       } else {
         await deleteReviewLike(id);
-        setIsLikedLocal(false);
-        setLikeCountLocal(likeCountLocal - 1);
       }
     } catch (error) {
       console.error("리뷰 좋아요 등록 실패", error);
@@ -51,15 +44,15 @@ function ReviewFooter({ id, createdAt, isLiked, likeCount, createdByMe }: Review
           </S.EditDeleteButtons>
         )}
       </S.DateWithButtons>
-      <S.LikeButton $isLiked={isLikedLocal} onClick={handleLikeClick}>
+      <S.LikeButton $isLiked={isLiked} onClick={handleLikeClick}>
         <S.LikeIcon>
-          {isLikedLocal ? (
+          {isLiked ? (
             <Image fill src="/icons/upfull.svg" alt="좋아요 클릭 후 이미지" />
           ) : (
             <Image fill src="/icons/upempty.svg" alt="좋아요 클릭 전 이미지" />
           )}
         </S.LikeIcon>
-        {likeCountLocal}
+        {likeCount}
       </S.LikeButton>
     </S.Container>
   );
