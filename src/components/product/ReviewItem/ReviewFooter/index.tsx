@@ -4,6 +4,7 @@ import { useState } from "react";
 import { postReviewLike } from "@/src/apis/review";
 import Image from "next/image";
 import { useQueryClient } from "@tanstack/react-query";
+import { QUERY_KEY } from "@/src/routes";
 
 type ReviewFooterProps = {
   id: number;
@@ -28,7 +29,7 @@ function ReviewFooter({ id, createdAt, isLiked, likeCount, createdByMe }: Review
       setLikeCountLocal(likeCountLocal + 1);
 
       // reviewsData 다시 받아오기
-      await queryClient.invalidateQueries(["reviewsData"]);
+      await queryClient.invalidateQueries({ queryKey: [QUERY_KEY.REVIEWS] });
     } catch (error) {
       console.error("리뷰 좋아요 등록 실패", error);
     }
