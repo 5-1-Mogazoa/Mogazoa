@@ -44,6 +44,7 @@ export const API_ROUTE = {
 export const QUERY_KEY = {
   RANKING: "ranking",
   PRODUCTS: "products",
+  PRODUCT_DETAIL: "productDetail",
   REVIEWS: "reviews",
   FOLLOWEES: "followees",
   FOLLOWERS: "followers",

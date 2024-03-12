@@ -2,11 +2,12 @@ import Image from "next/image";
 import * as S from "./styled";
 import { StyledPrimaryButton, StyledProductButton } from "../../common/button/Styled/StyledButton";
 import ProductText from "./ProductText";
+import { ProductDetailResponseType } from "@/src/apis/product/schema";
 
 type ProductDetailProps = {
-  productDetail: any; // 추후 수정예정
+  productDetail: ProductDetailResponseType;
   createdByMe: boolean;
-  reviewToggle: boolean;
+  reviewToggle: () => void;
 };
 
 function ProductDetail({ productDetail, createdByMe, reviewToggle }: ProductDetailProps) {
