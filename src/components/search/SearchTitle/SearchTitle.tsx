@@ -16,7 +16,6 @@ export default function SearchTitle({ searchQuery, category }: SearchTitleProps)
   );
 
   useEffect(() => {
-    console.log(category);
     if (searchQuery && category) {
       setSearchKeyword(resultJSX);
     } else if (category) {

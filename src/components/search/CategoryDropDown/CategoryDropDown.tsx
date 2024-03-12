@@ -5,7 +5,6 @@ type CategoryDropDownProps = {
   selectedCategory?: string | string[] | undefined;
 };
 export default function CategoryDropDown({ onClick, selectedCategory }: CategoryDropDownProps) {
-  console.log(selectedCategory);
   const category = selectedCategory === "" || selectedCategory === undefined ? "카테고리" : selectedCategory;
   return (
     <CategoryFilter onClick={onClick}>
