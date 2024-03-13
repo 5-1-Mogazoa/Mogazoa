@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
+import { useState, useRef } from "react";
+import { useRouter } from "next/router";
 import { getCategoryList } from "@/src/apis/category";
 import * as S from "./Styled/StyledCategory";
-import { useState, useRef } from "react";
-import useFilterSearch from "../../../hooks/useFilterSearch";
 
 type CategoryProps = {
   id: number;
@@ -14,14 +14,21 @@ type CategoryProps = {
 
 const Category: React.FC<CategoryProps> = ({ id, value, onChange, label, checked }) => {
   const radioRef = useRef<HTMLInputElement>(null);
-  const filterSearch = useFilterSearch();
+  const router = useRouter();
 
   const handleClick = (e: React.MouseEvent<HTMLLabelElement, MouseEvent>) => {
     // radioRef.current가 존재하고, 이미 체크된 상태에서 동일한 라디오를 클릭한 경우
     if (radioRef.current && radioRef.current === e.target && checked) {
       e.preventDefault(); // 기본 동작 방지
       onChange({ target: { value: "" } } as React.ChangeEvent<HTMLInputElement>); // 체크 해제 로직
-      filterSearch({ category: undefined }); // category를 undefined로 설정하여 URL에서 제거
+
+      const { pathname, query } = router;
+      delete query.category;
+      router.push({
+        pathname,
+        query,
+      });
+      return;
     }
   };
 

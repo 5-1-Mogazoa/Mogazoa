@@ -10,21 +10,16 @@ const useFilterSearch = () => {
   const router = useRouter();
 
   const filterSearch = ({ category, sort, searchQuery }: filterSearchProps) => {
-    const { query } = router;
+    const { pathname, query } = router; // pathname 추가
+
     if (searchQuery !== undefined) {
       query.searchQuery = searchQuery;
-    } else {
-      delete query.sort;
     }
     if (sort !== undefined) {
       query.sortValue = sort;
-    } else {
-      delete query.sort;
     }
     if (category !== undefined) {
       query.category = category;
-    } else {
-      delete query.category;
     }
 
     router.push({
