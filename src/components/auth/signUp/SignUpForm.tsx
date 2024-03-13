@@ -14,7 +14,7 @@ import { StyledPrimaryButton } from "../../common/button/Styled/StyledButton";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { AuthDataType, AuthResponseType } from "@/src/types/auth/authDataType";
-import { postSignUpData } from "@/src/apis/auth";
+import { postSignUpData, postToken } from "@/src/apis/auth";
 import { StyledSignUpButtonContainer, StyledSignUpForm } from "../Styled/StyledAuthForm";
 import PLACEHODLER_MESSAGE from "@/src/constant/PLACEHOLDER_MESSAGE";
 
@@ -42,6 +42,8 @@ export default function SignUpForm() {
 
       const accessToken = result.accessToken;
       const userId = result.user.id;
+      await postToken(accessToken);
+      //TODO: localStorage accessToken 설정 삭제 예정
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("userId", String(userId));
       router.push("/");
