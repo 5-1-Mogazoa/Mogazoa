@@ -9,9 +9,10 @@ type ProductDetailProps = {
   userId: number | null;
   reviewToggle: () => void;
   loginToggle: () => void;
+  editToggle: () => void;
 };
 
-function ProductDetail({ productDetail, userId, reviewToggle, loginToggle }: ProductDetailProps) {
+function ProductDetail({ productDetail, userId, reviewToggle, loginToggle, editToggle }: ProductDetailProps) {
   const { id, name, image, description, category, isFavorite, writerId } = productDetail;
   const createdByMe = writerId === userId;
 
@@ -54,7 +55,7 @@ function ProductDetail({ productDetail, userId, reviewToggle, loginToggle }: Pro
             비교하기
           </StyledProductButton>
           {createdByMe && (
-            <StyledProductButton $createdByMe={createdByMe} $buttonType="edit">
+            <StyledProductButton $createdByMe={createdByMe} $buttonType="edit" onClick={editToggle}>
               편집하기
             </StyledProductButton>
           )}

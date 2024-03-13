@@ -1,15 +1,15 @@
 import { Controller, RegisterOptions, useFormContext } from "react-hook-form";
 import { StyledTextBox } from "../Styled/StyledTextBox";
 
-interface FormTextInputProps {
+export interface FormTextareaInputProps {
   key?: number;
   name: string;
   rules?: Pick<RegisterOptions, "required" | "maxLength" | "minLength" | "validate">;
   placeholder?: string;
-  defaultValue?: string | number;
+  defaultValue?: string;
 }
 
-function FormTextInput({ key, name, rules, placeholder, defaultValue }: FormTextInputProps) {
+function FormTextareaInput({ key, name, rules, placeholder, defaultValue }: FormTextareaInputProps) {
   const {
     control,
     formState: { errors },
@@ -22,9 +22,9 @@ function FormTextInput({ key, name, rules, placeholder, defaultValue }: FormText
       control={control}
       rules={rules}
       defaultValue={defaultValue || ""}
-      render={({ field }) => <StyledTextBox placeholder={placeholder} {...field} />}
+      render={({ field }) => <StyledTextBox value={field.value} onChange={field.onChange} placeholder={placeholder} />}
     />
   );
 }
 
-export default FormTextInput;
+export default FormTextareaInput;

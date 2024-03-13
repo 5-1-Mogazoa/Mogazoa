@@ -1,4 +1,4 @@
-import { getProductDetail, getProductReviews } from "@/src/apis/product";
+import { getProductDetail, getProductList2, getProductReviews } from "@/src/apis/product";
 import ProductDetail from "@/src/components/product/ProductDetail";
 import ProductLayout from "@/src/components/product/ProductLayout";
 import StatisticsItem from "@/src/components/product/StatisticsItem";
@@ -27,6 +27,7 @@ import { postImage } from "@/src/apis/image";
 import { postImageResponseType } from "@/src/apis/image/schema";
 import { ProductDetailResponseType } from "@/src/apis/product/schema";
 import ModalLogin from "@/src/components/product/MadalLogin";
+import ModalEdit from "@/src/components/product/ModalEdit";
 
 export type OrderOptionType = "recent" | "ratingDesc" | "ratingAsc" | "likeCount" | "reviewCount" | "rating";
 export type OrderType = { id: OrderOptionType; name: string };
@@ -37,12 +38,13 @@ export default function Product() {
   const productId = Number(router.query.productId);
 
   const [order, setOrder] = useState<OrderType>({ id: "recent", name: "최신순" });
+  const [editModal, editToggle, setEditMdodal] = useToggle();
   const [reviewModal, reviewToggle, setReviewMdodal] = useToggle();
   const [loginModal, loginToggle, setLoginMdodal] = useToggle();
 
   // SSR로 받은 데이터 쿼리로 가져오기
   const { data: productDetail } = useQuery({
-    queryKey: ["productDetail", productId],
+    queryKey: [QUERY_KEY.PRODUCT_DETAIL, productId],
     queryFn: () => getProductDetail(productId),
   });
 
@@ -134,6 +136,7 @@ export default function Product() {
         userId={userId}
         reviewToggle={reviewToggle}
         loginToggle={loginToggle}
+        editToggle={editToggle}
       />
       <StatisticsList>
         <StatisticsItem statType="rating" count={ratingCount} average={ratingAverage} />
@@ -156,7 +159,9 @@ export default function Product() {
         />
       )}
       {loginModal && <ModalLogin onClose={() => setLoginMdodal(false)} />}
-      {/* <ModalLogin onClose={() => setLoginMdodal(false)} /> */}
+      {editModal && productDetail && (
+        <ModalEdit userId={userId} productDetail={productDetail} onClose={() => setEditMdodal(false)} />
+      )}
     </ProductLayout>
   );
 }

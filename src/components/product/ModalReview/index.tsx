@@ -5,8 +5,8 @@ import { useState } from "react";
 import { FormRatingStars } from "../RatingStar";
 import { FieldValues, FormProvider, useForm } from "react-hook-form";
 import ERROR_MESSAGE from "../../../constant/ERROR_MESSAGE";
-import FormTextInput from "../../common/input/FormTextInput";
-import FormImageInput from "../../common/input/FormImageInput";
+import FormTextareaInput from "../../common/input/FormTextareaInput";
+import FormMultiImageInput from "../../common/input/FormMultiImageInput";
 
 interface ModalReviewProps {
   productId: number;
@@ -30,7 +30,7 @@ function ModalReview({ name, category, onClose, callback }: ModalReviewProps) {
             별점
             <FormRatingStars type="modal" score={score} setScore={setScore} defaultValue={score} />
           </S.Rating>
-          <FormTextInput
+          <FormTextareaInput
             name="content"
             rules={{
               required: {
@@ -39,12 +39,12 @@ function ModalReview({ name, category, onClose, callback }: ModalReviewProps) {
               },
               maxLength: {
                 value: 500,
-                message: ERROR_MESSAGE.NICKNAME_MAX_LENGTH,
+                message: ERROR_MESSAGE.REVIEW_MAX_LENGTH,
               },
             }}
             placeholder="리뷰를 작성해 주세요."
           />
-          <FormImageInput name="images" defaultValue={reviewImages} />
+          <FormMultiImageInput name="images" defaultValue={reviewImages} />
         </S.Container>
       </Modal>
     </FormProvider>

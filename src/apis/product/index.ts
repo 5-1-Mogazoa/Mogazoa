@@ -45,3 +45,13 @@ export const deleteFavorite = async (productId: number) => {
 
   return await apiCall(requestProps);
 };
+
+//
+
+import { useRouter } from "next/router";
+
+export type filterSearchProps = {
+  category?: string;
+  sort?: string;
+  searchQuery?: string;
+};

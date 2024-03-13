@@ -1,14 +1,15 @@
 import { Controller, useFormContext } from "react-hook-form";
 import * as S from "./styled";
+import Image from "next/image";
 import { ChangeEvent, useState } from "react";
 
-interface FormImageInputProps {
+interface FormMultiImageInputProps {
   name: string;
-  defaultValue?: string;
+  defaultValue?: string[] | undefined;
 }
 
-function FormImageInput({ name, defaultValue }: FormImageInputProps) {
-  const [previewImage, setPreviewImage] = useState<string | undefined>(defaultValue);
+function FormMultiImageInput({ name, defaultValue }: FormMultiImageInputProps) {
+  const [previewImages, setPreviewImages] = useState<string[]>([]);
 
   const {
     control,
@@ -19,20 +20,25 @@ function FormImageInput({ name, defaultValue }: FormImageInputProps) {
     const fileList = event.target.files;
     if (!fileList || fileList.length === 0) return;
 
+    // 미리보기 이미지 추가
     let reader = new FileReader();
     let file = fileList[0];
     reader.readAsDataURL(file);
-    reader.onload = () => {
+    reader.onloadend = () => {
       const previewImageUrl = reader.result as string;
       if (previewImageUrl) {
-        setPreviewImage(previewImageUrl);
+        setPreviewImages([...previewImages, previewImageUrl]);
       }
     };
   };
 
+  const handleDeleteImage = (index: number) => {
+    setPreviewImages((prevImages) => prevImages.filter((_, i) => i !== index));
+  };
+
   return (
     <S.Container>
-      <S.Label htmlFor={name} $previewImage={previewImage}>
+      <S.Label htmlFor={name}>
         <Controller
           name={name}
           control={control}
@@ -42,11 +48,13 @@ function FormImageInput({ name, defaultValue }: FormImageInputProps) {
               type="file"
               value={value?.fileName}
               accept="image/*"
+              multiple
               onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                 const files = event.target.files;
-                if (!files || files.length === 0) return;
+                if (!files) return;
 
-                const newValue = files[0];
+                const fileArray = Array.from(files);
+                const newValue = value ? [...value, ...fileArray] : fileArray;
                 onChange(newValue);
                 handleFileChange(event);
               }}
@@ -54,10 +62,16 @@ function FormImageInput({ name, defaultValue }: FormImageInputProps) {
             />
           )}
         />
-        {!previewImage && <S.Icon />}
+        <S.Icon />
       </S.Label>
+      {previewImages.map((imageUrl, index) => (
+        <S.PreviewImage key={index}>
+          <Image fill src={imageUrl} alt={imageUrl} />
+          <S.DeleteButton onClick={() => handleDeleteImage(index)} />
+        </S.PreviewImage>
+      ))}
     </S.Container>
   );
 }
 
-export default FormImageInput;
+export default FormMultiImageInput;
