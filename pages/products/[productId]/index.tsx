@@ -33,6 +33,7 @@ export default function Product() {
     queryKey: [QUERY_KEY.PRODUCT_DETAIL, productId],
     queryFn: () => getProductDetail(productId),
   });
+  console.log(productDetail);
 
   const {
     data: reviewsData,
