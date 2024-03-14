@@ -73,15 +73,19 @@ function FollowInfoModal({ setIsOpen, dataType, userId, nickname }: ModalProps) 
           <StyledProfileUl ref={scrollableRef} onScroll={handleScroll}>
             {dataList.map((item) => {
               return dataType === "follower" ? (
-                <Link href={PAGE_ROUTES.USER_DETAIL((item as followerType).follower.id)}>
-                  <StyledProfileContainer key={(item as followerType).follower.id}>
+                <Link
+                  key={(item as followerType).follower.id}
+                  href={PAGE_ROUTES.USER_DETAIL((item as followerType).follower.id)}>
+                  <StyledProfileContainer>
                     <StyledProfileImage $image={(item as followerType).follower.image} />
                     <StyledUserName>{(item as followerType).follower.nickname}</StyledUserName>
                   </StyledProfileContainer>
                 </Link>
               ) : (
-                <Link href={PAGE_ROUTES.USER_DETAIL((item as followeeType).followee.id)}>
-                  <StyledProfileContainer key={(item as followeeType).followee.id}>
+                <Link
+                  key={(item as followeeType).followee.id}
+                  href={PAGE_ROUTES.USER_DETAIL((item as followeeType).followee.id)}>
+                  <StyledProfileContainer>
                     <StyledProfileImage $image={(item as followeeType).followee.image} />
                     <StyledUserName>{(item as followeeType).followee.nickname}</StyledUserName>
                   </StyledProfileContainer>
