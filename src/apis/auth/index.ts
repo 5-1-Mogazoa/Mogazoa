@@ -25,9 +25,7 @@ export const postSignInData = async (data: AuthDataType) => {
 
 export const postToken = async (token: string) => {
   try {
-    const res = await axios.post(API_ROUTE.API_SETTOKEN, { accessToken: token });
-    const result = res.data.accessToken;
-    return result;
+    await axios.post(API_ROUTE.API_SETTOKEN, { accessToken: token });
   } catch (error) {
     console.error(error);
   }
