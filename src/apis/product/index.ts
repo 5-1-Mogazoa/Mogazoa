@@ -45,3 +45,10 @@ export const deleteFavorite = async (productId: number) => {
 
   return await apiCall(requestProps);
 };
+
+// 상품 수정
+export const patchProduct = async (productId: number, data) => {
+  const requestProps = { method: "patch", endPoint: API_ROUTE.PRODUCT_DETAIL(productId), data };
+
+  return await apiCall(requestProps);
+};

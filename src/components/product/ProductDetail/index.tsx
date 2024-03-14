@@ -5,14 +5,15 @@ import ProductText from "./ProductText";
 import { ProductDetailResponseType } from "@/src/apis/product/schema";
 
 type ProductDetailProps = {
-  productDetail: ProductDetailResponseType;
+  productDetail: ProductDetailResponseType | {};
   userId: number | null;
   reviewToggle: () => void;
   loginToggle: () => void;
+  editToggle: () => void;
 };
 
-function ProductDetail({ productDetail, userId, reviewToggle, loginToggle }: ProductDetailProps) {
-  const { id, name, image, description, category, isFavorite, writerId } = productDetail;
+function ProductDetail({ productDetail, userId, reviewToggle, loginToggle, editToggle }: ProductDetailProps) {
+  const { id, name, image, description, category, isFavorite, writerId } = productDetail as ProductDetailResponseType;
   const createdByMe = writerId === userId;
 
   const handleReviewClick = () => {
@@ -54,7 +55,7 @@ function ProductDetail({ productDetail, userId, reviewToggle, loginToggle }: Pro
             비교하기
           </StyledProductButton>
           {createdByMe && (
-            <StyledProductButton $createdByMe={createdByMe} $buttonType="edit">
+            <StyledProductButton $createdByMe={createdByMe} $buttonType="edit" onClick={editToggle}>
               편집하기
             </StyledProductButton>
           )}

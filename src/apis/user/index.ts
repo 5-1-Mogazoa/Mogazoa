@@ -70,3 +70,10 @@ export const getUserData = async (userId: number) => {
 
   return await apiCall(requestProps);
 };
+
+// 유저가 생성한 상품 조회
+export const getUserCreatedProduct = async (userId: number) => {
+  const requestProps = { method: "get", endPoint: API_ROUTE.USERS_CREATED_PRODUCT(userId) };
+
+  return await apiCall(requestProps);
+};
