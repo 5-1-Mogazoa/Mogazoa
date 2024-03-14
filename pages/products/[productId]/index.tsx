@@ -67,14 +67,14 @@ export default function Product() {
     reviewCount,
     favoriteCount,
     rating: ratingCountData,
+    categoryMetric,
     writerId,
   } = productDetail as ProductDetailResponseType;
   const ratingCount = Number(ratingCountData.toFixed(1)); // 별정평균은 소수점 1자리 까지만
   const userId = Number(localStorage.getItem("userId"));
-
-  const ratingAverage = 4; // TODO 별점 평균. 추후 수정 rating은 .toFixed(1)
-  const favoriteAverage = 5; // TODO 찜 평균. 소수점 없게 만들기
-  const reviewAverage = 9; // TODO 리뷰 평균. 소수점 없게 만들기
+  const ratingAverage = Number(categoryMetric.rating.toFixed(1));
+  const favoriteAverage = Number(categoryMetric.favoriteCount.toFixed(0));
+  const reviewAverage = Number(categoryMetric.reviewCount.toFixed(0));
 
   return (
     <ProductLayout>
