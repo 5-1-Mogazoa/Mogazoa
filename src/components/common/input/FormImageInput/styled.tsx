@@ -3,8 +3,6 @@ import PhotoIcon from "../../../../../public/icons/photoSvgr.svg";
 
 import styled from "styled-components";
 
-export const Container = styled(S.Container)``;
-
 type ImageInputProps = {
   $previewImage: string | undefined;
 };

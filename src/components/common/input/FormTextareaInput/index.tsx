@@ -1,5 +1,39 @@
+// import { Controller, RegisterOptions, useFormContext } from "react-hook-form";
+// import { StyledTextBox } from "../Styled/StyledTextBox";
+
+// export interface FormTextareaInputProps {
+//   key?: number;
+//   name: string;
+//   rules?: Pick<RegisterOptions, "required" | "maxLength" | "minLength" | "validate">;
+//   placeholder?: string;
+//   defaultValue?: string;
+// }
+
+// function FormTextareaInput({ key, name, rules, placeholder, defaultValue }: FormTextareaInputProps) {
+//   const {
+//     control,
+//     formState: { errors },
+//   } = useFormContext();
+
+//   return (
+//     <Controller
+//       key={key}
+//       name={name}
+//       control={control}
+//       rules={rules}
+//       defaultValue={defaultValue || ""}
+//       render={({ field }) => (
+//         <StyledTextBox value={defaultValue || field.value} onChange={field.onChange} placeholder={placeholder} />
+//       )}
+//     />
+//   );
+// }
+
+// export default FormTextareaInput;
+
 import { Controller, RegisterOptions, useFormContext } from "react-hook-form";
 import { StyledTextBox } from "../Styled/StyledTextBox";
+import { useEffect, useState } from "react";
 
 export interface FormTextareaInputProps {
   key?: number;
@@ -10,10 +44,16 @@ export interface FormTextareaInputProps {
 }
 
 function FormTextareaInput({ key, name, rules, placeholder, defaultValue }: FormTextareaInputProps) {
+  const [newValue, setNewValue] = useState(defaultValue);
+
   const {
     control,
     formState: { errors },
   } = useFormContext();
+
+  useEffect(() => {
+    setNewValue(defaultValue);
+  }, [defaultValue]);
 
   return (
     <Controller
@@ -22,7 +62,16 @@ function FormTextareaInput({ key, name, rules, placeholder, defaultValue }: Form
       control={control}
       rules={rules}
       defaultValue={defaultValue || ""}
-      render={({ field }) => <StyledTextBox value={field.value} onChange={field.onChange} placeholder={placeholder} />}
+      render={({ field }) => (
+        <StyledTextBox
+          value={newValue}
+          onChange={(event) => {
+            field.onChange(event);
+            setNewValue(event.target.value);
+          }}
+          placeholder={placeholder}
+        />
+      )}
     />
   );
 }

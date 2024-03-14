@@ -1,6 +1,6 @@
 import { Controller, useFormContext } from "react-hook-form";
 import * as S from "./styled";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 
 interface FormImageInputProps {
   name: string;
@@ -30,33 +30,35 @@ function FormImageInput({ name, defaultValue }: FormImageInputProps) {
     };
   };
 
-  return (
-    <S.Container>
-      <S.Label htmlFor={name} $previewImage={previewImage}>
-        <Controller
-          name={name}
-          control={control}
-          render={({ field: { value, onChange, ...field } }) => (
-            <S.ImageInput
-              id={name}
-              type="file"
-              value={value?.fileName}
-              accept="image/*"
-              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                const files = event.target.files;
-                if (!files || files.length === 0) return;
+  useEffect(() => {
+    setPreviewImage(defaultValue);
+  }, [defaultValue]);
 
-                const newValue = files[0];
-                onChange(newValue);
-                handleFileChange(event);
-              }}
-              {...field}
-            />
-          )}
-        />
-        {!previewImage && <S.Icon />}
-      </S.Label>
-    </S.Container>
+  return (
+    <S.Label htmlFor={name} $previewImage={previewImage}>
+      <Controller
+        name={name}
+        control={control}
+        render={({ field: { value, onChange, ...field } }) => (
+          <S.ImageInput
+            id={name}
+            type="file"
+            value={value?.fileName}
+            accept="image/*"
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+              const files = event.target.files;
+              if (!files || files.length === 0) return;
+
+              const newValue = files[0];
+              onChange(newValue);
+              handleFileChange(event);
+            }}
+            {...field}
+          />
+        )}
+      />
+      {!previewImage && <S.Icon />}
+    </S.Label>
   );
 }
 

@@ -1,18 +1,9 @@
-import { getProductDetail, getProductList2, getProductReviews } from "@/src/apis/product";
+import { getProductDetail, getProductReviews } from "@/src/apis/product";
 import ProductDetail from "@/src/components/product/ProductDetail";
 import ProductLayout from "@/src/components/product/ProductLayout";
 import StatisticsItem from "@/src/components/product/StatisticsItem";
 import StatisticsList from "@/src/components/product/StatisticsList";
-import {
-  HydrationBoundary,
-  QueryClient,
-  QueryClientProvider,
-  dehydrate,
-  useInfiniteQuery,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { QueryClient, dehydrate, useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
 import ReviewList from "@/src/components/product/ReviewList";
@@ -84,7 +75,7 @@ export default function Product() {
 
     if (data.images !== undefined) {
       for (const file of data.images) {
-        let newImageUrl: postImageResponseType = await postImage(file);
+        let newImageUrl = await postImage(file);
         getImageUrlPromises.push(newImageUrl);
       }
 
@@ -97,7 +88,7 @@ export default function Product() {
     }
     postReviewMutation.mutate(formData, {
       onSuccess: () => {
-        console.log("리뷰가 성공적으로 업로드 되었습니다!");
+        // console.log("리뷰가 성공적으로 업로드 되었습니다!");
       },
     });
   };
@@ -160,7 +151,7 @@ export default function Product() {
       )}
       {loginModal && <ModalLogin onClose={() => setLoginMdodal(false)} />}
       {editModal && productDetail && (
-        <ModalEdit userId={userId} productDetail={productDetail} onClose={() => setEditMdodal(false)} />
+        <ModalEdit userId={userId} productId={productId} onClose={() => setEditMdodal(false)} />
       )}
     </ProductLayout>
   );

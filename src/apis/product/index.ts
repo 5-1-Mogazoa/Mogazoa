@@ -46,12 +46,9 @@ export const deleteFavorite = async (productId: number) => {
   return await apiCall(requestProps);
 };
 
-//
+// 상품 수정
+export const patchProduct = async (productId: number, data) => {
+  const requestProps = { method: "patch", endPoint: API_ROUTE.PRODUCT_DETAIL(productId), data };
 
-import { useRouter } from "next/router";
-
-export type filterSearchProps = {
-  category?: string;
-  sort?: string;
-  searchQuery?: string;
+  return await apiCall(requestProps);
 };

@@ -1,85 +1,107 @@
+// import { getUserCreatedProduct } from "@/src/apis/user";
+// import { QUERY_KEY } from "@/src/routes";
+// import { useQuery, useQueryClient } from "@tanstack/react-query";
+// import React, { useEffect, useState } from "react";
 // import { Controller, RegisterOptions, useFormContext } from "react-hook-form";
-// import { StyledInput } from "../Styled/StyledInput";
+// import * as S from "./styled";
 
 // export interface FormSelectInputProps {
-//   key?: number;
+//   id?: number;
 //   name: string;
-//   rules?: Pick<RegisterOptions, "required" | "maxLength" | "minLength" | "validate">;
-//   placeholder?: string;
-//   defaultValue?: string | number;
+//   userId?: number;
+//   rules?: Pick<RegisterOptions, "required">;
+//   defaultValue?: object;
+//   setProduct: React.Dispatch<React.SetStateAction<object>>;
 // }
 
-// function FormSelectInput({ key, name, rules, placeholder, defaultValue }: FormSelectInputProps) {
+// function FormSelectInput({ id, name, userId, rules, defaultValue, setProduct }: FormSelectInputProps) {
+//   const [selectList, setSelectList] = useState([{ value: id, label: name }]);
+//   const queryClient = useQueryClient();
+
+//   const { data: createdProducts } = useQuery({
+//     queryKey: [QUERY_KEY.CREATED_PRODUCTS, userId],
+//     queryFn: () => getUserCreatedProduct(userId),
+//   });
+
 //   const {
 //     control,
 //     formState: { errors },
 //   } = useFormContext();
 
+//   useEffect(() => {
+//     if (createdProducts?.list && createdProducts?.list.length > 0) {
+//       const formattedList = createdProducts.list.map((product) => ({
+//         value: product.id,
+//         label: product.name,
+//       }));
+//       setSelectList(formattedList);
+//     }
+//   }, [createdProducts]);
+
+//   if (!createdProducts) return null;
+//   // const { list } = createdProducts;
+
 //   return (
-//     <Controller
-//       key={key}
-//       name={name}
-//       control={control}
-//       rules={rules}
-//       defaultValue={defaultValue || ""}
-//       render={({ field }) => <StyledInput placeholder={placeholder} {...field} />}
-//     />
+//     <S.Container>
+//       <Controller
+//         name={name}
+//         control={control}
+//         rules={rules}
+//         defaultValue={defaultValue}
+//         render={({ onChange, value, ref }) => (
+//           <S.SelectBox
+//             options={selectList}
+//             value={selectList.find((product) => product.label === name)}
+//             onChange={(event) => onChange(event)}
+//           />
+//         )}
+//       />
+//     </S.Container>
 //   );
 // }
 
 // export default FormSelectInput;
 
-//
-
-import { getUserCreatedProduct } from "@/src/apis/user";
-import { QUERY_KEY } from "@/src/routes";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import React from "react";
-import { Controller, RegisterOptions, useFormContext } from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
+import Indicator from "../../../../../public/icons/select_arrow.svg";
 import * as S from "./styled";
 
 export interface FormSelectInputProps {
-  id?: number;
-  name: string;
-  userId?: number;
-  rules?: Pick<RegisterOptions, "required">;
-  defaultValue?: string | number;
-  setProduct: React.Dispatch<React.SetStateAction<object>>;
+  name?: string; // form 보낼때 데이터 이름
+  optionList: {
+    // 보여줄 선택 옵션들
+    value: number | undefined;
+    label: string;
+  }[];
+  productId?: number; // 선택된 데이터 아이디
+  handleChangeOption: any;
 }
 
-function FormSelectInput({ id, name, userId, rules, defaultValue, setProduct }: FormSelectInputProps) {
-  const queryClient = useQueryClient();
-
-  const { data: createdProducts } = useQuery({
-    queryKey: [QUERY_KEY.CREATED_PRODUCTS, userId],
-    queryFn: () => getUserCreatedProduct(userId),
-  });
-
+function FormSelectInput({ name, optionList, productId, handleChangeOption }: FormSelectInputProps) {
   const {
     control,
     formState: { errors },
   } = useFormContext();
 
-  if (!createdProducts) return null;
-
-  const { list } = createdProducts;
+  if (!name) return null;
 
   return (
-    <S.Container>
-      <Controller
-        name={name}
-        control={control}
-        rules={rules}
-        defaultValue={defaultValue}
-        render={({ onChange, value, ref }) => (
-          <S.SelectBox
-            options={createdProducts}
-            value={list.find((product) => product.name === name)}
-            onChange={(event) => onChange(event.target.value)}
-          />
-        )}
-      />
-    </S.Container>
+    <Controller
+      name={name}
+      control={control}
+      render={({ field: { value, onChange, ...field } }) => (
+        <S.SelectBox
+          options={optionList}
+          value={optionList.find((product) => product.value === productId)}
+          onChange={(selectedOption) => {
+            onChange(selectedOption);
+            handleChangeOption(selectedOption);
+          }}
+          {...field}
+          components={{ DropdownIndicator: Indicator }}
+        />
+      )}
+    />
   );
 }
 

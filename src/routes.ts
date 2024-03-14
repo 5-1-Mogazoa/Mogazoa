@@ -50,6 +50,7 @@ export const QUERY_KEY = {
   FOLLOWEES: "followees",
   FOLLOWERS: "followers",
   FAVORITE: "favorite",
+  CATEGORYS: "categories",
 };
 
 export const REVIEWS_LIMIT = 5;

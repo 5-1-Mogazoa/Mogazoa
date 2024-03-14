@@ -1,8 +1,10 @@
 import styled from "styled-components";
-import Select from "react-select";
+import Select, { components } from "react-select";
 import { fontStyle } from "@/styles/theme";
 
-export const SelectBox = styled(Select).attrs({ classNamePrefix: "react-select" })`
+const { DropdownIndicator } = components;
+
+export const StyledSelectDropdown = styled(Select).attrs({ classNamePrefix: "react-select" })`
   .react-select__control {
     display: flex;
     align-items: center;
@@ -14,8 +16,15 @@ export const SelectBox = styled(Select).attrs({ classNamePrefix: "react-select" 
     border: 0.1rem solid var(--color-black-35);
     background-color: var(--color-black-25);
     cursor: pointer;
-  }
 
+    @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
+      height: 6rem;
+    }
+
+    @media (min-width: ${({ theme }) => theme.deviceSizes.desktop}) {
+      height: 7rem;
+    }
+  }
   .react-select__value-container {
     padding: 0;
   }
@@ -23,11 +32,14 @@ export const SelectBox = styled(Select).attrs({ classNamePrefix: "react-select" 
   .react-select__single-value {
     ${fontStyle({ w: 400, s: 14, l: 16.7 })};
     color: var(--color-white);
+
+    @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
+      ${fontStyle({ w: 400, s: 16, l: 22 })};
+    }
   }
 
   .react-select__menu {
     width: 100%;
-    /* height: 16.3rem; */
     overflow: auto;
     padding: 1rem;
     border-radius: 0.8rem;
@@ -44,6 +56,10 @@ export const SelectBox = styled(Select).attrs({ classNamePrefix: "react-select" 
     background-color: transparent;
     ${fontStyle({ w: 400, s: 14, l: 20 })};
     color: var(--color-gray-6e);
+
+    @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
+      ${fontStyle({ w: 400, s: 16, l: 22 })};
+    }
   }
 
   .react-select__option--is-selected {
