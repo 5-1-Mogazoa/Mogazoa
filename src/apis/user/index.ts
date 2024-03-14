@@ -10,15 +10,21 @@ export const getUserRank = async () => {
 };
 
 // 유저를 팔로우한 유저 조회
-export const getUserFollowers = async (userId: number) => {
-  const requestProps = { method: "get", endPoint: API_ROUTE.USERS_FOLLOWERS(userId) };
+export const getUserFollowers = async (userId: number, cursor: number | null) => {
+  const requestProps = {
+    method: "get",
+    endPoint: `${API_ROUTE.USERS_FOLLOWERS(userId)}${cursor ? `?cursor=${cursor}` : ""}`,
+  };
 
   return await apiCall(requestProps);
 };
 
 // 유저가 팔로우한 유저 조회
-export const getUserFollowees = async (userId: number) => {
-  const requestProps = { method: "get", endPoint: API_ROUTE.USERS_FOLLOWEES(userId) };
+export const getUserFollowees = async (userId: number, cursor: number | null) => {
+  const requestProps = {
+    method: "get",
+    endPoint: `${API_ROUTE.USERS_FOLLOWEES(userId)}${cursor ? `?cursor=${cursor}` : ""}`,
+  };
 
   return await apiCall(requestProps);
 };
