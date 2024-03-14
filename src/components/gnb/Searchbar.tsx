@@ -6,8 +6,8 @@ type SearchInputProps = {
   $isOpen: boolean;
 };
 type SearchbarProps = {
-  value: string;
-  searchClick: boolean;
+  isOpen: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const Container = styled.div`
@@ -54,7 +54,7 @@ const SearchInput = styled.input<SearchInputProps>`
   ${({ $isOpen }) =>
     $isOpen &&
     `
-    width: 30rem;
+    width: 35rem;
     transition: 1s; 
     background: var(--color-black-25, #252530);
     @media (min-width: 1600px) {
@@ -62,9 +62,9 @@ const SearchInput = styled.input<SearchInputProps>`
     }
     `}
 `;
-export default function Searchbar() {
-  const [search, setSearch] = useState<SearchbarProps["value"]>("");
-  const [isOpen, setIsOpen] = useState(false);
+
+export default function Searchbar({ isOpen, setIsOpen }: SearchbarProps) {
+  const [search, setSearch] = useState("");
   const handleClick = () => {
     setIsOpen(!isOpen);
   };
