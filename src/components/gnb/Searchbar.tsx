@@ -1,6 +1,8 @@
 import { fontStyle } from "@/styles/theme";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
+import useFilterSearch, { filterSearchProps } from "../../hooks/useFilterSearch";
+import { useRouter } from "next/router";
 
 type SearchInputProps = {
   $isOpen: boolean;
@@ -63,24 +65,44 @@ const SearchInput = styled.input<SearchInputProps>`
     `}
 `;
 export default function Searchbar() {
+  const filterSearch = useFilterSearch();
   const [search, setSearch] = useState<SearchbarProps["value"]>("");
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
+
   const handleClick = () => {
     setIsOpen(!isOpen);
+  };
+
+  const handleChange = (e) => {
+    const newValue = e.target.value;
+    setSearch(newValue);
+    if (e.key === "Enter")
+      if (!newValue) {
+        const { pathname, query } = router;
+        delete query.searchQuery;
+        router.push({
+          pathname,
+          query,
+        });
+        return;
+      } else {
+        filterSearch({ searchQuery: (e.target as HTMLInputElement).value });
+      }
   };
 
   return (
     <>
       <Container>
-        <SearchButton onClick={handleClick} type="submit" />;
+        <SearchButton onClick={handleClick} type="submit" />
         <SearchInput
           $isOpen={isOpen}
           type="text"
           placeholder="상품 이름을 검색해 보세요"
           autoFocus
           autoComplete="off"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          // value={search}
+          onKeyDown={handleChange}
         />
       </Container>
     </>

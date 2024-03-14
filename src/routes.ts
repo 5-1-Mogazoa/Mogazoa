@@ -39,6 +39,10 @@ export const API_ROUTE = {
   AUTH_SIGNIN: "/auth/signIn",
   OAUTH_SIGNUP: (provider: string) => `/auth/signUp/${provider}`,
   OAUTH_SIGNIN: (provider: string) => `/auth/signIn/${provider}`,
+
+  API_SETTOKEN: "/api/setToken",
+  API_GETTOKEN: "/api/getToken",
+  API_RESETTOKEN: "/api/resetToken",
 };
 
 export const QUERY_KEY = {
