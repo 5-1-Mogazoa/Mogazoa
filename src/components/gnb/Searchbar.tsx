@@ -68,7 +68,6 @@ export default function Searchbar() {
   const filterSearch = useFilterSearch();
   const [search, setSearch] = useState<SearchbarProps["value"]>("");
   const [isOpen, setIsOpen] = useState(false);
-  const router = useRouter();
 
   const handleClick = () => {
     setIsOpen(!isOpen);
@@ -79,12 +78,7 @@ export default function Searchbar() {
     setSearch(newValue);
     if (e.key === "Enter")
       if (!newValue) {
-        const { pathname, query } = router;
-        delete query.searchQuery;
-        router.push({
-          pathname,
-          query,
-        });
+        filterSearch({ searchQuery: null });
         return;
       } else {
         filterSearch({ searchQuery: (e.target as HTMLInputElement).value });
