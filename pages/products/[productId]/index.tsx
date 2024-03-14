@@ -3,20 +3,15 @@ import ProductDetail from "@/src/components/product/ProductDetail";
 import ProductLayout from "@/src/components/product/ProductLayout";
 import StatisticsItem from "@/src/components/product/StatisticsItem";
 import StatisticsList from "@/src/components/product/StatisticsList";
-import { QueryClient, dehydrate, useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { QueryClient, dehydrate, useInfiniteQuery, useQuery, useQueryClient } from "@tanstack/react-query";
 import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
 import ReviewList from "@/src/components/product/ReviewList";
 import ModalReview from "@/src/components/product/ModalReview";
 import React, { useState } from "react";
 import { QUERY_KEY, REVIEWS_LIMIT } from "@/src/routes";
-import { postReview } from "@/src/apis/review";
-import { PostReviewRequestType } from "@/src/apis/review/schema";
 import { useToggle } from "usehooks-ts";
-import { FieldValues } from "react-hook-form";
-import { postImage } from "@/src/apis/image";
-import { postImageResponseType } from "@/src/apis/image/schema";
-import { ProductDetailResponseType } from "@/src/apis/product/schema";
+import { ProductDetailResponseType, ReviewListType } from "@/src/apis/product/schema";
 import ModalLogin from "@/src/components/product/MadalLogin";
 import ModalEdit from "@/src/components/product/ModalEdit";
 
@@ -52,46 +47,6 @@ export default function Product() {
     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) =>
       lastPage.hasMore ? lastPageParam + 1 : undefined,
   });
-
-  // 리뷰 생성 요청
-  const postReviewMutation = useMutation({
-    mutationFn: (newReview) => postReview(newReview),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.REVIEWS] });
-    },
-  });
-
-  // 리뷰 생성 버튼 클릭시 발생 이벤트
-  const postReviewCallback = async (data: FieldValues) => {
-    const formData: PostReviewRequestType = {
-      productId: productId,
-      images: [],
-      content: data.content,
-      rating: data.rating,
-    };
-
-    // data 이미지 파일이 있을 경우 파일들을 업로드하고 새로운 URL 받아서 formData.images에 추가
-    const getImageUrlPromises = [];
-
-    if (data.images !== undefined) {
-      for (const file of data.images) {
-        let newImageUrl = await postImage(file);
-        getImageUrlPromises.push(newImageUrl);
-      }
-
-      try {
-        const imageUrlResponse = await Promise.all(getImageUrlPromises);
-        formData.images = imageUrlResponse.map((response) => response.url);
-      } catch (erroe) {
-        console.log("이미지 업로드를 실패했어요.");
-      }
-    }
-    postReviewMutation.mutate(formData, {
-      onSuccess: () => {
-        // console.log("리뷰가 성공적으로 업로드 되었습니다!");
-      },
-    });
-  };
 
   const reviewList: ReviewListType[] =
     reviewsData?.pages && reviewsData.pages.length > 0 ? reviewsData.pages[0].list : [];
@@ -146,7 +101,6 @@ export default function Product() {
           name={name}
           category={category.name}
           onClose={() => setReviewMdodal(false)}
-          callback={postReviewCallback}
         />
       )}
       {loginModal && <ModalLogin onClose={() => setLoginMdodal(false)} />}

@@ -5,7 +5,7 @@ import ProductText from "./ProductText";
 import { ProductDetailResponseType } from "@/src/apis/product/schema";
 
 type ProductDetailProps = {
-  productDetail: ProductDetailResponseType;
+  productDetail: ProductDetailResponseType | {};
   userId: number | null;
   reviewToggle: () => void;
   loginToggle: () => void;
@@ -13,7 +13,7 @@ type ProductDetailProps = {
 };
 
 function ProductDetail({ productDetail, userId, reviewToggle, loginToggle, editToggle }: ProductDetailProps) {
-  const { id, name, image, description, category, isFavorite, writerId } = productDetail;
+  const { id, name, image, description, category, isFavorite, writerId } = productDetail as ProductDetailResponseType;
   const createdByMe = writerId === userId;
 
   const handleReviewClick = () => {

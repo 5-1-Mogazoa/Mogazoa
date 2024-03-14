@@ -5,7 +5,7 @@ import { useState } from "react";
 import FormImageInput from "../../common/input/FormImageInput";
 import FormTextareaInput from "../../common/input/FormTextareaInput";
 import ERROR_MESSAGE from "@/src/constant/ERROR_MESSAGE";
-import FormSelectProduct from "./FormSelectProduct";
+import FormSelectProduct, { selectedOptionType } from "./FormSelectProduct";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getProductDetail, patchProduct } from "@/src/apis/product";
 import FormSelectCategory from "../../common/input/FormSelectCategory";
@@ -41,7 +41,7 @@ function ModalEdit({ userId, productId: id, onClose }: ModalEditProps) {
   });
 
   // FormSelectProduct에서 옵션선택 Change 이벤트
-  const handleChangeOption = (selectedOption) => {
+  const handleChangeOption = (selectedOption: selectedOptionType) => {
     queryClient.invalidateQueries({ queryKey: ["selectedProductDetail", selectedProductId] });
 
     setSelectedProductId(selectedOption.value);
@@ -105,7 +105,6 @@ function ModalEdit({ userId, productId: id, onClose }: ModalEditProps) {
                 productId={selectedProductId}
                 name="name"
                 userId={userId}
-                setProductId={setSelectedProductId}
                 handleChangeOption={handleChangeOption}
               />
               <FormSelectCategory name="categoryId" defaultValue={category.id} categoryName={category.name} />

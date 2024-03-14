@@ -1,20 +1,21 @@
 import { getUserCreatedProduct } from "@/src/apis/user";
 import { StyledSelectDropdown } from "@/src/components/common/button/Styled/StyledSelectDropdown";
 import { QUERY_KEY } from "@/src/routes";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import Indicator from "../../../../../public/icons/select_arrow.svg";
+
+export type selectedOptionType = { value: number; label: string };
 
 export interface FormSelectProducttProps {
   productId?: number;
   name: string;
   userId?: number;
-  setProductId: React.Dispatch<React.SetStateAction<number>>;
   handleChangeOption: any;
 }
 
-function FormSelectProduct({ productId, name, userId, setProductId, handleChangeOption }: FormSelectProducttProps) {
+function FormSelectProduct({ productId, name, userId, handleChangeOption }: FormSelectProducttProps) {
   const [userProductList, setUserProductList] = useState([{ value: productId, label: name }]);
 
   const { data: createdProducts } = useQuery({
