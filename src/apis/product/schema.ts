@@ -5,6 +5,7 @@ export interface ProductDetailResponseType {
   rating: number;
   reviewCount: number;
   categoryId: number;
+  categoryMetric: CategoryMetricType;
   createdAt: string;
   updatedAt: string;
   writerId: number;
@@ -30,6 +31,12 @@ export type CategoryType =
   | "화장품"
   | "의류/악세서리"
   | "앱";
+
+export interface CategoryMetricType {
+  favoriteCount: number;
+  rating: number;
+  reviewCount: number;
+}
 
 export interface ReviewUserType {
   id: number;
