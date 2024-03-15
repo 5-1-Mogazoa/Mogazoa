@@ -45,8 +45,6 @@ function ReviewList({ productId, loginToggle }: ReviewListProps) {
   // 리뷰목록의 정렬기준 버튼클릭 이벤트
   const handleOrderButtonClick = (orderItem: OrderType) => {
     setOrder(orderItem);
-    console.log("order", order);
-    console.log("orderItem", orderItem);
   };
 
   if (!reviewData) return null;
