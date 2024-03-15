@@ -3,59 +3,25 @@ import { useQuery } from "@tanstack/react-query";
 import { getProducts } from "@/src/apis/product";
 import Card from "../../common/card/Card";
 import styled from "styled-components";
-import { OrderType } from "@/pages/products/[productId]";
 import { getCategoryList } from "@/src/apis/category";
+import { QUERY_KEY, PRODUCT_LIMIT } from "@/src/routes";
 
 type SearchCardListProps = {
-  order?: OrderType;
-  category?: string | string[] | undefined;
-  searchQuery?: string | string[] | undefined;
+  order?: "recent" | "rating" | "reviewCount" | string;
+  category?: number;
+  keyword?: string | undefined;
 };
 
-export default function SearchCardList({ order, category, searchQuery }: SearchCardListProps) {
-  const [productData, setProductData] = useState<Item>();
-  const { data: productList } = useQuery({
-    queryKey: ["productList"],
-    queryFn: () => getProducts(),
-  });
+export default function SearchCardList({ order, category, keyword }: SearchCardListProps) {
+  const [productData, setProductData] = useState();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      console.log(searchQuery);
-      const categoryList = await getCategoryList();
-
-      if (productList && productList.list && categoryList) {
-        let filteredList = [...productList.list];
-
-        if (order?.name === "최신순") {
-          filteredList = filteredList.sort((a, b) => b.createdAt - a.createdAt);
-        } else if (order?.name === "별점순") {
-          filteredList = filteredList.sort((a, b) => b.rating - a.rating);
-        } else if (order?.name === "리뷰순") {
-          filteredList = filteredList.sort((a, b) => b.reviewCount - a.reviewCount);
-        }
-
-        if (category) {
-          const selectedCategoryIds = Array.isArray(category)
-            ? category.map((categoryName) => categoryList.find((cat) => cat.name === categoryName)?.id)
-            : [categoryList.find((cat) => cat.name === category)?.id];
-
-          // 선택된 카테고리에 해당하는 제품만 필터링
-          filteredList = filteredList.filter((item) => selectedCategoryIds.includes(item.categoryId));
-        }
-
-        if (searchQuery) {
-          // 검색어가 존재하는 경우, 제품명에 검색어가 포함된 제품만 필터링
-          const lowerCaseSearchQuery = searchQuery.toLowerCase();
-          filteredList = filteredList.filter((item) => item.name.toLowerCase().includes(lowerCaseSearchQuery));
-        }
-
-        setProductData(filteredList);
-      }
-    };
-
-    fetchData();
-  }, [order, productList, category, searchQuery]);
+  // useEffect(() => {
+  //   const { data: products } = useQuery({
+  //     queryKey: [QUERY_KEY.PRODUCTS],
+  //     queryFn: () => getProducts({ order, keyword, category }), // pageParam는 무한스크롤 사용시
+  //   });
+  //   setProductData(products);
+  // }, [order, category, keyword]);
 
   return (
     <>

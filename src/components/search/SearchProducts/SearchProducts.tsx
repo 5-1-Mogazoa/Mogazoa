@@ -25,13 +25,13 @@ export default function SearchProducts() {
   };
 
   const router = useRouter();
-  const { searchQuery, category, sortValue } = router.query;
+  const { keyword, category, sortValue } = router.query;
 
   useEffect(() => {
-    if (!searchQuery && !category) {
+    if (!keyword && !category) {
       router.push("/");
     }
-  }, [searchQuery, category]);
+  }, [keyword, category]);
 
   const [isCategory, setIsCategory] = useState(false);
   const handleOpenCategory = () => {
@@ -46,12 +46,12 @@ export default function SearchProducts() {
 
   return (
     <SearchProductsBox>
-      <SearchTitle searchQuery={searchQuery} category={getCategoryName(category)} />
+      <SearchTitle keyword={keyword} category={getCategoryName(category)} />
       <SearchFilterBox>
         <CategoryDropDown onClick={handleOpenCategory} selectedCategory={getCategoryName(category)} />
         <SortDropDown type="home" selectedItem={order} handleOrderButtonClick={handleSortButtonClick} />
       </SearchFilterBox>
-      <SearchCardList order={order} category={category} keyword={searchQuery} />
+      <SearchCardList order={order} category={category} keyword={keyword} />
       {matches && <CategoryList isCategory={isCategory} onClose={handleCloseCategory} />}
     </SearchProductsBox>
   );

@@ -3,22 +3,22 @@ import { useRouter } from "next/router";
 export type filterSearchProps = {
   category?: string | null;
   sort?: string | null;
-  searchQuery?: string | null;
+  keyword?: string | null;
 };
 
 const useFilterSearch = () => {
   const router = useRouter();
 
-  const filterSearch = ({ category, sort, searchQuery }: filterSearchProps) => {
+  const filterSearch = ({ category, sort, keyword }: filterSearchProps) => {
     const { query } = router; // pathname 추가
-    console.log({ category, sort, searchQuery }, query);
+    console.log({ category, sort, keyword }, query);
 
-    updateQuery(query, "searchQuery", searchQuery);
+    updateQuery(query, "keyword", keyword);
     updateQuery(query, "sortValue", sort);
     updateQuery(query, "category", category);
 
     router.push({
-      pathname: "/search",
+      pathname: "/products",
       query: query,
     });
   };
