@@ -26,7 +26,7 @@ function ReviewList({ productId, loginToggle }: ReviewListProps) {
     fetchNextPage,
     hasNextPage,
   } = useInfiniteQuery({
-    queryKey: [QUERY_KEY.REVIEWS, productId],
+    queryKey: [QUERY_KEY.REVIEWS, productId, order.id],
     queryFn: async ({ pageParam }) => {
       return await getProductReviews({ productId, order: order.id, pageParam });
     },
