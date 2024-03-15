@@ -58,7 +58,7 @@ export const getMyData = () => {
 };
 
 // 자신의 정보 수정
-export const patchMyData = (data: userPatchDataType) => {
+export const patchMyData = async (data: UserPatchDataType) => {
   const requestProps = { method: "patch", endPoint: API_ROUTE.USERS_MYDATA, data };
 
   return apiCall(requestProps);
