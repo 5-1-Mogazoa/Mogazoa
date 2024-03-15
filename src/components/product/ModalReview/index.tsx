@@ -96,6 +96,7 @@ function ModalReview({ productId, name, category, onClose }: ModalReviewProps) {
             }}
             placeholder="리뷰를 작성해 주세요."
           />
+
           <FormMultiImageInput name="images" defaultValue={reviewImages} />
         </S.Container>
       </Modal>

@@ -5,7 +5,7 @@ type StyledImageBoxProps = {
 };
 
 const StyledImageInput = styled.input`
-  visibility: hidden;
+  display: none;
 `;
 
 const StyledImageBox = styled.div<StyledImageBoxProps>`

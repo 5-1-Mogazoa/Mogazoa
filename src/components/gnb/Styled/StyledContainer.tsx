@@ -25,4 +25,9 @@ const StyledContainer = styled.div`
   }
 `;
 
-export { StyledContainer as StyleContainer };
+const StyledLogoContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+export { StyledContainer as StyleContainer, StyledLogoContainer };
