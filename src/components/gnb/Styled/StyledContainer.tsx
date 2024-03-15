@@ -2,6 +2,7 @@ import styled from "styled-components";
 // import { theme } from "@/styles/theme";
 
 const StyledContainer = styled.div`
+  position: relative;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   justify-content: center;
@@ -25,4 +26,10 @@ const StyledContainer = styled.div`
   }
 `;
 
-export { StyledContainer as StyleContainer };
+const StyledLogoContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export { StyledContainer as StyleContainer, StyledLogoContainer };

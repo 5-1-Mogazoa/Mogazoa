@@ -4,7 +4,7 @@ import * as S from "@/src/components/common/modal/StyledModal";
 import Image from "next/image";
 import { getUserFollowees, getUserFollowers } from "@/src/apis/user";
 import { useQuery } from "@tanstack/react-query";
-import { followDataType, followeeType, followerType } from "@/src/types/user/userDataType";
+import { FollowDataType, FolloweeType, FollowerType } from "@/src/types/user/userDataType";
 import { StyledProfileContainer, StyledProfileImage, StyledProfileUl, StyledUserName } from "./Styled/StyledFollowUser";
 import Link from "next/link";
 import { PAGE_ROUTES } from "@/src/routes";
@@ -20,14 +20,14 @@ function FollowInfoModal({ setIsOpen, dataType, userId, nickname }: ModalProps) 
   const [portalRoot, setPortalRoot] = useState<HTMLElement | null>(null);
   const [cursor, setCursor] = useState<number | null>(null);
   const title = `${nickname}님${dataType === "follower" ? "을" : "이"} 팔로우하는 유저`;
-  const [dataList, setDataList] = useState<followerType[] | followeeType[]>([]);
+  const [dataList, setDataList] = useState<FollowerType[] | FolloweeType[]>([]);
 
-  const { data: userList } = useQuery<followDataType>({
+  const { data: userList } = useQuery<FollowDataType>({
     queryKey: ["usersList", cursor],
     queryFn: () =>
       (dataType === "follower"
         ? getUserFollowers(userId, cursor)
-        : getUserFollowees(userId, cursor)) as Promise<followDataType>,
+        : getUserFollowees(userId, cursor)) as Promise<FollowDataType>,
   });
 
   const stopEventBubbing = (e: React.MouseEvent) => {
@@ -40,7 +40,7 @@ function FollowInfoModal({ setIsOpen, dataType, userId, nickname }: ModalProps) 
 
   useEffect(() => {
     if (userList) {
-      setDataList([...dataList, ...userList.list] as followerType[] | followeeType[]);
+      setDataList([...dataList, ...userList.list] as FollowerType[] | FolloweeType[]);
     }
   }, [userList]);
 
@@ -74,20 +74,20 @@ function FollowInfoModal({ setIsOpen, dataType, userId, nickname }: ModalProps) 
             {dataList.map((item) => {
               return dataType === "follower" ? (
                 <Link
-                  key={(item as followerType).follower.id}
-                  href={PAGE_ROUTES.USER_DETAIL((item as followerType).follower.id)}>
+                  key={(item as FollowerType).follower.id}
+                  href={PAGE_ROUTES.USER_DETAIL((item as FollowerType).follower.id)}>
                   <StyledProfileContainer>
-                    <StyledProfileImage $image={(item as followerType).follower.image} />
-                    <StyledUserName>{(item as followerType).follower.nickname}</StyledUserName>
+                    <StyledProfileImage $image={(item as FollowerType).follower.image} />
+                    <StyledUserName>{(item as FollowerType).follower.nickname}</StyledUserName>
                   </StyledProfileContainer>
                 </Link>
               ) : (
                 <Link
-                  key={(item as followeeType).followee.id}
-                  href={PAGE_ROUTES.USER_DETAIL((item as followeeType).followee.id)}>
+                  key={(item as FolloweeType).followee.id}
+                  href={PAGE_ROUTES.USER_DETAIL((item as FolloweeType).followee.id)}>
                   <StyledProfileContainer>
-                    <StyledProfileImage $image={(item as followeeType).followee.image} />
-                    <StyledUserName>{(item as followeeType).followee.nickname}</StyledUserName>
+                    <StyledProfileImage $image={(item as FolloweeType).followee.image} />
+                    <StyledUserName>{(item as FolloweeType).followee.nickname}</StyledUserName>
                   </StyledProfileContainer>
                 </Link>
               );

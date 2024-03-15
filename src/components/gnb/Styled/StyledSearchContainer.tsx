@@ -7,6 +7,7 @@ const StyledSearchContainer = styled.div`
   align-items: center;
   z-index: 10;
   right: 5px;
+  top: 12px;
   @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
     z-index: 0;
     right: 0;
