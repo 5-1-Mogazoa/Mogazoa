@@ -67,7 +67,7 @@ function ReviewList({ productId, loginToggle }: ReviewListProps) {
           </React.Fragment>
         ))}
         <S.ScrollButton ref={ref} onClick={() => fetchNextPage()} disabled={!hasNextPage || isFetchingNextPage}>
-          {isFetchingNextPage ? "리뷰를 더 불러오고 있어요!" : hasNextPage ? "Load Newer" : "리뷰를 다 봤어요!"}
+          {isFetchingNextPage ? ". . ." : hasNextPage ? "Load Newer" : "리뷰를 다 봤어요!"}
         </S.ScrollButton>
       </S.List>
     </S.Container>
