@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import RankingListItem from "../../common/menu/RankingListItem";
-import { getUserRank, getUserReviewed, getUserFollowers } from "@/src/apis/user";
+import { getUserRank, getUserReviewed, getUserData } from "@/src/apis/user";
 import { useEffect, useState } from "react";
 
 export default function Ranking() {
@@ -17,7 +17,7 @@ export default function Ranking() {
       const fetchUserDetails = async () => {
         const userDetailsPromises = userRank.map(async (user) => {
           const userId = user.id;
-          const followers = await getUserFollowers(userId);
+          const followers = await getUserData(userId);
           const reviewer = await getUserReviewed(userId);
 
           return {
@@ -26,7 +26,6 @@ export default function Ranking() {
             reviewer,
           };
         });
-
         const userDetailsData = await Promise.all(userDetailsPromises);
         setUserDetails(userDetailsData?.slice(0, 5));
       };
@@ -45,7 +44,7 @@ export default function Ranking() {
             rankNum={String(index + 1)}
             ranking={index + 1}
             reviewerName={user.nickname}
-            Followers={user.followers.list.length}
+            Followers={user.followers.followersCount}
             Reviewer={user.reviewer.list.length}
           />
         );

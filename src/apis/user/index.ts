@@ -1,6 +1,6 @@
 import { apiCall } from "@/src/lib/axiosInstance";
 import { API_ROUTE } from "@/src/routes";
-import { UserPatchDataType } from "@/src/types/user/userDataType";
+import { userPatchDataType } from "@/src/types/user/userDataType";
 
 // 유저 랭킹을 조회하는 함수
 export const getUserRank = () => {
