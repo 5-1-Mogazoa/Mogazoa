@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { getProductList } from "@/src/apis/product";
+import { getProducts } from "@/src/apis/product";
 import Card from "../../common/card/Card";
 import styled from "styled-components";
 import { OrderType } from "@/pages/products/[productId]";
@@ -16,7 +16,7 @@ export default function SearchCardList({ order, category, searchQuery }: SearchC
   const [productData, setProductData] = useState<Item>();
   const { data: productList } = useQuery({
     queryKey: ["productList"],
-    queryFn: () => getProductList(),
+    queryFn: () => getProducts(),
   });
 
   useEffect(() => {

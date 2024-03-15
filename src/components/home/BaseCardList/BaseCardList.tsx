@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getProductList } from "@/src/apis/product";
+import { getProducts } from "@/src/apis/product";
 import RateTop6CardList from "./RateTop6CardList";
 import ReviewTop6CardList from "./ReviewTop6CardList";
 import * as S from "./Styled/StyledBaseCardList";
@@ -24,7 +24,7 @@ const CardListBoxWrap = ({ title, description, children }: CardListBoxWrapPorps)
 export default function BaseCardList() {
   const { data: productList } = useQuery({
     queryKey: ["productList"],
-    queryFn: () => getProductList(),
+    queryFn: () => getProducts(),
   });
   if (!productList) {
     return null;

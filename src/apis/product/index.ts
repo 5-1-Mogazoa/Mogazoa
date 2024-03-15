@@ -9,7 +9,7 @@ export const getProductDetail = (productId: number) => {
 };
 
 //상품 전체 조회하는 함수
-export const getProductList = () => {
+export const getProducts = () => {
   const requestProps = { method: "get", endPoint: API_ROUTE.PRODUCTS };
 
   return apiCall(requestProps);
