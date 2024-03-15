@@ -1,25 +1,25 @@
-export type userPatchDataType = {
+export type UserPatchDataType = {
   description: string;
   nickname: string;
   image: string;
 };
 
-export type followDataType = {
-  list: followerType[] | followeeType[];
+export type FollowDataType = {
+  list: FollowerType[] | FolloweeType[];
   nextCursor: number;
 };
 
-export type followerType = {
-  follower: followUserType;
+export type FollowerType = {
+  follower: FollowUserType;
   id: number;
 };
 
-export type followeeType = {
-  followee: followUserType;
+export type FolloweeType = {
+  followee: FollowUserType;
   id: number;
 };
 
-type followUserType = {
+type FollowUserType = {
   updatedAt: string;
   createdAt: string;
   teamId: string;
