@@ -2,19 +2,19 @@ import { useRouter } from "next/router";
 
 export type filterSearchProps = {
   category?: string | null;
-  sort?: string | null;
+  order?: string | null;
   keyword?: string | null;
 };
 
 const useFilterSearch = () => {
   const router = useRouter();
 
-  const filterSearch = ({ category, sort, keyword }: filterSearchProps) => {
+  const filterSearch = ({ category, order, keyword }: filterSearchProps) => {
     const { query } = router; // pathname 추가
-    console.log({ category, sort, keyword }, query);
+    console.log({ category, order, keyword }, query);
 
     updateQuery(query, "keyword", keyword);
-    updateQuery(query, "sortValue", sort);
+    updateQuery(query, "order", order);
     updateQuery(query, "category", category);
 
     router.push({

@@ -21,11 +21,11 @@ export default function SearchProducts() {
     const orderId = orderItem.id;
     const orderName = orderItem.name;
     setOrder({ id: orderId, name: orderName });
-    filterSearch({ sort: orderName });
+    filterSearch({ order: orderId });
   };
 
   const router = useRouter();
-  const { keyword, category, sortValue } = router.query;
+  const { keyword, category } = router.query;
 
   useEffect(() => {
     if (!keyword && !category) {
