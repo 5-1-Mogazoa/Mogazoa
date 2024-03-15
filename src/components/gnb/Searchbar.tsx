@@ -14,10 +14,8 @@ type SearchbarProps = {
 
 const Container = styled.div`
   position: relative;
-  top: -1rem;
   z-index: 10;
   @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
-    top: -1rem;
   }
 `;
 
@@ -44,6 +42,7 @@ const SearchInput = styled.input<SearchInputProps>`
   gap: 1rem;
   transition: 1s;
   transition-property: width;
+
   @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
     height: 5rem;
     padding: 1.6rem 2rem 1.6rem 6rem;
@@ -58,7 +57,7 @@ const SearchInput = styled.input<SearchInputProps>`
   ${({ $isOpen }) =>
     $isOpen &&
     `
-    width: 35rem;
+    width: 30rem;
     transition: 1s; 
     background: var(--color-black-25, #252530);
     @media (min-width: 1600px) {
