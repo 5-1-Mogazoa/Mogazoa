@@ -58,3 +58,5 @@ export const QUERY_KEY = {
 };
 
 export const REVIEWS_LIMIT = 5;
+
+export const PRODUCT_LIMIT = 12;
