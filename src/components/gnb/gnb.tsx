@@ -1,5 +1,4 @@
 import { StyleContainer, StyledLogoContainer } from "./Styled/StyledContainer";
-import { Logo } from "./Logo";
 import { MenuButton } from "./Styled/StyledMenuLogo";
 import { InputContainer } from "./Styled/StyledSearchContainer";
 
@@ -9,13 +8,15 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Sidebar from "./SideBar";
+import { Logo } from "./Logo";
 
 export default function Gnb() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
   const currentPath = router.pathname;
-  const [isOpen, setIsOpen] = useState(false);
+
   const handleClick = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
