@@ -25,3 +25,30 @@ export const getProductReviews = async (productId: number, order: string, cursor
 
   return await apiCall(requestProps);
 };
+
+// 상품 찜하기 등록
+export const postFavorite = async (productId: number) => {
+  const requestProps = {
+    method: "post",
+    endPoint: `${API_ROUTE.PRODUCT_FAVORITE(productId)}`,
+  };
+
+  return await apiCall(requestProps);
+};
+
+// 상품 찜하기 취소
+export const deleteFavorite = async (productId: number) => {
+  const requestProps = {
+    method: "delete",
+    endPoint: `${API_ROUTE.PRODUCT_FAVORITE(productId)}`,
+  };
+
+  return await apiCall(requestProps);
+};
+
+// 상품 수정
+export const patchProduct = async (productId: number, data) => {
+  const requestProps = { method: "patch", endPoint: API_ROUTE.PRODUCT_DETAIL(productId), data };
+
+  return await apiCall(requestProps);
+};

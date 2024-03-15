@@ -11,7 +11,7 @@ export const statisticalCalculator = (
   count: number,
   average: number,
 ) => {
-  const differenceInCount = average - count;
+  const differenceInCount = count - average;
   const isZeroDifference = differenceInCount === 0;
   const absoluteDifference = Math.abs(differenceInCount);
   const formattedAbsoluteDifference = Math.abs(differenceInCount).toFixed(1);

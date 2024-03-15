@@ -13,19 +13,23 @@ export const Background = styled.div`
   background: rgba(0, 0, 0, 0.7);
 `;
 
-export const Container = styled.div`
+type ContainerProps = {
+  $isSmall: boolean;
+};
+
+export const Container = styled.div<ContainerProps>`
   width: 33.5rem;
   padding: 2rem;
   border-radius: 1.2rem;
   background-color: var(--color-black-1c);
 
   @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
-    width: 59rem;
+    width: ${({ $isSmall }) => ($isSmall === true ? "50rem" : "59rem")};
     padding: 4rem;
   }
 
   @media (min-width: ${({ theme }) => theme.deviceSizes.desktop}) {
-    width: 62rem;
+    width: ${({ $isSmall }) => ($isSmall === true ? "50rem" : "62rem")};
   }
 `;
 
@@ -35,6 +39,11 @@ export const Header = styled.header`
   flex-direction: column;
   gap: 1rem;
   padding-top: 2rem;
+`;
+
+export const Title = styled.div`
+  display: flex;
+  flex-direction: column;
   ${fontStyle({ w: 600, s: 20, l: 28 })};
   color: var(--color-white);
 

@@ -1,15 +1,14 @@
-import { Controller, FieldValues, useFormContext } from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
 import * as S from "./styled";
-import Image from "next/image";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 
 interface FormImageInputProps {
   name: string;
-  defaultValue?: string[] | undefined;
+  defaultValue?: string;
 }
 
 function FormImageInput({ name, defaultValue }: FormImageInputProps) {
-  const [previewImages, setPreviewImages] = useState<string[]>([]);
+  const [previewImage, setPreviewImage] = useState<string | undefined>(defaultValue);
 
   const {
     control,
@@ -18,59 +17,48 @@ function FormImageInput({ name, defaultValue }: FormImageInputProps) {
 
   const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
     const fileList = event.target.files;
-    if (!fileList || fileList.length < 0) return;
+    if (!fileList || fileList.length === 0) return;
 
-    // 미리보기 이미지 추가
     let reader = new FileReader();
     let file = fileList[0];
     reader.readAsDataURL(file);
-    reader.onloadend = () => {
+    reader.onload = () => {
       const previewImageUrl = reader.result as string;
       if (previewImageUrl) {
-        setPreviewImages([...previewImages, previewImageUrl]);
+        setPreviewImage(previewImageUrl);
       }
     };
   };
 
-  const handleDeleteImage = (index: number) => {
-    setPreviewImages((prevImages) => prevImages.filter((_, i) => i !== index));
-  };
+  useEffect(() => {
+    setPreviewImage(defaultValue);
+  }, [defaultValue]);
 
   return (
-    <S.Container>
-      <S.Label htmlFor={name}>
-        <Controller
-          name={name}
-          control={control}
-          render={({ field: { value, onChange, ...field } }) => (
-            <S.ImageInput
-              id={name}
-              type="file"
-              value={value?.fileName}
-              accept="image/*"
-              multiple
-              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                const files = event.target.files;
-                if (!files) return;
+    <S.Label htmlFor={name} $previewImage={previewImage}>
+      <Controller
+        name={name}
+        control={control}
+        render={({ field: { value, onChange, ...field } }) => (
+          <S.ImageInput
+            id={name}
+            type="file"
+            value={value?.fileName}
+            accept="image/*"
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+              const files = event.target.files;
+              if (!files || files.length === 0) return;
 
-                const fileArray = Array.from(files);
-                const newValue = value ? [...value, ...fileArray] : fileArray;
-                onChange(newValue);
-                handleFileChange(event);
-              }}
-              {...field}
-            />
-          )}
-        />
-        <S.Icon />
-      </S.Label>
-      {previewImages.map((imageUrl, index) => (
-        <S.PreviewImage key={index}>
-          <Image fill src={imageUrl} alt={imageUrl} />
-          <S.DeleteButton onClick={() => handleDeleteImage(index)} />
-        </S.PreviewImage>
-      ))}
-    </S.Container>
+              const newValue = files[0];
+              onChange(newValue);
+              handleFileChange(event);
+            }}
+            {...field}
+          />
+        )}
+      />
+      {!previewImage && <S.Icon />}
+    </S.Label>
   );
 }
 

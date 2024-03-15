@@ -11,10 +11,10 @@ export const HiddenRadioInput = styled.input.attrs({ type: "radio" })`
 `;
 
 export const CustomRadio = styled.div`
+  width: 100%;
   cursor: pointer;
-  width: 160px;
-  height: 45px;
   padding: 15px 20px;
+  text-align: center;
 
   ${HiddenRadioInput}:hover + &,
   ${HiddenRadioInput}:checked + & {
@@ -22,6 +22,12 @@ export const CustomRadio = styled.div`
     border-radius: 8px;
     border: 1px solid var(--black-black_353542, #353542);
     background: var(--black-black_252530, #252530);
+  }
+
+  @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
+    width: 160px;
+    height: 45px;
+    text-align: start;
   }
 `;
 

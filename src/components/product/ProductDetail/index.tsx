@@ -5,14 +5,27 @@ import ProductText from "./ProductText";
 import { ProductDetailResponseType } from "@/src/apis/product/schema";
 
 type ProductDetailProps = {
-  productDetail: ProductDetailResponseType;
+  productDetail: ProductDetailResponseType | {};
   userId: number | null;
   reviewToggle: () => void;
+  loginToggle: () => void;
+  editToggle: () => void;
 };
 
-function ProductDetail({ productDetail, userId, reviewToggle }: ProductDetailProps) {
-  const { id, name, image, description, category, isFavorite, writerId } = productDetail;
+function ProductDetail({ productDetail, userId, reviewToggle, loginToggle, editToggle }: ProductDetailProps) {
+  const { id, name, image, description, category, isFavorite, writerId } = productDetail as ProductDetailResponseType;
   const createdByMe = writerId === userId;
+
+  const handleReviewClick = () => {
+    const token = localStorage.getItem("accessToken");
+
+    if (!token) {
+      loginToggle();
+      return;
+    }
+
+    reviewToggle();
+  };
 
   return (
     <S.Container>
@@ -28,14 +41,21 @@ function ProductDetail({ productDetail, userId, reviewToggle }: ProductDetailPro
         />
       </S.ProductImage>
       <S.ProductTextWithButtons>
-        <ProductText name={name} category={category} isFavorite={isFavorite} description={description} />
+        <ProductText
+          id={id}
+          name={name}
+          category={category}
+          isFavorite={isFavorite}
+          description={description}
+          loginToggle={loginToggle}
+        />
         <S.ButtonContainer>
-          <StyledPrimaryButton onClick={reviewToggle}>리뷰 작성하기</StyledPrimaryButton>
+          <StyledPrimaryButton onClick={handleReviewClick}>리뷰 작성하기</StyledPrimaryButton>
           <StyledProductButton $createdByMe={createdByMe} $buttonType="compare">
             비교하기
           </StyledProductButton>
           {createdByMe && (
-            <StyledProductButton $createdByMe={createdByMe} $buttonType="edit">
+            <StyledProductButton $createdByMe={createdByMe} $buttonType="edit" onClick={editToggle}>
               편집하기
             </StyledProductButton>
           )}

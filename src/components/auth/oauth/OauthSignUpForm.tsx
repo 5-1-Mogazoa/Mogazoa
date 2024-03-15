@@ -17,6 +17,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { postOauthSignUpData } from "@/src/apis/oauth";
 import { AuthResponseType } from "@/src/types/auth/authDataType";
+import { postToken } from "@/src/apis/auth";
 
 type mutationParameterType = {
   data: OauthDataType;
@@ -51,6 +52,8 @@ export default function OauthSignUpForm() {
         const result = (await postMutation.mutateAsync({ data: postData, provider })) as AuthResponseType;
         const accessToken = result.accessToken;
         const userId = result.user.id;
+        await postToken(accessToken);
+        //TODO: localStorage accessToken 설정 삭제 예정
         localStorage.setItem("accessToken", accessToken);
         localStorage.setItem("userId", String(userId));
         router.push("/");

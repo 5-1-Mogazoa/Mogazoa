@@ -54,8 +54,8 @@ const GlobalStyle = createGlobalStyle`
 
   ::-webkit-scrollbar {
     display: block;
-    height: 8px;
-    width: 8px;
+    height: 6px;
+    width: 6px;
   }
 
   ::-webkit-scrollbar-thumb {
@@ -64,7 +64,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   ::-webkit-scrollbar-track {
-    background: #edefff; /* 스크롤바 트랙의 배경 색상 */
+    background: #1C1C22; /* 스크롤바 트랙의 배경 색상 */
   }
 
   .scrollbar-hide {

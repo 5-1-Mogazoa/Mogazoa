@@ -10,9 +10,10 @@ import { getUserFollowersResponseType, getUserReviewedResponseType } from "@/src
 
 type ReviewItemProps = {
   review: ReviewListType;
+  loginToggle: () => void;
 };
 
-function ReviewItem({ review }: ReviewItemProps) {
+function ReviewItem({ review, loginToggle }: ReviewItemProps) {
   const [userCount, setUserCount] = useState({ ranking: 0, follower: 0, reviewed: 0 });
   const { id, user, reviewImages, createdAt, isLiked, likeCount, content, rating, userId: writerId } = review;
   const userId = Number(localStorage.getItem("userId"));
@@ -51,7 +52,14 @@ function ReviewItem({ review }: ReviewItemProps) {
       <ReviewItemUser user={user} userCount={userCount} rating={rating} />
       <S.ContentsWithFooter>
         <ReviewContents content={content} reviewImages={reviewImages} />
-        <ReviewFooter id={id} createdAt={createdAt} isLiked={isLiked} likeCount={likeCount} createdByMe={createdByMe} />
+        <ReviewFooter
+          id={id}
+          createdAt={createdAt}
+          isLiked={isLiked}
+          likeCount={likeCount}
+          createdByMe={createdByMe}
+          loginToggle={loginToggle}
+        />
       </S.ContentsWithFooter>
     </S.Container>
   );
