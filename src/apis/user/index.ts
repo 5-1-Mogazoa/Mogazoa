@@ -30,8 +30,11 @@ export const getUserFollowees = (userId: number, cursor: number | null) => {
 };
 
 // 유저가 리뷰한 상품 조회
-export const getUserReviewed = (userId: number) => {
-  const requestProps = { method: "get", endPoint: API_ROUTE.USERS_REVIEWED_PRODUCT(userId) };
+export const getUserReviewed = (userId: number, cursor: number | null) => {
+  const requestProps = {
+    method: "get",
+    endPoint: `${API_ROUTE.USERS_REVIEWED_PRODUCT(userId)}${cursor ? `?cursor=${cursor}` : ""}`,
+  };
 
   return apiCall(requestProps);
 };

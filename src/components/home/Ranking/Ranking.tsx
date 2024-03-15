@@ -18,12 +18,12 @@ export default function Ranking() {
         const userDetailsPromises = userRank.map(async (user) => {
           const userId = user.id;
           const followers = await getUserData(userId);
-          const reviewer = await getUserReviewed(userId);
+          const allReviews = await fetchAllUserReviews(userId);
 
           return {
             ...user,
             followers,
-            reviewer,
+            allReviews,
           };
         });
         const userDetailsData = await Promise.all(userDetailsPromises);
@@ -33,6 +33,19 @@ export default function Ranking() {
       fetchUserDetails();
     }
   }, [userRank]);
+
+  const fetchAllUserReviews = async (userId: number) => {
+    let allReviews: any = [];
+    let cursor = null;
+
+    do {
+      const { list, nextCursor } = await getUserReviewed(userId, cursor);
+      allReviews = [...allReviews, ...list];
+      cursor = nextCursor;
+    } while (cursor !== null);
+
+    return allReviews;
+  };
 
   return (
     <>
@@ -45,7 +58,7 @@ export default function Ranking() {
             ranking={index + 1}
             reviewerName={user.nickname}
             Followers={user.followers.followersCount}
-            Reviewer={user.reviewer.list.length}
+            Reviewer={user.allReviews.length}
           />
         );
       })}
