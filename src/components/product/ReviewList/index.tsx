@@ -1,18 +1,56 @@
-import React, { ReactNode, SetStateAction } from "react";
+import React, { useEffect, useState } from "react";
 import * as S from "./styled";
 import ReviewItem from "../ReviewItem";
-import { ReviewListType } from "@/src/apis/product/schema";
 import SortDropdown from "../../common/button/SortDropdown";
-import { OrderType } from "@/pages/products/[productId]";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { getProductReviews } from "@/src/apis/product";
+import { QUERY_KEY } from "@/src/routes";
+import { useInView } from "react-intersection-observer";
+
+export type OrderOptionType = "recent" | "ratingDesc" | "ratingAsc" | "likeCount" | "reviewCount" | "rating";
+export type OrderType = { id: OrderOptionType; name: string };
 
 type ReviewListProps = {
-  reviewList: ReviewListType[];
-  order: OrderType;
+  productId: number;
   loginToggle: () => void;
-  handleOrderButtonClick: (selectedOrder: OrderType) => void;
 };
 
-function ReviewList({ reviewList, order, loginToggle, handleOrderButtonClick }: ReviewListProps) {
+function ReviewList({ productId, loginToggle }: ReviewListProps) {
+  const [order, setOrder] = useState<OrderType>({ id: "recent", name: "최신순" });
+  const [ref, inView] = useInView();
+
+  const {
+    status,
+    data: reviewData,
+    isFetchingNextPage,
+    fetchNextPage,
+    hasNextPage,
+  } = useInfiniteQuery({
+    queryKey: [QUERY_KEY.REVIEWS, productId],
+    queryFn: async ({ pageParam }) => {
+      return await getProductReviews({ productId, order: order.id, pageParam });
+    },
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) => {
+      return lastPage?.nextCursor ?? undefined;
+    },
+  });
+
+  useEffect(() => {
+    if (inView) {
+      fetchNextPage();
+    }
+  }, [inView, fetchNextPage]);
+
+  // 리뷰목록의 정렬기준 버튼클릭 이벤트
+  const handleOrderButtonClick = (orderItem: OrderType) => {
+    setOrder(orderItem);
+    console.log("order", order);
+    console.log("orderItem", orderItem);
+  };
+
+  if (!reviewData) return null;
+  const reviewList = reviewData?.pages[0].list;
   const noList = reviewList.length === 0;
 
   return (
@@ -23,9 +61,16 @@ function ReviewList({ reviewList, order, loginToggle, handleOrderButtonClick }: 
       </S.TitleWithOrer>
       {noList && <S.NoList>첫번째 상품리뷰를 등록해보세요!</S.NoList>}
       <S.List>
-        {reviewList.map((review) => (
-          <ReviewItem key={review.id} review={review} loginToggle={loginToggle} />
+        {reviewData?.pages.map((page) => (
+          <React.Fragment key={page.nextCursor}>
+            {page.list.map((review) => (
+              <ReviewItem key={review.id} review={review} loginToggle={loginToggle} />
+            ))}
+          </React.Fragment>
         ))}
+        <S.ScrollButton ref={ref} onClick={() => fetchNextPage()} disabled={!hasNextPage || isFetchingNextPage}>
+          {isFetchingNextPage ? "리뷰를 더 불러오고 있어요!" : hasNextPage ? "Load Newer" : "리뷰를 다 봤어요!"}
+        </S.ScrollButton>
       </S.List>
     </S.Container>
   );

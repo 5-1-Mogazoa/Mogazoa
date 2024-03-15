@@ -37,11 +37,17 @@ export const getProducts = ({
 };
 
 // 상품 리뷰 목록 조회
-export const getProductReviews = (productId: number, order: string, cursor: any, limit = REVIEWS_LIMIT) => {
-  // cursor 매개변수 추가
+interface getProductReviewsProps {
+  productId: number;
+  order?: "recent" | "ratingDesc" | "ratingAsc" | "likeCount" | string;
+  pageParam?: number;
+}
+
+export const getProductReviews = ({ productId, order = "recent", pageParam }: getProductReviewsProps) => {
+  const queryParams = `?${order ? `order=${order}` : ""}${pageParam ? `&cursor=${pageParam}` : ""}`;
   const requestProps = {
     method: "get",
-    endPoint: `${API_ROUTE.PRODUCT_REVIEWS(productId)}?order=${order}&cursor=${cursor}&limit=${limit}`,
+    endPoint: `${API_ROUTE.PRODUCT_REVIEWS(productId)}${queryParams}`,
   };
 
   return apiCall(requestProps);

@@ -1,64 +1,33 @@
-import { getProductDetail, getProductReviews } from "@/src/apis/product";
+import { getProductDetail } from "@/src/apis/product";
 import ProductDetail from "@/src/components/product/ProductDetail";
 import ProductLayout from "@/src/components/product/ProductLayout";
 import StatisticsItem from "@/src/components/product/StatisticsItem";
 import StatisticsList from "@/src/components/product/StatisticsList";
-import { QueryClient, dehydrate, useInfiniteQuery, useQuery, useQueryClient } from "@tanstack/react-query";
+import { QueryClient, dehydrate, useQuery } from "@tanstack/react-query";
 import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
 import ReviewList from "@/src/components/product/ReviewList";
 import ModalReview from "@/src/components/product/ModalReview";
-import React, { useState } from "react";
-import { QUERY_KEY, REVIEWS_LIMIT } from "@/src/routes";
+import React from "react";
+import { QUERY_KEY } from "@/src/routes";
 import { useToggle } from "usehooks-ts";
-import { ProductDetailResponseType, ReviewListType } from "@/src/apis/product/schema";
+import { ProductDetailResponseType } from "@/src/apis/product/schema";
 import ModalLogin from "@/src/components/product/MadalLogin";
 import ModalEdit from "@/src/components/product/ModalEdit";
 
-export type OrderOptionType = "recent" | "ratingDesc" | "ratingAsc" | "likeCount" | "reviewCount" | "rating";
-export type OrderType = { id: OrderOptionType; name: string };
-
 export default function Product() {
-  const queryClient = useQueryClient();
   const router = useRouter();
   const productId = Number(router.query.productId);
 
-  const [order, setOrder] = useState<OrderType>({ id: "recent", name: "최신순" });
   const [editModal, editToggle, setEditMdodal] = useToggle();
   const [reviewModal, reviewToggle, setReviewMdodal] = useToggle();
   const [loginModal, loginToggle, setLoginMdodal] = useToggle();
 
-  // SSR로 받은 데이터 쿼리로 가져오기
+  // SSR로 받은 상품 상세 정보
   const { data: productDetail } = useQuery({
     queryKey: [QUERY_KEY.PRODUCT_DETAIL, productId],
     queryFn: () => getProductDetail(productId),
   });
-
-  const {
-    data: reviewsData,
-    isPending,
-    isError,
-    fetchNextPage,
-    isFetchingNextPage,
-  } = useInfiniteQuery({
-    queryKey: [QUERY_KEY.REVIEWS, productId, order],
-    queryFn: ({ pageParam }) => getProductReviews(productId, order.id, pageParam, REVIEWS_LIMIT),
-    initialPageParam: 0,
-    getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) =>
-      lastPage.hasMore ? lastPageParam + 1 : undefined,
-  });
-
-  const reviewList: ReviewListType[] =
-    reviewsData?.pages && reviewsData.pages.length > 0 ? reviewsData.pages[0].list : [];
-
-  // 리뷰목록의 정렬기준 버튼클릭 이벤트
-  const handleOrderButtonClick = (orderItem: OrderType) => {
-    setOrder(orderItem);
-  };
-
-  if (!productDetail) {
-    return null;
-  }
 
   const {
     name,
@@ -70,10 +39,17 @@ export default function Product() {
     writerId,
   } = productDetail as ProductDetailResponseType;
   const ratingCount = Number(ratingCountData.toFixed(1)); // 별정평균은 소수점 1자리 까지만
-  const userId = Number(localStorage.getItem("userId"));
   const ratingAverage = Number(categoryMetric.rating.toFixed(1));
   const favoriteAverage = Number(categoryMetric.favoriteCount.toFixed(0));
   const reviewAverage = Number(categoryMetric.reviewCount.toFixed(0));
+  // const userId = Number(localStorage.getItem("userId"));
+  const userId = 38;
+
+  // TODO 안됨
+  // useEffect(() => {
+  //   const userId = Number(localStorage.getItem("userId"));
+  //   console.log(userId);
+  // }, []);
 
   return (
     <ProductLayout>
@@ -89,12 +65,7 @@ export default function Product() {
         <StatisticsItem statType="favoriteCount" count={favoriteCount} average={favoriteAverage} />
         <StatisticsItem statType="reviewCount" count={reviewCount} average={reviewAverage} />
       </StatisticsList>
-      <ReviewList
-        reviewList={reviewList}
-        order={order}
-        loginToggle={loginToggle}
-        handleOrderButtonClick={handleOrderButtonClick}
-      />
+      <ReviewList productId={productId} loginToggle={loginToggle} />
       {reviewModal && (
         <ModalReview
           productId={productId}
@@ -104,9 +75,7 @@ export default function Product() {
         />
       )}
       {loginModal && <ModalLogin onClose={() => setLoginMdodal(false)} />}
-      {editModal && productDetail && (
-        <ModalEdit userId={userId} productId={productId} onClose={() => setEditMdodal(false)} />
-      )}
+      {editModal && <ModalEdit userId={userId} productId={productId} onClose={() => setEditMdodal(false)} />}
     </ProductLayout>
   );
 }
@@ -116,7 +85,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   const productId = Number(context.query["productId"]);
 
-  // 상품 상세 조회 데이터 요청
+  // 상품 상세 조회
   await queryClient.prefetchQuery({
     queryKey: [QUERY_KEY.PRODUCT_DETAIL, productId],
     queryFn: () => getProductDetail(productId),
