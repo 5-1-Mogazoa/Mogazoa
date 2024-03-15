@@ -24,14 +24,15 @@ export default function CategoryList({ onClose, isCategory }: CategoryListProps)
   }
 
   const onChange = (e) => {
-    const selectedValue = e.target.value;
+    const selectValue = e.target.value;
+    const selectedId = e.target.id;
 
     // 이미 선택된 값과 같은 경우에만 해제
-    if (isSelected === selectedValue) {
+    if (isSelected === selectValue) {
       setIsSelected(undefined);
     } else {
-      setIsSelected(selectedValue);
-      filterSearch({ category: selectedValue });
+      setIsSelected(selectValue);
+      filterSearch({ category: selectedId });
     }
   };
 

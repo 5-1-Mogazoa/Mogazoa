@@ -9,6 +9,7 @@ import CategoryDropDown from "../CategoryDropDown/CategoryDropDown";
 import CategoryList from "../../home/Category/CategoryList";
 import { SearchProductsBox, SearchFilterBox } from "./Styled/StyledSearchProduct";
 import { useMediaQuery } from "usehooks-ts";
+import { getCategoryName } from "../getCategoryName";
 
 export default function SearchProducts() {
   const [order, setOrder] = useState<OrderType>({ id: "recent", name: "최신순" });
@@ -20,17 +21,17 @@ export default function SearchProducts() {
     const orderId = orderItem.id;
     const orderName = orderItem.name;
     setOrder({ id: orderId, name: orderName });
-    filterSearch({ sort: orderName });
+    filterSearch({ order: orderId });
   };
 
   const router = useRouter();
-  const { searchQuery, category, sortValue } = router.query;
+  const { keyword, category } = router.query;
 
   useEffect(() => {
-    if (!searchQuery && !category) {
+    if (!keyword && !category) {
       router.push("/");
     }
-  }, [searchQuery, category]);
+  }, [keyword, category]);
 
   const [isCategory, setIsCategory] = useState(false);
   const handleOpenCategory = () => {
@@ -45,12 +46,12 @@ export default function SearchProducts() {
 
   return (
     <SearchProductsBox>
-      <SearchTitle searchQuery={searchQuery} category={category} />
+      <SearchTitle keyword={keyword} category={getCategoryName(category)} />
       <SearchFilterBox>
-        <CategoryDropDown onClick={handleOpenCategory} selectedCategory={category} />
+        <CategoryDropDown onClick={handleOpenCategory} selectedCategory={getCategoryName(category)} />
         <SortDropDown type="home" selectedItem={order} handleOrderButtonClick={handleSortButtonClick} />
       </SearchFilterBox>
-      <SearchCardList order={order} category={category} searchQuery={searchQuery} />
+      <SearchCardList order={order.id} category={category} keyword={keyword} />
       {matches && <CategoryList isCategory={isCategory} onClose={handleCloseCategory} />}
     </SearchProductsBox>
   );

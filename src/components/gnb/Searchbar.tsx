@@ -79,10 +79,10 @@ export default function Searchbar({ isOpen, setIsOpen }: SearchbarProps) {
     setSearch(newValue);
     if (e.key === "Enter")
       if (!newValue) {
-        filterSearch({ searchQuery: null });
+        filterSearch({ keyword: null });
         return;
       } else {
-        filterSearch({ searchQuery: (e.target as HTMLInputElement).value });
+        filterSearch({ keyword: (e.target as HTMLInputElement).value });
       }
   };
 

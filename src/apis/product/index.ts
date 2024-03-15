@@ -1,5 +1,5 @@
 import { apiCall } from "@/src/lib/axiosInstance";
-import { API_ROUTE, REVIEWS_LIMIT } from "@/src/routes";
+import { API_ROUTE, REVIEWS_LIMIT, PRODUCT_LIMIT } from "@/src/routes";
 
 // 상품 상세 조회
 export const getProductDetail = (productId: number) => {
@@ -9,8 +9,29 @@ export const getProductDetail = (productId: number) => {
 };
 
 //상품 전체 조회하는 함수
-export const getProductList = () => {
-  const requestProps = { method: "get", endPoint: API_ROUTE.PRODUCTS };
+
+export interface getProductsProps {
+  keyword?: string | null;
+  order?: "recent" | "rating" | "reviewCount" | string;
+  category?: number | null;
+  cursor?: number | null;
+  limit?: number;
+  pageParam?: number;
+}
+
+export const getProducts = ({
+  keyword,
+  category,
+  order,
+  cursor,
+  limit = PRODUCT_LIMIT,
+  pageParam,
+}: getProductsProps) => {
+  const queryParams = `?${keyword ? `&keyword=${keyword}` : ""}${category ? `&category=${category}` : ""}${order ? `&order=${order}` : ""}${cursor ? `&cursor=${cursor}` : ""}`;
+  const requestProps = {
+    method: "get",
+    endPoint: `${API_ROUTE.PRODUCTS}${queryParams}`,
+  };
 
   return apiCall(requestProps);
 };
