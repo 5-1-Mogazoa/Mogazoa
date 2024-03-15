@@ -1,6 +1,6 @@
 import { apiCall } from "@/src/lib/axiosInstance";
 import { API_ROUTE } from "@/src/routes";
-import { userPatchDataType } from "@/src/types/user/userDataType";
+import { UserPatchDataType } from "@/src/types/user/userDataType";
 
 // 유저 랭킹을 조회하는 함수
 export const getUserRank = async () => {
@@ -58,7 +58,7 @@ export const getMyData = async () => {
 };
 
 // 자신의 정보 수정
-export const patchMyData = async (data: userPatchDataType) => {
+export const patchMyData = async (data: UserPatchDataType) => {
   const requestProps = { method: "patch", endPoint: API_ROUTE.USERS_MYDATA, data };
 
   return await apiCall(requestProps);
