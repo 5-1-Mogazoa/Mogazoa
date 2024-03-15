@@ -16,12 +16,13 @@ const nextConfig = {
       "junggutongsin.com",
       "d12zq4w4guyljn.cloudfront.net",
       "example.com",
+      "img.danawa.com",
     ],
   },
   webpack: (config) => {
     config.module.rules.push({
-      test: /\.svg$/i,
-      issuer: /\.[jt]sx?$/,
+      test: /.svg$/i,
+      issuer: /.[jt]sx?$/,
       use: ["@svgr/webpack"],
     });
     return config;

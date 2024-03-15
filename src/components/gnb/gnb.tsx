@@ -1,4 +1,4 @@
-import { StyleContainer } from "./Styled/StyledContainer";
+import { StyleContainer, StyledLogoContainer } from "./Styled/StyledContainer";
 import { Logo } from "./Logo";
 import { MenuButton } from "./Styled/StyledMenuLogo";
 import { InputContainer } from "./Styled/StyledSearchContainer";
@@ -31,7 +31,9 @@ export default function Gnb() {
       <MenuButton onClick={handleClick} />
       <Sidebar $isSidebarOpen={isSidebarOpen} isLoggedIn={isLoggedIn} />
       <Link href="/">
-        <Logo $isOpen={isOpen} />
+        <StyledLogoContainer>
+          <Logo $isOpen={isOpen} />
+        </StyledLogoContainer>
       </Link>
       <InputContainer>
         <Searchbar setIsOpen={setIsOpen} isOpen={isOpen} />

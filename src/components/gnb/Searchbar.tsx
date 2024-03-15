@@ -21,8 +21,9 @@ const Container = styled.div`
 
 const SearchButton = styled.button`
   position: absolute;
-  bottom: 1.5rem;
-  left: 2.3rem;
+  top: 50%;
+  left: 25px;
+  transform: translateY(-50%);
   width: 2.4rem;
   height: 2.4rem;
   background: url("/icons/search.svg") no-repeat center / cover;
@@ -40,6 +41,7 @@ const SearchInput = styled.input<SearchInputProps>`
   background: var(--color-black-17, #17171c);
   gap: 1rem;
   transition: 1s;
+  transition-property: width;
   @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
     height: 5rem;
     padding: 1.6rem 2rem 1.6rem 6rem;
