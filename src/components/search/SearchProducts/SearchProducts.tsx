@@ -9,6 +9,7 @@ import CategoryDropDown from "../CategoryDropDown/CategoryDropDown";
 import CategoryList from "../../home/Category/CategoryList";
 import { SearchProductsBox, SearchFilterBox } from "./Styled/StyledSearchProduct";
 import { useMediaQuery } from "usehooks-ts";
+import { getCategoryName } from "../getCategoryName";
 
 export default function SearchProducts() {
   const [order, setOrder] = useState<OrderType>({ id: "recent", name: "최신순" });
@@ -45,12 +46,12 @@ export default function SearchProducts() {
 
   return (
     <SearchProductsBox>
-      <SearchTitle searchQuery={searchQuery} category={category} />
+      <SearchTitle searchQuery={searchQuery} category={getCategoryName(category)} />
       <SearchFilterBox>
-        <CategoryDropDown onClick={handleOpenCategory} selectedCategory={category} />
+        <CategoryDropDown onClick={handleOpenCategory} selectedCategory={getCategoryName(category)} />
         <SortDropDown type="home" selectedItem={order} handleOrderButtonClick={handleSortButtonClick} />
       </SearchFilterBox>
-      <SearchCardList order={order} category={category} searchQuery={searchQuery} />
+      <SearchCardList order={order} category={category} keyword={searchQuery} />
       {matches && <CategoryList isCategory={isCategory} onClose={handleCloseCategory} />}
     </SearchProductsBox>
   );
