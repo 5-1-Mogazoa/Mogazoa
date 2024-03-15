@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { getProducts } from "@/src/apis/product";
 import Card from "../../common/card/Card";
 import styled from "styled-components";
@@ -12,28 +12,47 @@ type SearchCardListProps = {
 };
 
 export default function SearchCardList({ order, category, keyword }: SearchCardListProps) {
-  const { data: productData } = useQuery({
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
     queryKey: [QUERY_KEY.PRODUCTS, { order, category, keyword }],
-    queryFn: () => getProducts({ order, category, keyword }),
+    queryFn: ({ pageParam = 0 }) => getProducts({ order, category, keyword, cursor: pageParam, limit: PRODUCT_LIMIT }),
+    getNextPageParam: (lastPage, pages) => lastPage.nextCursor,
   });
+
+  const handleScroll = () => {
+    if (window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight) return;
+    if (!isFetchingNextPage && hasNextPage) {
+      fetchNextPage();
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [fetchNextPage, hasNextPage]);
+
   return (
     <>
       <CardListbox>
-        {productData?.list?.map((card: any, index: number) => {
-          return (
-            <Card
-              key={index}
-              productId={card.id}
-              imageUrl={card.image}
-              imageAlt={card.name}
-              cardProductTitle={card.name}
-              review={card.reviewCount}
-              pick={card.favoriteCount}
-              rateScore={card.rating}
-            />
-          );
-        })}
+        {data?.pages.map((page) =>
+          page?.list.map(
+            (
+              card: any, // index 제거
+            ) => (
+              <Card
+                key={card.id} // 수정된 부분: index 대신 card.id 사용
+                productId={card.id}
+                imageUrl={card.image}
+                imageAlt={card.name}
+                cardProductTitle={card.name}
+                review={card.reviewCount}
+                pick={card.favoriteCount}
+                rateScore={card.rating}
+              />
+            ),
+          ),
+        )}
       </CardListbox>
+      {isFetchingNextPage && <div>Loading...</div>}
     </>
   );
 }
