@@ -2,7 +2,7 @@ import { apiCall } from "@/src/lib/axiosInstance";
 import { API_ROUTE } from "@/src/routes";
 
 // 이미지 업로드
-export const postImage = async (imageFile: File) => {
+export const postImage = (imageFile: File) => {
   const formData = new FormData();
   formData.append("image", imageFile);
 
@@ -12,5 +12,5 @@ export const postImage = async (imageFile: File) => {
     data: formData,
   };
 
-  return await apiCall(requestProps);
+  return apiCall(requestProps);
 };

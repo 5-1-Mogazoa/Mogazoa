@@ -4,22 +4,22 @@ import { PostReviewRequestType } from "./schema";
 
 // 리뷰 등록
 // export const postReview = async (data: PostReviewRequestType) => {
-export const postReview = async (data) => {
+export const postReview = (data) => {
   const requestProps = { method: "post", endPoint: API_ROUTE.REVIEWS_CREATE, data };
 
-  return await apiCall(requestProps);
+  return apiCall(requestProps);
 };
 
 // 리뷰 좋아요 등록
-export const postReviewLike = async (reviewId: number) => {
+export const postReviewLike = (reviewId: number) => {
   const requestProps = { method: "post", endPoint: API_ROUTE.REVIEWS_LIKE(reviewId) };
 
-  return await apiCall(requestProps);
+  return apiCall(requestProps);
 };
 
 // 리뷰 좋아요 취소
-export const deleteReviewLike = async (reviewId: number) => {
+export const deleteReviewLike = (reviewId: number) => {
   const requestProps = { method: "delete", endPoint: API_ROUTE.REVIEWS_LIKE(reviewId) };
 
-  return await apiCall(requestProps);
+  return apiCall(requestProps);
 };

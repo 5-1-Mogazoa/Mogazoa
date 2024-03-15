@@ -13,7 +13,9 @@ instance.interceptors.request.use((config) => {
     config.headers["Content-Type"] = "application/json";
   }
 
-  const accessToken = localStorage.getItem("accessToken");
+  // 클라이언트 여부(브라우저 환경에서 실행되는건지) 확인 후 맞으면 accessToken 추가
+  const isClient = typeof window !== "undefined";
+  const accessToken = isClient ? localStorage.getItem("accessToken") : null;
   if (accessToken) config.headers.Authorization = `Bearer ${accessToken}`;
 
   return config;
