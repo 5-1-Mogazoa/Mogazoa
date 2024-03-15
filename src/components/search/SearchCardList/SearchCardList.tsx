@@ -3,30 +3,23 @@ import { useQuery } from "@tanstack/react-query";
 import { getProducts } from "@/src/apis/product";
 import Card from "../../common/card/Card";
 import styled from "styled-components";
-import { getCategoryList } from "@/src/apis/category";
 import { QUERY_KEY, PRODUCT_LIMIT } from "@/src/routes";
 
 type SearchCardListProps = {
   order?: "recent" | "rating" | "reviewCount" | string;
-  category?: number;
-  keyword?: string | undefined;
+  category?: number | null | undefined;
+  keyword?: string | null | undefined;
 };
 
 export default function SearchCardList({ order, category, keyword }: SearchCardListProps) {
-  const [productData, setProductData] = useState();
-
-  // useEffect(() => {
-  //   const { data: products } = useQuery({
-  //     queryKey: [QUERY_KEY.PRODUCTS],
-  //     queryFn: () => getProducts({ order, keyword, category }), // pageParam는 무한스크롤 사용시
-  //   });
-  //   setProductData(products);
-  // }, [order, category, keyword]);
-
+  const { data: productData } = useQuery({
+    queryKey: [QUERY_KEY.PRODUCTS, { order, category, keyword }],
+    queryFn: () => getProducts({ order, category, keyword }),
+  });
   return (
     <>
       <CardListbox>
-        {productData?.map((card: any, index: number) => {
+        {productData?.list?.map((card: any, index: number) => {
           return (
             <Card
               key={index}

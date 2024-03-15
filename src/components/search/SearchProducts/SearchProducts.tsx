@@ -51,7 +51,7 @@ export default function SearchProducts() {
         <CategoryDropDown onClick={handleOpenCategory} selectedCategory={getCategoryName(category)} />
         <SortDropDown type="home" selectedItem={order} handleOrderButtonClick={handleSortButtonClick} />
       </SearchFilterBox>
-      <SearchCardList order={order} category={category} keyword={keyword} />
+      <SearchCardList order={order.id} category={category} keyword={keyword} />
       {matches && <CategoryList isCategory={isCategory} onClose={handleCloseCategory} />}
     </SearchProductsBox>
   );

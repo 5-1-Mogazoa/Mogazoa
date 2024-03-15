@@ -11,10 +11,10 @@ export const getProductDetail = (productId: number) => {
 //상품 전체 조회하는 함수
 
 export interface getProductsProps {
-  keyword?: string;
+  keyword?: string | null;
   order?: "recent" | "rating" | "reviewCount" | string;
-  category?: number;
-  cursor?: number;
+  category?: number | null;
+  cursor?: number | null;
   limit?: number;
   pageParam?: number;
 }
@@ -22,12 +22,12 @@ export interface getProductsProps {
 export const getProducts = ({
   keyword,
   category,
-  order = "recent",
+  order,
   cursor,
   limit = PRODUCT_LIMIT,
   pageParam,
 }: getProductsProps) => {
-  const queryParams = `?${keyword ? `&keyword=${keyword}` : ""}${category ? `&category=${keyword}` : ""}${order ? `order=${order}` : ""}${cursor ? `cursor=${cursor}` : ""}`;
+  const queryParams = `?${keyword ? `&keyword=${keyword}` : ""}${category ? `&category=${category}` : ""}${order ? `&order=${order}` : ""}${cursor ? `&cursor=${cursor}` : ""}`;
   const requestProps = {
     method: "get",
     endPoint: `${API_ROUTE.PRODUCTS}${queryParams}`,
