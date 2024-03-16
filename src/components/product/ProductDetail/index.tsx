@@ -3,6 +3,7 @@ import * as S from "./styled";
 import { StyledPrimaryButton, StyledProductButton } from "../../common/button/Styled/StyledButton";
 import ProductText from "./ProductText";
 import { ProductDetailResponseType } from "@/src/apis/product/schema";
+import { getToken } from "@/src/apis/auth";
 
 type ProductDetailProps = {
   productDetail: ProductDetailResponseType | {};
@@ -16,8 +17,8 @@ function ProductDetail({ productDetail, userId, reviewToggle, loginToggle, editT
   const { id, name, image, description, category, isFavorite, writerId } = productDetail as ProductDetailResponseType;
   const createdByMe = writerId === userId;
 
-  const handleReviewClick = () => {
-    const token = localStorage.getItem("accessToken");
+  const handleReviewClick = async () => {
+    const token = await getToken();
 
     if (!token) {
       loginToggle();

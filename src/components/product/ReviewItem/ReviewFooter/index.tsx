@@ -8,6 +8,7 @@ import { useToggle } from "usehooks-ts";
 import ModalDeleteReview from "../../ModalDeleteReview";
 import { OrderType } from "../../ReviewList";
 import { useRouter } from "next/router";
+import { getToken } from "@/src/apis/auth";
 
 type ReviewFooterProps = {
   id: number;
@@ -29,7 +30,7 @@ function ReviewFooter({ id, createdAt, isLiked, likeCount, createdByMe, order, l
   const queryClient = useQueryClient();
 
   const handleLikeClick = async () => {
-    const token = localStorage.getItem("accessToken");
+    const token = await getToken();
 
     if (!token) {
       loginToggle();
