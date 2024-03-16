@@ -7,8 +7,7 @@ export default function RateTop6CardList({ productList }: any) {
   const [rateTop6CardList, setRateTop6CardList] = useState<Item>();
 
   useEffect(() => {
-    const rateSortedList = productList?.list.sort((a: any, b: any) => b.rating - a.rating);
-    const rateTop6 = rateSortedList?.slice(0, 6);
+    const rateTop6 = productList?.list.slice(0, 6);
     setRateTop6CardList(rateTop6);
   }, []);
 

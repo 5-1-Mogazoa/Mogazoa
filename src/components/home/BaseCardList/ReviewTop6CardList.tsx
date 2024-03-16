@@ -7,8 +7,7 @@ export default function ReviewTop6CardList({ productList }: any) {
   const [reviewTop6CardList, setReviewTop6CardList] = useState<Item>();
 
   useEffect(() => {
-    const reviewSortedList = productList?.list.sort((a, b) => b.reviewCount - a.reviewCount);
-    const reviewTop6 = reviewSortedList?.slice(0, 6);
+    const reviewTop6 = productList?.list.slice(0, 6);
     setReviewTop6CardList(reviewTop6);
   }, []);
 
