@@ -30,7 +30,7 @@ function ReviewItem({ review, loginToggle }: ReviewItemProps) {
     if (Array.isArray(userRank) && userRank.length > 0) {
       const findUserInfo = async () => {
         const rankingIndex = userRank.findIndex((rank) => rank.id === user.id);
-        const followersData = (await getUserFollowers(user.id)) as getUserFollowersResponseType;
+        const followersData = (await getUserFollowers(user.id, 0)) as getUserFollowersResponseType;
 
         const reviewedData = (await getUserReviewed(user.id)) as getUserReviewedResponseType;
 
