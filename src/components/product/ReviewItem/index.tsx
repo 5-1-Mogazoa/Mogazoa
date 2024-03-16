@@ -7,13 +7,15 @@ import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { ReviewListType } from "@/src/apis/product/schema";
 import { getUserFollowersResponseType, getUserReviewedResponseType } from "@/src/apis/user/schema";
+import { OrderType } from "../ReviewList";
 
 type ReviewItemProps = {
   review: ReviewListType;
+  order: OrderType;
   loginToggle: () => void;
 };
 
-function ReviewItem({ review, loginToggle }: ReviewItemProps) {
+function ReviewItem({ review, order, loginToggle }: ReviewItemProps) {
   const [userCount, setUserCount] = useState({ ranking: 0, follower: 0, reviewed: 0 });
   const { id, user, reviewImages, createdAt, isLiked, likeCount, content, rating, userId: writerId } = review;
   const userId = Number(localStorage.getItem("userId"));
@@ -58,6 +60,7 @@ function ReviewItem({ review, loginToggle }: ReviewItemProps) {
           isLiked={isLiked}
           likeCount={likeCount}
           createdByMe={createdByMe}
+          order={order}
           loginToggle={loginToggle}
         />
       </S.ContentsWithFooter>

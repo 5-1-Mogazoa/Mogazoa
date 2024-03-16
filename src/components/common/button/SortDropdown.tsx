@@ -1,7 +1,7 @@
 import { useState } from "react";
 import * as S from "./Styled/StyledSortDropdown";
-import { OrderOptionType, OrderType } from "@/pages/products/[productId]";
 import { PRODUCT_ORDER, REVIEW_ORDER } from "@/src/constant/DROPDOWN_BUTTON";
+import { OrderOptionType, OrderType } from "../../product/ReviewList";
 
 type SortDropProps = {
   type: "home" | "products";

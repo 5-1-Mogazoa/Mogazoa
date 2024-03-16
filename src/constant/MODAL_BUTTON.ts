@@ -6,6 +6,7 @@ const MODAL_BUTTON: Record<string, string> = {
   profile: "저장하기",
   add: "추가하기",
   login: "로그인하기",
+  delete: "삭제하기",
 };
 
 export default MODAL_BUTTON;

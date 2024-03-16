@@ -12,11 +12,12 @@ export type OrderType = { id: OrderOptionType; name: string };
 
 type ReviewListProps = {
   productId: number;
+  order: OrderType;
+  setOrder: React.Dispatch<React.SetStateAction<OrderType>>;
   loginToggle: () => void;
 };
 
-function ReviewList({ productId, loginToggle }: ReviewListProps) {
-  const [order, setOrder] = useState<OrderType>({ id: "recent", name: "최신순" });
+function ReviewList({ productId, order, setOrder, loginToggle }: ReviewListProps) {
   const [ref, inView] = useInView();
 
   const {
@@ -62,7 +63,7 @@ function ReviewList({ productId, loginToggle }: ReviewListProps) {
         {reviewData?.pages.map((page) => (
           <React.Fragment key={page.nextCursor}>
             {page.list.map((review) => (
-              <ReviewItem key={review.id} review={review} loginToggle={loginToggle} />
+              <ReviewItem key={review.id} review={review} order={order} loginToggle={loginToggle} />
             ))}
           </React.Fragment>
         ))}
