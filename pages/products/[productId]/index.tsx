@@ -6,7 +6,7 @@ import StatisticsList from "@/src/components/product/StatisticsList";
 import { QueryClient, dehydrate, useQuery } from "@tanstack/react-query";
 import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
-import ReviewList from "@/src/components/product/ReviewList";
+import ReviewList, { OrderType } from "@/src/components/product/ReviewList";
 import ModalReview from "@/src/components/product/ModalReview";
 import React, { useEffect, useState } from "react";
 import { QUERY_KEY } from "@/src/routes";
@@ -19,10 +19,11 @@ export default function Product() {
   const router = useRouter();
   const productId = Number(router.query.productId);
 
-  const [userId, setUserId] = useState(0);
+  const [order, setOrder] = useState<OrderType>({ id: "recent", name: "최신순" });
   const [editModal, editToggle, setEditMdodal] = useToggle();
   const [reviewModal, reviewToggle, setReviewMdodal] = useToggle();
   const [loginModal, loginToggle, setLoginMdodal] = useToggle();
+  const [userId, setUserId] = useState(0);
 
   // SSR로 받은 상품 상세 정보
   const { data: productDetail } = useQuery({
@@ -64,12 +65,13 @@ export default function Product() {
         <StatisticsItem statType="favoriteCount" count={favoriteCount} average={favoriteAverage} />
         <StatisticsItem statType="reviewCount" count={reviewCount} average={reviewAverage} />
       </StatisticsList>
-      <ReviewList productId={productId} loginToggle={loginToggle} />
+      <ReviewList productId={productId} order={order} setOrder={setOrder} loginToggle={loginToggle} />
       {reviewModal && (
         <ModalReview
           productId={productId}
           name={name}
           category={category.name}
+          order={order}
           onClose={() => setReviewMdodal(false)}
         />
       )}

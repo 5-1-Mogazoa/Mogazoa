@@ -12,16 +12,17 @@ import { postReview } from "@/src/apis/review";
 import { QUERY_KEY } from "@/src/routes";
 import { PostReviewRequestType } from "@/src/apis/review/schema";
 import { postImage } from "@/src/apis/image";
+import { OrderType } from "../ReviewList";
 
 interface ModalReviewProps {
   productId: number;
   name: string;
   category?: CategoryType | undefined;
-  // callback?: (data: FieldValues) => Promise<void>;
+  order: OrderType;
   onClose: () => void;
 }
 
-function ModalReview({ productId, name, category, onClose }: ModalReviewProps) {
+function ModalReview({ productId, name, category, order, onClose }: ModalReviewProps) {
   const [reviewImages, SetReviewImages] = useState<string[]>([]);
 
   const methods = useForm();
@@ -31,7 +32,7 @@ function ModalReview({ productId, name, category, onClose }: ModalReviewProps) {
   const postReviewMutation = useMutation({
     mutationFn: (newReview) => postReview(newReview),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.REVIEWS] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.REVIEWS, productId, order.id] });
     },
   });
 

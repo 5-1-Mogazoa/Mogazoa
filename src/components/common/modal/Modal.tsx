@@ -10,7 +10,7 @@ import { FieldValues, useFormContext } from "react-hook-form";
 interface ModalProps {
   title: string;
   subTitle?: string;
-  modalType: "follow" | "compare" | "compare_comfirm" | "review" | "edit" | "profile" | "add" | "login";
+  modalType: "follow" | "compare" | "compare_comfirm" | "review" | "edit" | "profile" | "add" | "login" | "delete";
   category?: CategoryType | undefined;
   isFormData?: boolean;
   // callback?: (data: FieldValues) => Promise<T>;
@@ -26,7 +26,7 @@ function Modal({ title, subTitle, modalType, category, isFormData, callback, onC
 
   const isValid = formContext && formContext.formState.isValid;
   const isReview = modalType === "review";
-  const isSmall = modalType === "compare_comfirm" || modalType === "login";
+  const isSmall = modalType === "compare_comfirm" || modalType === "login" || modalType === "delete";
   const isConfirmButton = isSmall || modalType === "compare";
   const isFollow = modalType === "follow";
 
