@@ -8,13 +8,13 @@ interface RatingStarsProps {
 }
 
 export function RatingStars({ type, score }: RatingStarsProps) {
-  const SCORE_ARRAY = [1, 2, 3, 4, 5];
-
   return (
     <S.Container>
-      {SCORE_ARRAY.map((number, index) => (
-        <S.Star key={index} $type={type} $selected={number <= score ? true : false} />
-      ))}
+      {[...Array(10)].map((_, index) => {
+        const value = (index + 1) * 0.5;
+        const rightStar = value % 1 === 0;
+        return <S.Star key={index} $type={type} $selected={value <= score ? true : false} $rightStar={rightStar} />;
+      })}
     </S.Container>
   );
 }
@@ -22,47 +22,34 @@ export function RatingStars({ type, score }: RatingStarsProps) {
 // Modalt(react-hook-form) 사용하는 별점
 interface FormRatingStarsProps {
   type: "modal" | "page";
-  score: number;
-  setScore?: React.Dispatch<React.SetStateAction<number>>;
   defaultValue: number;
 }
 
-export function FormRatingStars({ type, score, setScore, defaultValue }: FormRatingStarsProps) {
-  const SCORE_ARRAY = [1, 2, 3, 4, 5];
-
+export function FormRatingStars({ type, defaultValue }: FormRatingStarsProps) {
   const {
     control,
     formState: { errors },
   } = useFormContext();
 
-  const handleClick = (number: number) => {
-    if (type === "modal" && setScore) {
-      setScore(number);
-    }
-  };
-
   return (
     <S.Container>
-      {SCORE_ARRAY.map((number, index) => (
-        <Controller
-          key={index}
-          name="rating"
-          control={control}
-          defaultValue={defaultValue}
-          render={({ field }) => (
-            <S.Star
-              key={index}
-              $type={type}
-              $selected={number <= score ? true : false}
-              onClick={() => {
-                handleClick(number);
-                field.onChange(number);
-              }}
-              {...field}
-            />
-          )}
-        />
-      ))}
+      {[...Array(10)].map((_, index) => {
+        const ratingValue = (index + 1) * 0.5;
+        const rightStar = ratingValue % 1 === 0; // 정수 값일 경우 별 오른쪽 부분(좌우반전 적용)
+        return (
+          <Controller
+            key={ratingValue}
+            name="rating"
+            control={control}
+            defaultValue={defaultValue}
+            render={({ field }) => (
+              <button {...field} type="button" onClick={() => field.onChange(ratingValue)}>
+                <S.Star $type={type} $selected={field.value >= ratingValue ? true : false} $rightStar={rightStar} />
+              </button>
+            )}
+          />
+        );
+      })}
     </S.Container>
   );
 }

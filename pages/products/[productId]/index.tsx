@@ -8,7 +8,7 @@ import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
 import ReviewList from "@/src/components/product/ReviewList";
 import ModalReview from "@/src/components/product/ModalReview";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { QUERY_KEY } from "@/src/routes";
 import { useToggle } from "usehooks-ts";
 import { ProductDetailResponseType } from "@/src/apis/product/schema";
@@ -19,6 +19,7 @@ export default function Product() {
   const router = useRouter();
   const productId = Number(router.query.productId);
 
+  const [userId, setUserId] = useState(0);
   const [editModal, editToggle, setEditMdodal] = useToggle();
   const [reviewModal, reviewToggle, setReviewMdodal] = useToggle();
   const [loginModal, loginToggle, setLoginMdodal] = useToggle();
@@ -42,14 +43,12 @@ export default function Product() {
   const ratingAverage = Number(categoryMetric.rating.toFixed(1));
   const favoriteAverage = Number(categoryMetric.favoriteCount.toFixed(0));
   const reviewAverage = Number(categoryMetric.reviewCount.toFixed(0));
-  // const userId = Number(localStorage.getItem("userId"));
-  const userId = 38;
 
   // TODO 안됨
-  // useEffect(() => {
-  //   const userId = Number(localStorage.getItem("userId"));
-  //   console.log(userId);
-  // }, []);
+  useEffect(() => {
+    const userIdData = Number(localStorage.getItem("userId"));
+    setUserId(userIdData);
+  }, []);
 
   return (
     <ProductLayout>

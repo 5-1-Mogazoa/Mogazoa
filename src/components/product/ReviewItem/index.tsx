@@ -32,7 +32,7 @@ function ReviewItem({ review, loginToggle }: ReviewItemProps) {
         const rankingIndex = userRank.findIndex((rank) => rank.id === user.id);
         const followersData = (await getUserFollowers(user.id, 0)) as getUserFollowersResponseType;
 
-        const reviewedData = (await getUserReviewed(user.id)) as getUserReviewedResponseType;
+        const reviewedData = (await getUserReviewed(user.id, 0)) as getUserReviewedResponseType;
 
         const userCountData = {
           ranking: rankingIndex + 1,

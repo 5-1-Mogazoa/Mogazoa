@@ -35,8 +35,6 @@ function Modal({ title, subTitle, modalType, category, isFormData, callback, onC
   };
 
   const handleButtonClick = async (data: FieldValues) => {
-    console.log("모달 클릭");
-
     if (typeof callback === "function") {
       try {
         await callback(data);
