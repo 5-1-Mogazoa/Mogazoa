@@ -23,21 +23,27 @@ const CardListBoxWrap = ({ title, description, children }: CardListBoxWrapPorps)
 );
 
 export default function BaseCardList() {
-  const { data: products } = useQuery({
-    queryKey: [QUERY_KEY.PRODUCTS],
-    queryFn: () => getProducts({}),
+  const { data: reviewProducts } = useQuery({
+    queryKey: [QUERY_KEY.PRODUCTS, { order: "reviewCount" }],
+    queryFn: () => getProducts({ order: "reviewCount" }),
   });
 
-  if (!products) {
+  const { data: rateProducts } = useQuery({
+    queryKey: [QUERY_KEY.PRODUCTS, { order: "rating" }],
+    queryFn: () => getProducts({ order: "rating" }),
+  });
+
+  if (!reviewProducts || !rateProducts) {
     return null;
   }
+
   return (
     <>
       <CardListBoxWrap title="지금 핫한 상품" description="TOP 6">
-        <ReviewTop6CardList productList={products} />
+        <ReviewTop6CardList productList={reviewProducts} />
       </CardListBoxWrap>
       <CardListBoxWrap title="별점이 높은 상품">
-        <RateTop6CardList productList={products} />
+        <RateTop6CardList productList={rateProducts} />
       </CardListBoxWrap>
     </>
   );
