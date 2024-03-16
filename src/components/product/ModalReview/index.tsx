@@ -22,7 +22,6 @@ interface ModalReviewProps {
 }
 
 function ModalReview({ productId, name, category, onClose }: ModalReviewProps) {
-  const [score, setScore] = useState(5);
   const [reviewImages, SetReviewImages] = useState<string[]>([]);
 
   const methods = useForm();
@@ -80,7 +79,7 @@ function ModalReview({ productId, name, category, onClose }: ModalReviewProps) {
         <S.Container>
           <S.Rating>
             별점
-            <FormRatingStars type="modal" score={score} setScore={setScore} defaultValue={score} />
+            <FormRatingStars type="modal" defaultValue={5} />
           </S.Rating>
           <FormTextareaInput
             name="content"
