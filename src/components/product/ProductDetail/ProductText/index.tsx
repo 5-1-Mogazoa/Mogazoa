@@ -7,6 +7,7 @@ import { deleteFavorite, postFavorite } from "@/src/apis/product";
 import { useQueryClient } from "@tanstack/react-query";
 import { QUERY_KEY } from "@/src/routes";
 import ModalLogin from "../../MadalLogin";
+import { getToken } from "@/src/apis/auth";
 
 type ProductTextProps = {
   id: number;
@@ -25,7 +26,7 @@ function ProductText({ id: productId, name, category, isFavorite, description, l
   const queryClient = useQueryClient();
 
   const handleFavoriteClick = async () => {
-    const token = localStorage.getItem("accessToken");
+    const token = await getToken();
 
     if (!token) {
       loginToggle();

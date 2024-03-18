@@ -38,6 +38,7 @@ export const getToken = async () => {
     return result;
   } catch (error) {
     console.error(error);
+    throw error;
   }
 };
 
