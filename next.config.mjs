@@ -16,6 +16,7 @@ const nextConfig = {
       "junggutongsin.com",
       "d12zq4w4guyljn.cloudfront.net",
       "example.com",
+      "images.unsplash.com",
       "img.danawa.com",
     ],
   },
