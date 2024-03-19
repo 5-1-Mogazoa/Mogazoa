@@ -8,6 +8,8 @@ import { useQuery } from "@tanstack/react-query";
 import { ReviewListType } from "@/src/apis/product/schema";
 import { getUserFollowersResponseType, getUserReviewedResponseType } from "@/src/apis/user/schema";
 import { OrderType } from "../ReviewList";
+import Link from "next/link";
+import { PAGE_ROUTES } from "@/src/routes";
 
 type ReviewItemProps = {
   review: ReviewListType;
@@ -51,7 +53,9 @@ function ReviewItem({ review, order, loginToggle }: ReviewItemProps) {
 
   return (
     <S.Container>
-      <ReviewItemUser user={user} userCount={userCount} rating={rating} />
+      <Link href={PAGE_ROUTES.USER_DETAIL(writerId)}>
+        <ReviewItemUser user={user} userCount={userCount} rating={rating} />
+      </Link>
       <S.ContentsWithFooter>
         <ReviewContents content={content} reviewImages={reviewImages} />
         <ReviewFooter
