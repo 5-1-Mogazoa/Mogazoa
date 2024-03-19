@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import * as S from "./styled";
 import ReviewItem from "../ReviewItem";
 import SortDropdown from "../../common/button/SortDropdown";
@@ -6,6 +6,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { getProductReviews } from "@/src/apis/product";
 import { QUERY_KEY } from "@/src/routes";
 import { useInView } from "react-intersection-observer";
+import { getReviewsListResponseType } from "@/src/apis/product/schema";
 
 export type OrderOptionType = "recent" | "ratingDesc" | "ratingAsc" | "likeCount" | "reviewCount" | "rating";
 export type OrderType = { id: OrderOptionType; name: string };
@@ -29,10 +30,11 @@ function ReviewList({ productId, order, setOrder, loginToggle }: ReviewListProps
   } = useInfiniteQuery({
     queryKey: [QUERY_KEY.REVIEWS, productId, order.id],
     queryFn: async ({ pageParam }) => {
-      return await getProductReviews({ productId, order: order.id, pageParam });
+      const param = typeof pageParam === "number" ? pageParam : undefined;
+      return await getProductReviews({ productId, order: order.id, pageParam: param });
     },
     initialPageParam: 0,
-    getNextPageParam: (lastPage) => {
+    getNextPageParam: (lastPage: getReviewsListResponseType) => {
       return lastPage?.nextCursor ?? undefined;
     },
   });
@@ -49,6 +51,7 @@ function ReviewList({ productId, order, setOrder, loginToggle }: ReviewListProps
   };
 
   if (!reviewData) return null;
+
   const reviewList = reviewData?.pages[0].list;
   const noList = reviewList.length === 0;
 
@@ -68,7 +71,7 @@ function ReviewList({ productId, order, setOrder, loginToggle }: ReviewListProps
           </React.Fragment>
         ))}
         <S.ScrollButton ref={ref} onClick={() => fetchNextPage()} disabled={!hasNextPage || isFetchingNextPage}>
-          {isFetchingNextPage ? ". . ." : hasNextPage ? "Load Newer" : "리뷰를 다 봤어요!"}
+          {!hasNextPage && "리뷰를 다 봤어요!"}
         </S.ScrollButton>
       </S.List>
     </S.Container>

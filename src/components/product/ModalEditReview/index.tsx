@@ -12,6 +12,11 @@ import { QUERY_KEY } from "@/src/routes";
 import { PatchReveiwRequestType } from "@/src/apis/review/schema";
 import { postImage } from "@/src/apis/image";
 import { OrderType } from "../ReviewList";
+import { useRouter } from "next/router";
+
+export interface ImageUrlType {
+  url: string;
+}
 
 interface ModalEditReviewProps {
   name: string;
@@ -24,12 +29,17 @@ interface ModalEditReviewProps {
 function ModalEditReview({ name, category, order, defaultValue, onClose }: ModalEditReviewProps) {
   const { id, reviewImages: defaultImages, content: defaultContent, rating: defaultRating } = defaultValue || {};
 
-  const methods = useForm();
+  const router = useRouter();
+  const productId = Number(router.query.productId);
+
+  const methods = useForm<FieldValues>();
   const queryClient = useQueryClient();
 
   // 리뷰 수정 요청
-  const patchReviewMutation = useMutation({
-    mutationFn: (newReview) => patchReview(id, newReview),
+  const patchReviewMutation = useMutation<void, unknown, PatchReveiwRequestType>({
+    mutationFn: async (newReview) => {
+      await patchReview(id!, newReview);
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.REVIEWS, productId, order.id] });
     },
@@ -43,35 +53,33 @@ function ModalEditReview({ name, category, order, defaultValue, onClose }: Modal
       rating: data.rating,
     };
 
-    // data 이미지 파일이 있을 경우 기존 이미지{id: number}는 바로 formData.images에 push하고, 새로운 이미지 File 파일들은 업로드해 새로운 URL 받아서 formData.images에 추가
-    const getImageUrlPromises = [];
+    const getImageUrlPromises: Promise<ImageUrlType>[] = [];
 
     if (data.images !== undefined) {
       for (const file of data.images) {
+        // File(새로 추가된 이미지)은 업로드해 새로운 URL 받아서 getImageUrlPromises에 모으기
         if (file instanceof File) {
           let newImageUrl = await postImage(file);
           getImageUrlPromises.push(newImageUrl);
         } else {
+          // {id: number} 기존 이미지는 formData.images에 바로 추가하기
           formData.images.push(file);
         }
       }
 
+      // getImageUrlPromises 모아둔 image url을 formData.source에 넣기
       try {
         const imageUrlResponse = await Promise.all(getImageUrlPromises);
         const allImageUrl = imageUrlResponse.map((response) => response.url);
         allImageUrl.forEach((url) => {
           formData.images.push({ source: url });
         });
-      } catch (erroe) {
-        console.error("이미지 업로드를 실패했어요.");
+      } catch (error) {
+        console.error("이미지 업로드를 실패했어요.", error);
       }
     }
 
-    patchReviewMutation.mutate(formData, {
-      onSuccess: () => {
-        // console.log("리뷰가 성공적으로 업로드 되었습니다!");
-      },
-    });
+    patchReviewMutation.mutate(formData);
   };
 
   return (

@@ -12,6 +12,7 @@ import { QUERY_KEY } from "@/src/routes";
 import { PostReviewRequestType } from "@/src/apis/review/schema";
 import { postImage } from "@/src/apis/image";
 import { OrderType } from "../ReviewList";
+import { ImageUrlType } from "../ModalEditReview";
 
 interface ModalReviewProps {
   productId: number;
@@ -23,14 +24,16 @@ interface ModalReviewProps {
 }
 
 function ModalReview({ productId, name, category, order, defaultValue, onClose }: ModalReviewProps) {
-  const { id, reviewImages: defaultImages, content: defaultContent, rating: defaultRating } = defaultValue || {};
+  const { reviewImages: defaultImages, content: defaultContent, rating: defaultRating } = defaultValue || {};
 
   const methods = useForm();
   const queryClient = useQueryClient();
 
   // 리뷰 생성 요청
-  const postReviewMutation = useMutation({
-    mutationFn: (newReview) => postReview(newReview),
+  const postReviewMutation = useMutation<void, unknown, PostReviewRequestType>({
+    mutationFn: async (newReview) => {
+      await postReview(newReview);
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.REVIEWS, productId, order.id] });
     },
@@ -46,7 +49,7 @@ function ModalReview({ productId, name, category, order, defaultValue, onClose }
     };
 
     // data 이미지 파일이 있을 경우 파일들을 업로드하고 새로운 URL 받아서 formData.images에 추가
-    const getImageUrlPromises = [];
+    const getImageUrlPromises: Promise<ImageUrlType>[] = [];
 
     if (data.images !== undefined) {
       for (const file of data.images) {
@@ -61,11 +64,7 @@ function ModalReview({ productId, name, category, order, defaultValue, onClose }
         console.error("이미지 업로드를 실패했어요.");
       }
     }
-    postReviewMutation.mutate(formData, {
-      onSuccess: () => {
-        // console.log("리뷰가 성공적으로 업로드 되었습니다!");
-      },
-    });
+    postReviewMutation.mutate(formData);
   };
 
   return (
