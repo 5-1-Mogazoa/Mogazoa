@@ -14,7 +14,8 @@ const StyledRankingListItemImage = styled.div<StyledRankingListProps>`
   width: 36px;
   height: 36px;
   border-radius: 100px;
-  background: url(${({ $imageURL }) => $imageURL}) no-repeat center / cover;
+  background: url(${({ $imageURL }) => ($imageURL ? $imageURL : `${location.origin}/icons/default_profile.svg`)})
+    no-repeat center / cover;
 
   @media (min-width: ${({ theme }) => theme.deviceSizes.desktop}) {
     width: 42px;
