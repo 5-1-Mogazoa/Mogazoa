@@ -88,6 +88,10 @@ function ModalReview({ productId, name, category, order, defaultValue, onClose }
                 value: true,
                 message: ERROR_MESSAGE.REQUIRED_REVIEW,
               },
+              minLength: {
+                value: 10,
+                message: ERROR_MESSAGE.REVIEW_MIN_LENGTH,
+              },
               maxLength: {
                 value: 500,
                 message: ERROR_MESSAGE.REVIEW_MAX_LENGTH,
@@ -96,7 +100,6 @@ function ModalReview({ productId, name, category, order, defaultValue, onClose }
             defaultValue={defaultContent}
             placeholder="리뷰를 작성해 주세요."
           />
-
           <FormMultiImageInput name="images" defaultValue={defaultImages} />
         </S.Container>
       </Modal>
