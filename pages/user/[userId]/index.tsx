@@ -1,6 +1,7 @@
 import Userprofile from "@/src/components/profiles/UserProfile";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { PAGE_ROUTES } from "@/src/routes";
 
 export default function Profile() {
   const router = useRouter();
@@ -8,12 +9,10 @@ export default function Profile() {
   const userId = router.query.userId;
   useEffect(() => {
     if (localStorage.getItem("userId") === userId) {
-      router.push("/mypage");
+      router.push(PAGE_ROUTES.MY_PAGE);
       return;
     }
     setIsChecked(true);
-  }, [router, userId])
-  return (
-    <>{isChecked && <Userprofile isMe={false} />}</>
-  )
+  }, [router, userId]);
+  return <>{isChecked && <Userprofile isMe={false} />}</>;
 }
