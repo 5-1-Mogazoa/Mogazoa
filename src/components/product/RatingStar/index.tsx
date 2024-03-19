@@ -41,9 +41,14 @@ export function FormRatingStars({ type, defaultValue }: FormRatingStarsProps) {
             key={ratingValue}
             name="rating"
             control={control}
+            rules={{ min: 1 }}
             defaultValue={defaultValue}
             render={({ field }) => (
-              <button {...field} type="button" onClick={() => field.onChange(ratingValue)}>
+              <button
+                {...field}
+                type="button"
+                onClick={() => field.onChange(ratingValue)}
+                disabled={ratingValue <= 1 && field.value === 1}>
                 <S.Star $type={type} $selected={field.value >= ratingValue ? true : false} $rightStar={rightStar} />
               </button>
             )}
