@@ -12,6 +12,7 @@ import { OauthResponseType } from "@/src/types/oauth/oauthDataType";
 import { postOauthSignInData } from "@/src/apis/oauth";
 import { PAGE_ROUTES } from "@/src/routes";
 import { useOauth } from "@/src/lib/OauthProvider";
+import { postToken } from "@/src/apis/auth";
 
 type mutationParameterType = {
   idToken: string;
@@ -27,15 +28,24 @@ export default function OauthSignInBox() {
 
   useEffect(() => {
     if (router.asPath.split("/signin")[1]) {
-      const idToken = router.asPath.split("id_token=")[1].split("&")[0];
+      let idToken = "";
+      let provider = "";
+      if (router.asPath.indexOf("code=") !== -1) {
+        idToken = router.asPath.split("code=")[1];
+        provider = "kakao";
+      } else {
+        idToken = router.asPath.split("id_token=")[1].split("&")[0];
+        provider = "google";
+      }
       (async () => {
         try {
           const result = (await postMutation.mutateAsync({
             idToken,
-            provider: "google",
+            provider: provider,
           })) as OauthResponseType;
           const accessToken = result.accessToken;
           const userId = result.user.id;
+          await postToken(accessToken);
           localStorage.setItem("accessToken", accessToken);
           localStorage.setItem("userId", String(userId));
           router.push("/");
@@ -44,12 +54,22 @@ export default function OauthSignInBox() {
           if (error.response.status === 403) {
             alert("회원가입이 필요합니다.");
             setToken(idToken);
-            router.push(`${PAGE_ROUTES.OAUTH_SIGNUP}/google`);
+            router.push(`${PAGE_ROUTES.OAUTH_SIGNUP}/${provider}`);
+          } else {
+            console.error(error);
           }
         }
       })();
     }
   }, []);
+
+  const handleKakaoLogin = () => {
+    window.Kakao.Auth.authorize({
+      redirectUri: `${location.origin}/signin`,
+      scope: "openid",
+      nonce: `${Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)}`,
+    });
+  };
 
   return (
     <StyledOauthContainer>
@@ -63,7 +83,7 @@ export default function OauthSignInBox() {
             <StyledOauthButton $provider="google" />
           </StyledOauthButtonCircle>
         </a>
-        <StyledOauthButtonCircle>
+        <StyledOauthButtonCircle onClick={handleKakaoLogin}>
           <StyledOauthButton $provider="kakao" />
         </StyledOauthButtonCircle>
       </StyledOauthButtonContainer>
