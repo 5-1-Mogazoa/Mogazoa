@@ -59,7 +59,7 @@ function ModalEditReview({ name, category, order, defaultValue, onClose }: Modal
       for (const file of data.images) {
         // File(새로 추가된 이미지)은 업로드해 새로운 URL 받아서 getImageUrlPromises에 모으기
         if (file instanceof File) {
-          let newImageUrl = await postImage(file);
+          const newImageUrl: Promise<ImageUrlType> = postImage(file) as Promise<ImageUrlType>;
           getImageUrlPromises.push(newImageUrl);
         } else {
           // {id: number} 기존 이미지는 formData.images에 바로 추가하기

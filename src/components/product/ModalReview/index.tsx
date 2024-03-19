@@ -53,7 +53,7 @@ function ModalReview({ productId, name, category, order, defaultValue, onClose }
 
     if (data.images !== undefined) {
       for (const file of data.images) {
-        let newImageUrl = await postImage(file);
+        const newImageUrl: Promise<ImageUrlType> = postImage(file) as Promise<ImageUrlType>;
         getImageUrlPromises.push(newImageUrl);
       }
 
