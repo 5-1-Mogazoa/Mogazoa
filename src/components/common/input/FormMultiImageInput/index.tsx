@@ -12,6 +12,7 @@ interface FormMultiImageInputProps {
 function FormMultiImageInput({ name, defaultValue }: FormMultiImageInputProps) {
   const [newValue, setNewValue] = useState<any>([]);
   const [previewImages, setPreviewImages] = useState<string[]>([]);
+  const threeOrLess = previewImages.length < 3;
 
   const {
     control,
@@ -66,28 +67,30 @@ function FormMultiImageInput({ name, defaultValue }: FormMultiImageInputProps) {
   return (
     <S.Container>
       <S.LabelWithPreviews>
-        <S.Label htmlFor={name}>
-          <Controller
-            name={name}
-            control={control}
-            render={({ field: { value, onChange, ...field } }) => (
-              <S.ImageInput
-                id={name}
-                type="file"
-                accept="image/*"
-                multiple
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                  handleFileChange(event);
-                }}
-                {...field}
-              />
-            )}
-          />
-          <S.Icon />
-        </S.Label>
+        {threeOrLess && (
+          <S.Label htmlFor={name}>
+            <Controller
+              name={name}
+              control={control}
+              render={({ field: { value, onChange, ...field } }) => (
+                <S.ImageInput
+                  id={name}
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                    handleFileChange(event);
+                  }}
+                  {...field}
+                />
+              )}
+            />
+            <S.Icon />
+          </S.Label>
+        )}
         {previewImages.map((imageUrl, index) => (
           <S.PreviewImage key={index}>
-            <Image fill src={imageUrl} alt={imageUrl} />
+            <Image fill src={imageUrl} alt={imageUrl} style={{ objectFit: "cover" }} />
             <S.DeleteButton onClick={() => handleDeleteImage(index)} />
           </S.PreviewImage>
         ))}

@@ -29,7 +29,7 @@ export type CategoryType =
   | "식당"
   | "전자기기"
   | "화장품"
-  | "의류/악세서리"
+  | "의류/잡화"
   | "앱";
 
 export interface CategoryMetricType {

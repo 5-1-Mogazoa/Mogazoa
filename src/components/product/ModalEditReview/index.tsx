@@ -59,7 +59,7 @@ function ModalEditReview({ name, category, order, defaultValue, onClose }: Modal
       for (const file of data.images) {
         // File(새로 추가된 이미지)은 업로드해 새로운 URL 받아서 getImageUrlPromises에 모으기
         if (file instanceof File) {
-          let newImageUrl = await postImage(file);
+          const newImageUrl: Promise<ImageUrlType> = postImage(file) as Promise<ImageUrlType>;
           getImageUrlPromises.push(newImageUrl);
         } else {
           // {id: number} 기존 이미지는 formData.images에 바로 추가하기
@@ -104,12 +104,12 @@ function ModalEditReview({ name, category, order, defaultValue, onClose }: Modal
                 message: ERROR_MESSAGE.REQUIRED_REVIEW,
               },
               maxLength: {
-                value: 500,
+                value: 300,
                 message: ERROR_MESSAGE.REVIEW_MAX_LENGTH,
               },
             }}
             defaultValue={defaultContent}
-            placeholder="리뷰를 작성해 주세요."
+            placeholder="리뷰는 최소 10자 이상 작성해 주세요."
           />
 
           <FormMultiImageInput name="images" defaultValue={defaultImages} />

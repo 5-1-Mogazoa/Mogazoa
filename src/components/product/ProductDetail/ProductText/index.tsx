@@ -6,7 +6,6 @@ import { CategoryType } from "@/src/apis/product/schema";
 import { deleteFavorite, postFavorite } from "@/src/apis/product";
 import { useQueryClient } from "@tanstack/react-query";
 import { QUERY_KEY } from "@/src/routes";
-import ModalLogin from "../../MadalLogin";
 import { getToken } from "@/src/apis/auth";
 
 type ProductTextProps = {

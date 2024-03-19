@@ -71,7 +71,7 @@ function ReviewList({ productId, order, setOrder, loginToggle }: ReviewListProps
           </React.Fragment>
         ))}
         <S.ScrollButton ref={ref} onClick={() => fetchNextPage()} disabled={!hasNextPage || isFetchingNextPage}>
-          {!hasNextPage && "리뷰를 다 봤어요!"}
+          {!hasNextPage && !noList && "리뷰를 다 봤어요!"}
         </S.ScrollButton>
       </S.List>
     </S.Container>

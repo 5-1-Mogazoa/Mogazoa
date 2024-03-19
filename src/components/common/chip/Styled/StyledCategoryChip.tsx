@@ -40,7 +40,7 @@ export const StyledCategoryChip = styled.div<StyledCategoryChipProps>`
         return "rgba(35, 181, 129, 0.10)";
       case "화장품":
         return "rgba(253, 82, 154, 0.10)";
-      case "의류/악세서리":
+      case "의류/잡화":
         return "rgba(117, 122, 255, 0.10)";
       case "앱":
         return "rgba(48, 152, 227, 0.10)";
@@ -65,7 +65,7 @@ export const StyledCategoryChip = styled.div<StyledCategoryChipProps>`
         return "#23B581";
       case "화장품":
         return "#FD529A";
-      case "의류/악세서리":
+      case "의류/잡화":
         return "#757AFF";
       case "앱":
         return "#3098E3";
