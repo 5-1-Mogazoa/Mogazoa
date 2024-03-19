@@ -8,6 +8,7 @@ import { FollowDataType, FolloweeType, FollowerType } from "@/src/types/user/use
 import { StyledProfileContainer, StyledProfileImage, StyledProfileUl, StyledUserName } from "./Styled/StyledFollowUser";
 import Link from "next/link";
 import { PAGE_ROUTES } from "@/src/routes";
+import { StyledDescription } from "./Styled/StyledDescription";
 
 interface ModalProps {
   setIsOpen: (value: boolean) => void;
@@ -21,6 +22,7 @@ function FollowInfoModal({ setIsOpen, dataType, userId, nickname }: ModalProps) 
   const [cursor, setCursor] = useState<number | null>(null);
   const title = `${nickname}님${dataType === "follower" ? "을" : "이"} 팔로우하는 유저`;
   const [dataList, setDataList] = useState<FollowerType[] | FolloweeType[]>([]);
+  const [noMoreUsers, setNoMoreUsers] = useState(false);
 
   const { data: userList } = useQuery<FollowDataType>({
     queryKey: ["usersList", cursor],
@@ -54,6 +56,8 @@ function FollowInfoModal({ setIsOpen, dataType, userId, nickname }: ModalProps) 
       if (scrollableDiv.scrollHeight - scrollableDiv.scrollTop === scrollableDiv.clientHeight) {
         if (userList?.nextCursor) {
           setCursor(userList?.nextCursor);
+        } else {
+          setNoMoreUsers(true);
         }
       }
     }
@@ -74,6 +78,7 @@ function FollowInfoModal({ setIsOpen, dataType, userId, nickname }: ModalProps) 
             {dataList.map((item) => {
               return dataType === "follower" ? (
                 <Link
+                  onClick={handleCloseButton}
                   key={(item as FollowerType).follower.id}
                   href={PAGE_ROUTES.USER_DETAIL((item as FollowerType).follower.id)}>
                   <StyledProfileContainer>
@@ -83,6 +88,7 @@ function FollowInfoModal({ setIsOpen, dataType, userId, nickname }: ModalProps) 
                 </Link>
               ) : (
                 <Link
+                  onClick={handleCloseButton}
                   key={(item as FolloweeType).followee.id}
                   href={PAGE_ROUTES.USER_DETAIL((item as FolloweeType).followee.id)}>
                   <StyledProfileContainer>
@@ -92,6 +98,7 @@ function FollowInfoModal({ setIsOpen, dataType, userId, nickname }: ModalProps) 
                 </Link>
               );
             })}
+            {noMoreUsers && <StyledDescription>더 이상 불러올 유저가 없습니다</StyledDescription>}
           </StyledProfileUl>
         </S.Container>
       </S.Background>,
