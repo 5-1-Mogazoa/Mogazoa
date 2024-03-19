@@ -18,6 +18,9 @@ const ERROR_MESSAGE = {
   REQUIRED_REVIEW_IMAGE: "리뷰 사진은 필수 입력입니다.",
   CHECK_EMAIL: "이메일을 확인해 주세요.",
   CHECK_PASSWORD: "비밀번호를 확인해 주세요.",
+  PRODUCT_NAME: "상품 이름은 필수 입력입니다.",
+  PRODUCT_MIN_LENGTH: "상품 이름은 최소 1자 이상입니다.",
+  PRODUCT_MAX_LENGTH: "상품 이름은 최대 20자 이하입니다.",
 };
 
 export default ERROR_MESSAGE;

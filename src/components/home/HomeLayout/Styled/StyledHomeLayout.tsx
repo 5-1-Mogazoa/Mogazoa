@@ -42,3 +42,9 @@ export const BaseCardListWrap = styled.div`
     padding: 0 60px 0 90px;
   }
 `;
+
+export const ProductAddButtonWrap = styled.div`
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+`;
