@@ -79,3 +79,9 @@ export const patchProduct = (productId: number, data) => {
 
   return apiCall(requestProps);
 };
+
+// 상품 추가
+export const postProduct = (data) => {
+  const requestProps = { method: "post", endPoint: API_ROUTE.PRODUCTS, data };
+  return apiCall(requestProps);
+};
