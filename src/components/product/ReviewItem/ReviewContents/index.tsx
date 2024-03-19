@@ -22,6 +22,7 @@ function ReviewContents({ content, reviewImages }: ReviewContentsProps) {
                 src={image.source}
                 alt={`리뷰 ${image.id}이미지`}
                 sizes="(min-width: 1600px) 10rem, (min-width: 744px) 8rem, 6rem"
+                style={{ objectFit: "cover" }}
               />
             </S.Image>
           ))}

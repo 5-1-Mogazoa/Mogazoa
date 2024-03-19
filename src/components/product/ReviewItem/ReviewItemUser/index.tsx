@@ -38,7 +38,12 @@ function ReviewItemUser({ user, userCount, rating }: ReviewItemUserProps) {
   return (
     <S.Container>
       <S.ProfileImage>
-        <Image fill src={user.image || "/icons/default_profile.svg"} alt={`${user.nickname} 프로필 이미지`} />
+        <Image
+          fill
+          src={user.image || "/icons/default_profile.svg"}
+          alt={`${user.nickname} 프로필 이미지`}
+          sizes="(min-width: 744px) 100vw, 743px"
+        />
       </S.ProfileImage>
       <S.UserTextInfo>
         <S.NameWithFollowReview>

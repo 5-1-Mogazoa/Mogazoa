@@ -3,18 +3,37 @@ import PhotoIcon from "../../../../../public/icons/photoSvgr.svg";
 import DeleteIcon from "../../../../../public/icons/closeSvgr.svg";
 
 export const Container = styled.div`
-  display: flex;
-  gap: 1rem;
   width: 29.5rem;
-  overflow: hidden;
+  overflow-x: scroll;
+
+  /* 스크롤바가 보이더라도 가시적으로 숨기기 */
+  scrollbar-width: none; /* Firefox 용 */
+  -ms-overflow-style: none; /* IE 및 Edge 용 */
+
+  /* Webkit 브라우저를 위한 스크롤바 숨기기 */
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
     width: 51rem;
-    gap: 1.5rem;
   }
 
   @media (min-width: ${({ theme }) => theme.deviceSizes.desktop}) {
     width: 54rem;
+  }
+`;
+
+export const LabelWithPreviews = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+
+  @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
+    gap: 1.5rem;
+  }
+
+  @media (min-width: ${({ theme }) => theme.deviceSizes.desktop}) {
     gap: 2rem;
   }
 `;
@@ -32,6 +51,7 @@ export const Label = styled.label`
   overflow: hidden;
   border: 1px solid var(--color-black-35);
   background-color: var(--color-black-25);
+  flex-shrink: 0;
 
   &:hover {
     border: 0.1rem solid var(--color-main-blue);

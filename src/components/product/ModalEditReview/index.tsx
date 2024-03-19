@@ -1,21 +1,24 @@
 import { CategoryType, ReviewListType } from "@/src/apis/product/schema";
 import Modal from "../../common/modal/Modal";
-import * as S from "./styled";
+import * as S from "../ModalReview/styled";
 import { FormRatingStars } from "../RatingStar";
 import { FieldValues, FormProvider, useForm } from "react-hook-form";
 import ERROR_MESSAGE from "../../../constant/ERROR_MESSAGE";
 import FormTextareaInput from "../../common/input/FormTextareaInput";
 import FormMultiImageInput from "../../common/input/FormMultiImageInput";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { postReview } from "@/src/apis/review";
+import { patchReview } from "@/src/apis/review";
 import { QUERY_KEY } from "@/src/routes";
-import { PostReviewRequestType } from "@/src/apis/review/schema";
+import { PatchReveiwRequestType } from "@/src/apis/review/schema";
 import { postImage } from "@/src/apis/image";
 import { OrderType } from "../ReviewList";
-import { ImageUrlType } from "../ModalEditReview";
+import { useRouter } from "next/router";
 
-interface ModalReviewProps {
-  productId: number;
+export interface ImageUrlType {
+  url: string;
+}
+
+interface ModalEditReviewProps {
   name: string;
   category?: CategoryType | undefined;
   order: OrderType;
@@ -23,48 +26,60 @@ interface ModalReviewProps {
   onClose: () => void;
 }
 
-function ModalReview({ productId, name, category, order, defaultValue, onClose }: ModalReviewProps) {
-  const { reviewImages: defaultImages, content: defaultContent, rating: defaultRating } = defaultValue || {};
+function ModalEditReview({ name, category, order, defaultValue, onClose }: ModalEditReviewProps) {
+  const { id, reviewImages: defaultImages, content: defaultContent, rating: defaultRating } = defaultValue || {};
 
-  const methods = useForm();
+  const router = useRouter();
+  const productId = Number(router.query.productId);
+
+  const methods = useForm<FieldValues>();
   const queryClient = useQueryClient();
 
-  // 리뷰 생성 요청
-  const postReviewMutation = useMutation<void, unknown, PostReviewRequestType>({
+  // 리뷰 수정 요청
+  const patchReviewMutation = useMutation<void, unknown, PatchReveiwRequestType>({
     mutationFn: async (newReview) => {
-      await postReview(newReview);
+      await patchReview(id!, newReview);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.REVIEWS, productId, order.id] });
     },
   });
 
-  // 리뷰 생성 버튼 클릭시 발생 이벤트
-  const postReviewCallback = async (data: FieldValues) => {
-    const formData: PostReviewRequestType = {
-      productId: productId,
+  // 리뷰 수정 버튼 클릭시 발생 이벤트
+  const patchReviewCallback = async (data: FieldValues) => {
+    const formData: PatchReveiwRequestType = {
       images: [],
       content: data.content,
       rating: data.rating,
     };
 
-    // data 이미지 파일이 있을 경우 파일들을 업로드하고 새로운 URL 받아서 formData.images에 추가
     const getImageUrlPromises: Promise<ImageUrlType>[] = [];
 
     if (data.images !== undefined) {
       for (const file of data.images) {
-        let newImageUrl = await postImage(file);
-        getImageUrlPromises.push(newImageUrl);
+        // File(새로 추가된 이미지)은 업로드해 새로운 URL 받아서 getImageUrlPromises에 모으기
+        if (file instanceof File) {
+          let newImageUrl = await postImage(file);
+          getImageUrlPromises.push(newImageUrl);
+        } else {
+          // {id: number} 기존 이미지는 formData.images에 바로 추가하기
+          formData.images.push(file);
+        }
       }
 
+      // getImageUrlPromises 모아둔 image url을 formData.source에 넣기
       try {
         const imageUrlResponse = await Promise.all(getImageUrlPromises);
-        formData.images = imageUrlResponse.map((response) => response.url);
-      } catch (erroe) {
-        console.error("이미지 업로드를 실패했어요.");
+        const allImageUrl = imageUrlResponse.map((response) => response.url);
+        allImageUrl.forEach((url) => {
+          formData.images.push({ source: url });
+        });
+      } catch (error) {
+        console.error("이미지 업로드를 실패했어요.", error);
       }
     }
-    postReviewMutation.mutate(formData);
+
+    patchReviewMutation.mutate(formData);
   };
 
   return (
@@ -74,7 +89,7 @@ function ModalReview({ productId, name, category, order, defaultValue, onClose }
         modalType="review"
         category={category}
         onClose={onClose}
-        callback={postReviewCallback}
+        callback={patchReviewCallback}
         isFormData>
         <S.Container>
           <S.Rating>
@@ -88,10 +103,6 @@ function ModalReview({ productId, name, category, order, defaultValue, onClose }
                 value: true,
                 message: ERROR_MESSAGE.REQUIRED_REVIEW,
               },
-              minLength: {
-                value: 10,
-                message: ERROR_MESSAGE.REVIEW_MIN_LENGTH,
-              },
               maxLength: {
                 value: 500,
                 message: ERROR_MESSAGE.REVIEW_MAX_LENGTH,
@@ -100,6 +111,7 @@ function ModalReview({ productId, name, category, order, defaultValue, onClose }
             defaultValue={defaultContent}
             placeholder="리뷰를 작성해 주세요."
           />
+
           <FormMultiImageInput name="images" defaultValue={defaultImages} />
         </S.Container>
       </Modal>
@@ -107,4 +119,4 @@ function ModalReview({ productId, name, category, order, defaultValue, onClose }
   );
 }
 
-export default ModalReview;
+export default ModalEditReview;
