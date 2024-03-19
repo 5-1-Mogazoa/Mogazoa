@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
   StyledDescription,
@@ -29,6 +29,19 @@ export default function OauthSignUpForm() {
   const router = useRouter();
   const { provider } = router.query;
   const [isOauthError, setIsOauthErrorTest] = useState(false);
+  const getKakaoToken = () => {
+    window.Kakao.Auth.authorize({
+      redirectUri: `${location.origin}/oauth/signup/kakao`,
+      scope: "openid",
+      nonce: `${Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)}`,
+    });
+  };
+
+  useEffect(() => {
+    if (provider === "kakao") {
+      getKakaoToken();
+    }
+  }, []);
 
   const {
     register,
@@ -42,33 +55,42 @@ export default function OauthSignUpForm() {
   });
 
   const onSubmit = async (data: OauthDataType) => {
-    const postData = {
-      nickname: data.nickname,
-      token: idToken || "",
-    };
-    //TODO :api 통신 및 닉네임 중복검사 추가 예정
-    try {
-      if (typeof provider === "string") {
-        const result = (await postMutation.mutateAsync({ data: postData, provider })) as AuthResponseType;
-        const accessToken = result.accessToken;
-        const userId = result.user.id;
-        await postToken(accessToken);
-        //TODO: localStorage accessToken 설정 삭제 예정
-        localStorage.setItem("accessToken", accessToken);
-        localStorage.setItem("userId", String(userId));
-        router.push("/");
-        return;
+    let kakaoToken = "";
+    if (provider === "kakao") {
+      if (router.asPath.indexOf("code=") !== -1) {
+        kakaoToken = router.asPath.split("code=")[1];
       }
-    } catch (error: any) {
-      //TODO: error 타입 설정
-      if (error.response.data.details?.nickname) {
-        setError("nickname", { type: "duplicated", message: ERROR_MESSAGE.DUPLICATE_NICKNAME });
-      } else {
-        setIsOauthErrorTest(true);
+
+      const postData = {
+        nickname: data.nickname,
+        token: provider === "kakao" ? kakaoToken : idToken || "",
+      };
+
+      console.log(postData);
+      //TODO :api 통신 및 닉네임 중복검사 추가 예정
+      try {
+        if (typeof provider === "string") {
+          const result = (await postMutation.mutateAsync({ data: postData, provider })) as AuthResponseType;
+          const accessToken = result.accessToken;
+          const userId = result.user.id;
+          await postToken(accessToken);
+          //TODO: localStorage accessToken 설정 삭제 예정
+          localStorage.setItem("accessToken", accessToken);
+          localStorage.setItem("userId", String(userId));
+          router.push("/");
+          return;
+        }
+      } catch (error: any) {
+        //TODO: error 타입 설정
+        if (error.response.data.details?.nickname) {
+          setError("nickname", { type: "duplicated", message: ERROR_MESSAGE.DUPLICATE_NICKNAME });
+        } else {
+          console.error(error);
+          setIsOauthErrorTest(true);
+        }
       }
     }
   };
-
   const hasError = Object.values(errors).length;
 
   return isOauthError ? (

@@ -7,7 +7,7 @@ export const postOauthSignInData = async (id_token: string, provider: string) =>
     method: "post",
     endPoint: API_ROUTE.OAUTH_SIGNIN(provider),
     data: {
-      redirectUri: `${location.origin}/oauth/${provider}`,
+      redirectUri: `${location.origin}/signin`,
       token: id_token,
     },
   };
@@ -21,7 +21,7 @@ export const postOauthSignUpData = async (data: OauthDataType, provider: string)
     endPoint: API_ROUTE.OAUTH_SIGNUP(provider),
     data: {
       nickname: data.nickname,
-      redirectUri: `${location.origin}/oauth/${provider}`,
+      redirectUri: `${location.origin}/oauth/signup/kakao`,
       token: data.token,
     },
   };
