@@ -68,6 +68,7 @@ export default function Product() {
       <ReviewList productId={productId} order={order} setOrder={setOrder} loginToggle={loginToggle} />
       {reviewModal && (
         <ModalReview
+          type="post"
           productId={productId}
           name={name}
           category={category.name}

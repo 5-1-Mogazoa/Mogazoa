@@ -29,3 +29,10 @@ export const deleteReview = (reviewId: number) => {
 
   return apiCall(requestProps);
 };
+
+// 리뷰 수정
+export const patchReview = (reviewId: number, data) => {
+  const requestProps = { method: "patch", endPoint: API_ROUTE.REVIEWS_EDIT_DELETE(reviewId), data };
+
+  return apiCall(requestProps);
+};

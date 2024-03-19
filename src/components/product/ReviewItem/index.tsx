@@ -17,7 +17,7 @@ type ReviewItemProps = {
 
 function ReviewItem({ review, order, loginToggle }: ReviewItemProps) {
   const [userCount, setUserCount] = useState({ ranking: 0, follower: 0, reviewed: 0 });
-  const { id, user, reviewImages, createdAt, isLiked, likeCount, content, rating, userId: writerId } = review;
+  const { user, reviewImages, content, rating, userId: writerId } = review;
   const userId = Number(localStorage.getItem("userId"));
   const createdByMe = writerId === userId;
 
@@ -55,12 +55,10 @@ function ReviewItem({ review, order, loginToggle }: ReviewItemProps) {
       <S.ContentsWithFooter>
         <ReviewContents content={content} reviewImages={reviewImages} />
         <ReviewFooter
-          id={id}
-          createdAt={createdAt}
-          isLiked={isLiked}
-          likeCount={likeCount}
+          review={review}
           createdByMe={createdByMe}
           order={order}
+          rating={rating}
           loginToggle={loginToggle}
         />
       </S.ContentsWithFooter>
