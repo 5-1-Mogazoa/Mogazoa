@@ -49,7 +49,8 @@ const StyledProfileImage = styled.div<StyledProfileProps>`
   width: 48px;
   height: 48px;
   border-radius: 100px;
-  background: url(${({ $image }) => $image}) no-repeat center / cover;
+  background: url(${({ $image }) => ($image ? $image : `${location.origin}/icons/default_profile.svg`)}) no-repeat
+    center / cover;
 
   @media (min-width: ${({ theme }) => theme.deviceSizes.desktop}) {
     width: 52px;
