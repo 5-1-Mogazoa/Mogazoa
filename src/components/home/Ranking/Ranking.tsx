@@ -1,7 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import RankingListItem from "../../common/menu/RankingListItem";
 import { getUserRank, getUserReviewed, getUserData } from "@/src/apis/user";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
+import Link from "next/link";
+import { PAGE_ROUTES } from "@/src/routes";
 
 export default function Ranking() {
   const { data: userRank } = useQuery({
@@ -51,15 +53,16 @@ export default function Ranking() {
     <>
       {userDetails?.map((user: any, index: number) => {
         return (
-          <RankingListItem
-            key={index}
-            userImage={user.image}
-            rankNum={String(index + 1)}
-            ranking={index + 1}
-            reviewerName={user.nickname}
-            Followers={user.followers.followersCount}
-            Reviewer={user.allReviews.length}
-          />
+          <Link key={index} href={PAGE_ROUTES.USER_DETAIL(user.id)}>
+            <RankingListItem
+              userImage={user.image}
+              rankNum={String(index + 1)}
+              ranking={index + 1}
+              reviewerName={user.nickname}
+              Followers={user.followers.followersCount}
+              Reviewer={user.allReviews.length}
+            />
+          </Link>
         );
       })}
     </>
