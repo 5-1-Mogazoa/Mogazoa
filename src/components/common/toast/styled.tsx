@@ -21,11 +21,13 @@ const fadeInOut = keyframes`
 `;
 
 export const Container = styled.div<ContainerType>`
-  /* position: absolute; */
-  position: fixed;
-  bottom: 3.6rem;
-  left: 0;
-  /* left: -40%; */
+  position: absolute;
+  bottom: 140%;
+  left: -30%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
   padding: 0.8rem 1.2rem;
   border-radius: 0.6rem;
   z-index: ${({ theme }) => theme.zIndex.toast};
