@@ -21,4 +21,8 @@ export const StyledButton = styled.button`
   height: 2.4rem;
   border-radius: 0.6rem;
   background-color: var(--color-black-25);
+
+  &:hover {
+    border: 0.1rem solid var(--color-main-blue);
+  }
 `;

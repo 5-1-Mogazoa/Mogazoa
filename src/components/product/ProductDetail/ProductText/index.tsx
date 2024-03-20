@@ -16,10 +16,11 @@ type ProductTextProps = {
   };
   isFavorite: boolean;
   description: string;
+  image: string;
   loginToggle: () => void;
 };
 
-function ProductText({ id: productId, name, category, isFavorite, description, loginToggle }: ProductTextProps) {
+function ProductText({ id: productId, name, category, isFavorite, description, image, loginToggle }: ProductTextProps) {
   const isFavoriteImgSrc = isFavorite ? "/icons/heartfull.svg" : "/icons/heartempty.svg";
 
   const queryClient = useQueryClient();
@@ -51,7 +52,7 @@ function ProductText({ id: productId, name, category, isFavorite, description, l
         <StyledCategoryChip $category={category.name} $small>
           {category.name}
         </StyledCategoryChip>
-        <ShareButtons />
+        <ShareButtons name={name} image={image} description={description} />
       </S.TagWithShare>
       <S.TitleWithFavorite>
         {name}
