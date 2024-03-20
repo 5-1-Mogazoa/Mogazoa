@@ -22,6 +22,7 @@ import {
   StyledProfileTextBox,
   StyledProfileTextBoxContainer,
 } from "./Styled/StyledProfileEdit";
+import { postImage } from "@/src/apis/image";
 
 interface ModalProps {
   setIsOpen: (value: boolean) => void;
@@ -90,18 +91,6 @@ export default function ProfileEditModal({ setIsOpen }: ModalProps) {
     if (e.target.files) {
       (async () => {
         //TODO: type 설정
-        const postImage = async (imageFile: File) => {
-          const formData = new FormData();
-          formData.append("image", imageFile, "img");
-
-          const requestProps = {
-            method: "post",
-            endPoint: API_ROUTE.IMAGE_UPLOAD,
-            data: formData,
-          };
-
-          return await apiCall(requestProps);
-        };
 
         const url = await postImage(e.target.files[0]);
         setImageURL(url.url as string);
