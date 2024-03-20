@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { StyledButton } from "../ProductDetail/ShareButtons/styled";
-import { useEffect } from "react";
 
 interface SharekakaoProps {
   name: string;
@@ -9,16 +8,11 @@ interface SharekakaoProps {
 }
 
 function Sharekakao({ name, image, description }: SharekakaoProps) {
-  const { Kakao } = window;
   const realUrl = "http://localhost:3000"; // TODO 추후 배포 링크로 변경하기
 
-  useEffect(() => {
-    Kakao.cleanup();
-    Kakao.init("5f1c972517bc97d3c05e95ee4d6d9561"); // Javascript 키
-    // console.log(Kakao.isInitialized());
-  }, []);
-
   const handleShareKakao = () => {
+    const { Kakao } = window;
+
     Kakao.Share.sendDefault({
       objectType: "feed",
       content: {

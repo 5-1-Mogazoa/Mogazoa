@@ -22,6 +22,7 @@ export default function App({ Component, pageProps }: AppProps) {
   function kakaoInit() {
     // 페이지가 로드되면 실행
     window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_KEY);
+    // window.Kakao.init("5f1c972517bc97d3c05e95ee4d6d9561");  // env 파일을 못찾아서 직접 javascript key 값을 넣어줘야 공유하기 버튼 제대로 동작
     console.log(window.Kakao.isInitialized());
   }
 
