@@ -8,11 +8,11 @@ import { useRouter } from "next/router";
 import { getUserData, getUserFollowees, getUserFollowers, getUserReviewed } from "@/src/apis/user";
 import { categoryList } from "@/src/utils/categoryList";
 import UserProductList from "@/src/components/profiles/UserProductList";
-import MyActivity from "./MyActivity"; // MyActivity.tsx 파일 경로
 import { useToggle } from "usehooks-ts";
 import FollowInfoModal from "@/src/components/profiles/FollowInfoModal";
 import MyPageProfileButtons from "@/src/components/profiles/MyPageProfileButtons";
 import FollowButton from "@/src/components/profiles/FollowButton";
+import { StyledMyActivities } from "./MyActivity";
 
 /**
  * 1. 상품 카드 사이즈 변경
@@ -38,11 +38,6 @@ const ActivityList = styled.div`
   margin-bottom: 30px;
 `;
 
-const StyledMyActivities = styled.div`
-  display: flex;
-  gap: 20px;
-`;
-
 const StyledRatings = styled.span`
   color: white;
   font-size: 24px;
@@ -66,6 +61,10 @@ const StyledImageBox = styled.div`
   height: 200px;
   border-radius: 50%;
   overflow: hidden;
+`;
+
+const StyledMyActivitiesBox = styled.div`
+  display: flex;
 `;
 
 const StyledProfileText = styled.div`
@@ -119,14 +118,22 @@ export default function Userprofile({ isMe }: Props) {
   const router = useRouter();
   const [dataType, setDataType] = useState<"REVIEWED" | "CREATED" | "FAVORITE">("REVIEWED");
   const [isFollowingModalOpen, setIsFollowingModalOpen] = useState(false);
-
-  const { userId }: any = router.query;
+  const [isFollowerModalOpen, setIsFollowerModalOpen] = useState(false);
+  const [userId, setUserId] = useState("");
+  useEffect(() => {
+    if (isMe) {
+      setUserId(localStorage.getItem("userId"));
+    } else {
+      const queryId = router.query.userId;
+      setUserId(queryId);
+    }
+  }, []);
 
   const { data: USERDATA } = useQuery({
     queryKey: ["USERDATA", userId],
     queryFn: () => getUserData(userId),
   });
-  console.log({ USERDATA });
+  console.log(USERDATA);
   const { data: FOLLOWEES } = useQuery({
     queryKey: [QUERY_KEY.FOLLOWEES, userId],
     queryFn: () => getUserFollowees(userId),
@@ -165,26 +172,21 @@ export default function Userprofile({ isMe }: Props) {
           <StyledProfileBox>
             <StyledImageBox>
               {/* Next Image로 바꾸기 & next.config.mjs 수정하기 & 사용법 익혀서 하기 */}
-              <Image
-                width={200}
-                height={200}
-                src="https://images.unsplash.com/photo-1683009427470-a36fee396389?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                alt="프로필사진"
-              />
+              <Image width={200} height={200} src={USERDATA?.image} alt="프로필사진" />
             </StyledImageBox>
 
             <StyledProfileText>
-              <StyledProfileNickname>surisuri마수리</StyledProfileNickname>
-              <StyledProfileDesc>
-                세상에 리뷰 못할 제품은 없다. surisuri마수리와 함께라면 당신도 프로쇼핑러! 안녕하세요, 별점의 화신
-                surisuri마수리입니다!
-              </StyledProfileDesc>
+              <StyledProfileNickname>{USERDATA?.nickname}</StyledProfileNickname>
+              <StyledProfileDesc>{USERDATA?.description}</StyledProfileDesc>
             </StyledProfileText>
             <StyledFollowInfo>
-              <div>
+              <button
+                onClick={() => {
+                  setIsFollowerModalOpen(true);
+                }}>
                 <StyledFollowNumber>{followersCount}</StyledFollowNumber>
                 <StyledFollowText>팔로워</StyledFollowText>
-              </div>
+              </button>
               <svg xmlns="http://www.w3.org/2000/svg" width="1" height="48" viewBox="0 0 1 48" fill="none">
                 <path d="M0.5 0V48" stroke="#353542" />
               </svg>
@@ -193,13 +195,13 @@ export default function Userprofile({ isMe }: Props) {
 								2. 모달이 열린다.
 								3. 모달에 유저 목록이 보인다.
 						*/}
-                <StyledFollowNumber
+                <button
                   onClick={() => {
                     setIsFollowingModalOpen(true);
                   }}>
-                  {followingCount}
-                </StyledFollowNumber>
-                <StyledFollowText>팔로잉</StyledFollowText>
+                  <StyledFollowNumber>{followingCount}</StyledFollowNumber>
+                  <StyledFollowText>팔로잉</StyledFollowText>
+                </button>
               </div>
             </StyledFollowInfo>
             {isMe ? <MyPageProfileButtons /> : <FollowButton isFollowingData={USERDATA?.isFollowing} userId={userId} />}
@@ -209,19 +211,24 @@ export default function Userprofile({ isMe }: Props) {
         {/* 활동 내역 */}
         <div>
           <ActivityList>활동내역</ActivityList>
-          <StyledMyActivities>
-            <div>
-              <span>별아이콘</span> <StyledRatings> {ratingEverage}</StyledRatings>
-            </div>
-
-            <div>
-              <span>리뷰아이콘</span> <StyledRatings> {reviewsCount}</StyledRatings>
-            </div>
+          <StyledMyActivitiesBox>
+            <StyledMyActivities>
+              <div>
+                <span>별아이콘</span> <StyledRatings> {ratingEverage}</StyledRatings>
+              </div>
+            </StyledMyActivities>
+            <StyledMyActivities>
+              <div>
+                <span>리뷰아이콘</span> <StyledRatings> {reviewsCount}</StyledRatings>
+              </div>
+            </StyledMyActivities>
             {/* 카테고리 없을경우 조건달기 */}
-            <div>
-              <StyledCategoryChip $category={favoriteCategory}>{favoriteCategory}</StyledCategoryChip>
-            </div>
-          </StyledMyActivities>
+            <StyledMyActivities>
+              <div>
+                <StyledCategoryChip $category={favoriteCategory}>{favoriteCategory}</StyledCategoryChip>
+              </div>
+            </StyledMyActivities>
+          </StyledMyActivitiesBox>
           <div>
             <StyledFilterButton $active={dataType === "REVIEWED"} onClick={() => setDataType("REVIEWED")}>
               리뷰 남긴 상품
@@ -242,7 +249,15 @@ export default function Userprofile({ isMe }: Props) {
           setIsOpen={setIsFollowingModalOpen}
           dataType="followee"
           userId={userId}
-          nickname="surisuri마수리"
+          nickname={USERDATA?.nickname}
+        />
+      )}
+      {isFollowerModalOpen && (
+        <FollowInfoModal
+          setIsOpen={setIsFollowerModalOpen}
+          dataType="follower"
+          userId={userId}
+          nickname={USERDATA?.nickname}
         />
       )}
     </>
