@@ -107,6 +107,11 @@ const StyledFollowText = styled.div`
 const StyledFilterButton = styled.button<{ $active?: boolean }>`
   color: ${(props) => (props.$active ? "white" : "#6E6E82")};
   margin-right: 40px;
+  font-family: Pretendard;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
 `;
 
 type Props = {
@@ -124,10 +129,9 @@ export default function Userprofile({ isMe }: Props) {
     if (isMe) {
       setUserId(localStorage.getItem("userId"));
     } else {
-      const queryId = router.query.userId;
-      setUserId(queryId);
+      setUserId(router.query.userId);
     }
-  }, []);
+  }, [router.query]);
 
   const { data: USERDATA } = useQuery({
     queryKey: ["USERDATA", userId],
@@ -136,15 +140,16 @@ export default function Userprofile({ isMe }: Props) {
   console.log(USERDATA);
   const { data: FOLLOWEES } = useQuery({
     queryKey: [QUERY_KEY.FOLLOWEES, userId],
-    queryFn: () => getUserFollowees(userId),
+    queryFn: () => getUserFollowees(userId, 0),
   });
+
   const { data: FOLLOWERS } = useQuery({
     queryKey: [QUERY_KEY.FOLLOWERS, userId],
-    queryFn: () => getUserFollowers(userId),
+    queryFn: () => getUserFollowers(userId, 0),
   });
   const { data: REVIEWS } = useQuery({
     queryKey: [QUERY_KEY.REVIEWS, userId],
-    queryFn: () => getUserReviewed(userId),
+    queryFn: () => getUserReviewed(userId, 0),
   });
   console.log(REVIEWS);
   const followingCount = USERDATA?.followeesCount;
@@ -163,7 +168,8 @@ export default function Userprofile({ isMe }: Props) {
   const maxPropertyKey = Object.keys(categoryCount).find((key) => categoryCount[key] === maxPropertyValue);
 
   const favoriteCategory = categoryList[maxPropertyKey - 1].name;
-
+  console.log(USERDATA);
+  if (!USERDATA) return null;
   return (
     <>
       <StyledProfileLayout>
@@ -172,7 +178,12 @@ export default function Userprofile({ isMe }: Props) {
           <StyledProfileBox>
             <StyledImageBox>
               {/* Next Image로 바꾸기 & next.config.mjs 수정하기 & 사용법 익혀서 하기 */}
-              <Image width={200} height={200} src={USERDATA?.image} alt="프로필사진" />
+              <Image
+                width={200}
+                height={200}
+                src={USERDATA?.image ? USERDATA?.image : `${location.origin}/icons/default_profile.svg`}
+                alt="프로필사진"
+              />
             </StyledImageBox>
 
             <StyledProfileText>
