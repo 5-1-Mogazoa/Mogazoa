@@ -2,7 +2,7 @@ import { fontStyle } from "@/styles/theme";
 import styled, { keyframes } from "styled-components";
 
 interface ContainerType {
-  $type: "success" | "error" | string;
+  $type?: "success" | "error" | string;
   $mobileStyle?: string;
   $tabletStyle?: string;
   $desktopStyle?: string;
