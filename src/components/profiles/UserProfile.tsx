@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import { getUserData, getUserFollowees, getUserFollowers, getUserReviewed } from "@/src/apis/user";
 import { categoryList } from "@/src/utils/categoryList";
 import UserProductList from "@/src/components/profiles/UserProductList";
+import MyActivity from "./MyActivity"; // MyActivity.tsx 파일 경로
 import { useToggle } from "usehooks-ts";
 import FollowInfoModal from "@/src/components/profiles/FollowInfoModal";
 import MyPageProfileButtons from "@/src/components/profiles/MyPageProfileButtons";
@@ -110,8 +111,8 @@ const StyledFilterButton = styled.button<{ $active?: boolean }>`
 `;
 
 type Props = {
-	isMe: boolean;
-}
+  isMe: boolean;
+};
 
 export default function Userprofile({ isMe }: Props) {
   const queryClient = useQueryClient();
@@ -158,93 +159,92 @@ export default function Userprofile({ isMe }: Props) {
 
   return (
     <>
+      <StyledProfileLayout>
+        {/* 프로필 */}
+        <div>
+          <StyledProfileBox>
+            <StyledImageBox>
+              {/* Next Image로 바꾸기 & next.config.mjs 수정하기 & 사용법 익혀서 하기 */}
+              <Image
+                width={200}
+                height={200}
+                src="https://images.unsplash.com/photo-1683009427470-a36fee396389?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                alt="프로필사진"
+              />
+            </StyledImageBox>
 
-			<StyledProfileLayout>
-			{/* 프로필 */}
-			<div>
-				<StyledProfileBox>
-					<StyledImageBox>
-						{/* Next Image로 바꾸기 & next.config.mjs 수정하기 & 사용법 익혀서 하기 */}
-						<Image
-							width={200}
-							height={200}
-							src="https://images.unsplash.com/photo-1683009427470-a36fee396389?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-							alt="프로필사진"
-						/>
-					</StyledImageBox>
-
-					<StyledProfileText>
-						<StyledProfileNickname>surisuri마수리</StyledProfileNickname>
-						<StyledProfileDesc>
-							세상에 리뷰 못할 제품은 없다. surisuri마수리와 함께라면 당신도 쇼핑~~~~~
-						</StyledProfileDesc>
-					</StyledProfileText>
-					<StyledFollowInfo>
-						<div>
-							<StyledFollowNumber>{followersCount}</StyledFollowNumber>
-							<StyledFollowText>팔로워</StyledFollowText>
-						</div>
-						<svg xmlns="http://www.w3.org/2000/svg" width="1" height="48" viewBox="0 0 1 48" fill="none">
-							<path d="M0.5 0V48" stroke="#353542" />
-						</svg>
-						<div>
-							{/* 1. 팔로잉 수를 누른다. 
+            <StyledProfileText>
+              <StyledProfileNickname>surisuri마수리</StyledProfileNickname>
+              <StyledProfileDesc>
+                세상에 리뷰 못할 제품은 없다. surisuri마수리와 함께라면 당신도 프로쇼핑러! 안녕하세요, 별점의 화신
+                surisuri마수리입니다!
+              </StyledProfileDesc>
+            </StyledProfileText>
+            <StyledFollowInfo>
+              <div>
+                <StyledFollowNumber>{followersCount}</StyledFollowNumber>
+                <StyledFollowText>팔로워</StyledFollowText>
+              </div>
+              <svg xmlns="http://www.w3.org/2000/svg" width="1" height="48" viewBox="0 0 1 48" fill="none">
+                <path d="M0.5 0V48" stroke="#353542" />
+              </svg>
+              <div>
+                {/* 1. 팔로잉 수를 누른다. 
 								2. 모달이 열린다.
 								3. 모달에 유저 목록이 보인다.
 						*/}
-							<StyledFollowNumber
-								onClick={() => {
-									setIsFollowingModalOpen(true);
-								}}>
-								{followingCount}
-							</StyledFollowNumber>
-							<StyledFollowText>팔로잉</StyledFollowText>
-						</div>
-					</StyledFollowInfo>
-					{isMe ? <MyPageProfileButtons /> : <FollowButton isFollowingData={USERDATA?.isFollowing} userId={userId}/>}
-				</StyledProfileBox>
-			</div>
+                <StyledFollowNumber
+                  onClick={() => {
+                    setIsFollowingModalOpen(true);
+                  }}>
+                  {followingCount}
+                </StyledFollowNumber>
+                <StyledFollowText>팔로잉</StyledFollowText>
+              </div>
+            </StyledFollowInfo>
+            {isMe ? <MyPageProfileButtons /> : <FollowButton isFollowingData={USERDATA?.isFollowing} userId={userId} />}
+          </StyledProfileBox>
+        </div>
 
-			{/* 활동 내역 */}
-			<div>
-				<ActivityList>활동내역</ActivityList>
-				<StyledMyActivities>
-					<div>
-						<span>별아이콘</span> <StyledRatings> {ratingEverage}</StyledRatings>
-					</div>
+        {/* 활동 내역 */}
+        <div>
+          <ActivityList>활동내역</ActivityList>
+          <StyledMyActivities>
+            <div>
+              <span>별아이콘</span> <StyledRatings> {ratingEverage}</StyledRatings>
+            </div>
 
-					<div>
-						<span>리뷰아이콘</span> <StyledRatings> {reviewsCount}</StyledRatings>
-					</div>
-					{/* 카테고리 없을경우 조건달기 */}
-					<div>
-						<StyledCategoryChip $category={favoriteCategory}>{favoriteCategory}</StyledCategoryChip>
-					</div>
-				</StyledMyActivities>
-				<div>
-					<StyledFilterButton $active={dataType === "REVIEWED"} onClick={() => setDataType("REVIEWED")}>
-						리뷰 남긴 상품
-					</StyledFilterButton>
-					<StyledFilterButton $active={dataType === "CREATED"} onClick={() => setDataType("CREATED")}>
-						등록한 상품
-					</StyledFilterButton>
-					<StyledFilterButton $active={dataType === "FAVORITE"} onClick={() => setDataType("FAVORITE")}>
-						찜한 상품
-					</StyledFilterButton>
-				</div>
+            <div>
+              <span>리뷰아이콘</span> <StyledRatings> {reviewsCount}</StyledRatings>
+            </div>
+            {/* 카테고리 없을경우 조건달기 */}
+            <div>
+              <StyledCategoryChip $category={favoriteCategory}>{favoriteCategory}</StyledCategoryChip>
+            </div>
+          </StyledMyActivities>
+          <div>
+            <StyledFilterButton $active={dataType === "REVIEWED"} onClick={() => setDataType("REVIEWED")}>
+              리뷰 남긴 상품
+            </StyledFilterButton>
+            <StyledFilterButton $active={dataType === "CREATED"} onClick={() => setDataType("CREATED")}>
+              등록한 상품
+            </StyledFilterButton>
+            <StyledFilterButton $active={dataType === "FAVORITE"} onClick={() => setDataType("FAVORITE")}>
+              찜한 상품
+            </StyledFilterButton>
+          </div>
 
-				<UserProductList userId={userId} dataType={dataType}></UserProductList>
-			</div>
-		</StyledProfileLayout>
-		{isFollowingModalOpen && (
-			<FollowInfoModal
-				setIsOpen={setIsFollowingModalOpen}
-				dataType="followee"
-				userId={userId}
-				nickname="surisuri마수리"
-			/>
-		)}
-      
+          <UserProductList userId={userId} dataType={dataType}></UserProductList>
+        </div>
+      </StyledProfileLayout>
+      {isFollowingModalOpen && (
+        <FollowInfoModal
+          setIsOpen={setIsFollowingModalOpen}
+          dataType="followee"
+          userId={userId}
+          nickname="surisuri마수리"
+        />
+      )}
     </>
   );
 }
