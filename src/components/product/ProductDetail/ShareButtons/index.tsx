@@ -1,6 +1,5 @@
-import Image from "next/image";
-import { StyledButton, StyledButtonContainer } from "./styled";
-import Sharekakao from "../../ShareKakao";
+import { StyledButtonContainer } from "./styled";
+import Sharekakao from "./KakaoClipboard/Sharekakao";
 import SharedClipbaord from "./KakaoClipboard/ShareClipboard";
 
 interface ShareButtonsProps {
@@ -14,9 +13,6 @@ function ShareButtons({ name, image, description }: ShareButtonsProps) {
     <StyledButtonContainer>
       <Sharekakao name={name} image={image} description={description} />
       <SharedClipbaord />
-      {/* <StyledButton>
-        <Image width="14" height="14" src="/icons/share.svg" alt="일반 공유 버튼" />
-      </StyledButton> */}
     </StyledButtonContainer>
   );
 }

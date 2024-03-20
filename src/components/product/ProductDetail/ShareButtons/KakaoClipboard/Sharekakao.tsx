@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { StyledButton } from "../ProductDetail/ShareButtons/styled";
+import { StyledButton } from "../styled";
 
 interface SharekakaoProps {
   name: string;
