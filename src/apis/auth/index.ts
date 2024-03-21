@@ -1,10 +1,10 @@
-import { apiCall } from "@/src/lib/axiosInstance";
+import { apiCall, apiCallProps } from "@/src/lib/axiosInstance";
 import { API_ROUTE } from "@/src/routes";
 import { AuthDataType } from "@/src/types/auth/authDataType";
 import axios from "axios";
 
 export const postSignUpData = (data: AuthDataType) => {
-  const requestProps = {
+  const requestProps: apiCallProps = {
     method: "post",
     endPoint: API_ROUTE.AUTH_SIGNUP,
     data: data,
@@ -14,7 +14,7 @@ export const postSignUpData = (data: AuthDataType) => {
 };
 
 export const postSignInData = (data: AuthDataType) => {
-  const requestProps = {
+  const requestProps: apiCallProps = {
     method: "post",
     endPoint: API_ROUTE.AUTH_SIGNIN,
     data: data,

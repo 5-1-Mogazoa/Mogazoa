@@ -32,10 +32,15 @@ export default instance;
 
 // api 요청하는 함수
 // 작성하는 방법은 apis > product > index 참고
+const HttpMethods = {
+  GET: "get",
+  POST: "post",
+  DELETE: "delete",
+  PATCH: "patch",
+} as const;
 
-interface apiCallProps<U> {
-  // method: "get" | "post" | "delete" | "patch";
-  method: string;
+export interface apiCallProps<U = unknown> {
+  method: (typeof HttpMethods)[keyof typeof HttpMethods];
   endPoint: string;
   data?: U;
   config?: AxiosRequestConfig;

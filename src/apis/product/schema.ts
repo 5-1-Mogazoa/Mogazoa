@@ -67,3 +67,34 @@ export interface getReviewsListResponseType {
   nextCursor: number | null;
   list: ReviewListType[];
 }
+
+export interface PostFavoriteResponseType {
+  updatedAt: string;
+  createdAt: string;
+  writerId: number;
+  categoryId: number;
+  favoriteCount: number;
+  reviewCount: number;
+  rating: number;
+  image: string;
+  name: string;
+  id: number;
+  categoryMetric: {
+    reviewCount: number;
+    favoriteCount: number;
+    rating: number;
+  };
+  category: {
+    name: string;
+    id: number;
+  };
+  isFavorite: boolean;
+  description: string;
+}
+
+export interface PatchProductDataType {
+  categoryId: number;
+  image: string;
+  description: string;
+  name: string;
+}
