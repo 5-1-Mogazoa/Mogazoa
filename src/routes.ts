@@ -1,3 +1,5 @@
+export const BASE_URL = "http://localhost:3000"; // TODO 배포후 주소 수정하기 "https://mogazoa-api.vercel.app/2-4"
+
 export const PAGE_ROUTES = {
   SIGNIN: "/signin",
   SIGNUP: "/signup",
