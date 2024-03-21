@@ -14,6 +14,20 @@ const StyledInputContainer = styled.div`
 
   align-items: flex-start;
   gap: 10px;
+  position: relative;
+`;
+const StyledTagContainer = styled.div`
+  position: relative;
 `;
 
-export { StyledInputContainer as InputContainer };
+const StyledChipContainer = styled.div`
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 10px;
+`;
+export {
+  StyledInputContainer as InputContainer,
+  StyledTagContainer as TagContainer,
+  StyledChipContainer as ChipContainer,
+};
