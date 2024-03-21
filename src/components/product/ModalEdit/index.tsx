@@ -1,7 +1,7 @@
 import { FieldValues, FormProvider, useForm } from "react-hook-form";
 import * as S from "./styled";
 import Modal from "../../common/modal/Modal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FormImageInput from "../../common/input/FormImageInput";
 import FormTextareaInput from "../../common/input/FormTextareaInput";
 import ERROR_MESSAGE from "@/src/constant/ERROR_MESSAGE";
@@ -30,6 +30,7 @@ function ModalEdit({ userId, productId: id, onClose }: ModalEditProps) {
   const [selectedProductId, setSelectedProductId] = useState(id);
 
   const methods = useForm();
+  const { setValue } = methods;
   const router = useRouter();
 
   const queryClient = useQueryClient();
@@ -53,6 +54,10 @@ function ModalEdit({ userId, productId: id, onClose }: ModalEditProps) {
     category: { id: 1, name: "" },
     description: "",
   };
+
+  useEffect(() => {
+    setValue("categoryId", category.id);
+  }, [setValue, category]);
 
   // 상품 수정 요청
   const patchProductMutation = useMutation({
