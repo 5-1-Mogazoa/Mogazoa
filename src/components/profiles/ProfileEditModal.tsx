@@ -2,7 +2,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import * as S from "@/src/components/common/modal/StyledModal";
 import Image from "next/image";
-import { FieldValues, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { getMyData, patchMyData } from "@/src/apis/user";
 import { UserPatchDataType } from "@/src/types/user/userDataType";
@@ -10,8 +10,6 @@ import { StyledLabel } from "../common/input/Styled/StyledInput";
 import PLACEHODLER_MESSAGE from "@/src/constant/PLACEHOLDER_MESSAGE";
 import ERROR_MESSAGE from "@/src/constant/ERROR_MESSAGE";
 import { StyledEmptyImageIcon, StyledImageBox, StyledImageInput } from "../common/input/Styled/StyledImageInput";
-import { API_ROUTE } from "@/src/routes";
-import { apiCall } from "@/src/lib/axiosInstance";
 import {
   StyledImageContainer,
   StyledProfileDescription,
@@ -22,6 +20,7 @@ import {
   StyledProfileTextBox,
   StyledProfileTextBoxContainer,
 } from "./Styled/StyledProfileEdit";
+import { postImage } from "@/src/apis/image";
 
 interface ModalProps {
   setIsOpen: (value: boolean) => void;
@@ -90,18 +89,6 @@ export default function ProfileEditModal({ setIsOpen }: ModalProps) {
     if (e.target.files) {
       (async () => {
         //TODO: type 설정
-        const postImage = async (imageFile: File) => {
-          const formData = new FormData();
-          formData.append("image", imageFile, "img");
-
-          const requestProps = {
-            method: "post",
-            endPoint: API_ROUTE.IMAGE_UPLOAD,
-            data: formData,
-          };
-
-          return await apiCall(requestProps);
-        };
 
         const url = await postImage(e.target.files[0]);
         setImageURL(url.url as string);
