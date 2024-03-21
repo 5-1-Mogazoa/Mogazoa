@@ -48,6 +48,7 @@ function ProductDetail({ productDetail, userId, reviewToggle, loginToggle, editT
           category={category}
           isFavorite={isFavorite}
           description={description}
+          image={image}
           loginToggle={loginToggle}
         />
         <S.ButtonContainer>
