@@ -4,6 +4,8 @@ import { StyledPrimaryButton, StyledProductButton } from "../../common/button/St
 import ProductText from "./ProductText";
 import { ProductDetailResponseType } from "@/src/apis/product/schema";
 import { getToken } from "@/src/apis/auth";
+import { useEffect, useState } from "react";
+import CompareModal from "../CompareModal/CompareModal";
 
 type ProductDetailProps = {
   productDetail: ProductDetailResponseType | {};
@@ -13,9 +15,33 @@ type ProductDetailProps = {
   editToggle: () => void;
 };
 
+type CompareModalType = "first" | "second" | "duplicate" | "change";
+
 function ProductDetail({ productDetail, userId, reviewToggle, loginToggle, editToggle }: ProductDetailProps) {
   const { id, name, image, description, category, isFavorite, writerId } = productDetail as ProductDetailResponseType;
   const createdByMe = writerId === userId;
+  const [isCompareModalOpen, setIsCompareModalOpen] = useState(false);
+  const [compareType, setCompareType] = useState<CompareModalType | null>(null);
+
+  const handleCompareButton = () => {
+    const productAId = localStorage.getItem("productAId");
+    const productBId = localStorage.getItem("productBId");
+
+    if (String(id) === productAId || String(id) === productBId) {
+      setCompareType("duplicate");
+    } else if (!productAId) {
+      setCompareType("first");
+      localStorage.setItem("productAId", String(id));
+      localStorage.setItem("productAName", name);
+    } else if (!productBId) {
+      setCompareType("second");
+      localStorage.setItem("productBId", String(id));
+      localStorage.setItem("productBName", name);
+    } else {
+      setCompareType("change");
+    }
+    setIsCompareModalOpen(true);
+  };
 
   const handleReviewClick = async () => {
     const token = await getToken();
@@ -52,7 +78,7 @@ function ProductDetail({ productDetail, userId, reviewToggle, loginToggle, editT
         />
         <S.ButtonContainer>
           <StyledPrimaryButton onClick={handleReviewClick}>리뷰 작성하기</StyledPrimaryButton>
-          <StyledProductButton $createdByMe={createdByMe} $buttonType="compare">
+          <StyledProductButton onClick={handleCompareButton} $createdByMe={createdByMe} $buttonType="compare">
             비교하기
           </StyledProductButton>
           {createdByMe && (
@@ -62,6 +88,14 @@ function ProductDetail({ productDetail, userId, reviewToggle, loginToggle, editT
           )}
         </S.ButtonContainer>
       </S.ProductTextWithButtons>
+      {isCompareModalOpen && (
+        <CompareModal
+          compareType={compareType as CompareModalType}
+          productId={id}
+          productName={name}
+          setIsOpen={setIsCompareModalOpen}
+        />
+      )}
     </S.Container>
   );
 }
