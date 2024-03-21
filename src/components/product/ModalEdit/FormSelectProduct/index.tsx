@@ -1,4 +1,4 @@
-import { getUserCreatedProduct } from "@/src/apis/user";
+import { getUserCreated } from "@/src/apis/user";
 import { StyledSelectDropdown } from "@/src/components/common/button/Styled/StyledSelectDropdown";
 import { QUERY_KEY } from "@/src/routes";
 import { useQuery } from "@tanstack/react-query";
@@ -20,7 +20,7 @@ function FormSelectProduct({ productId, name, userId, handleChangeOption }: Form
 
   const { data: createdProducts } = useQuery({
     queryKey: [QUERY_KEY.CREATED_PRODUCTS],
-    queryFn: () => getUserCreatedProduct(userId),
+    queryFn: () => getUserCreated(userId),
   });
 
   const {
