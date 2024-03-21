@@ -14,6 +14,7 @@
   import { getProducts } from "@/src/apis/product";
   import styled, { css } from "styled-components";
   import { fontStyle } from "@/styles/theme";
+import { StyledPrimaryButton } from "../common/button/Styled/StyledButton";
   
   type CompareProps = {
     $productName: string;
