@@ -4,6 +4,8 @@ import Image from "next/image";
 import { ChangeEvent, useEffect, useState } from "react";
 import { ReviewImagesType } from "@/src/apis/product/schema";
 
+type NewValueType = File | { id: number };
+
 interface FormMultiImageInputProps {
   name: string;
   defaultValue?: ReviewImagesType[] | undefined;
@@ -56,12 +58,13 @@ function FormMultiImageInput({ name, defaultValue }: FormMultiImageInputProps) {
         setPreviewImages((prev) => [...prev, previewImageUrl]);
       }
     };
-    setNewValue((prev) => [...prev, file]);
+    setNewValue((prev: NewValueType[]) => [...prev, file]);
+    console.log({ newValue });
   };
 
   const handleDeleteImage = (index: number) => {
     setPreviewImages((prevImages) => prevImages.filter((_, i) => i !== index));
-    setNewValue((prev) => prev.filter((_, i) => i !== index));
+    setNewValue((prev: NewValueType[]) => prev.filter((_, i) => i !== index));
   };
 
   return (

@@ -4,11 +4,11 @@ import { StyledPrimaryButton, StyledProductButton } from "../../common/button/St
 import ProductText from "./ProductText";
 import { ProductDetailResponseType } from "@/src/apis/product/schema";
 import { getToken } from "@/src/apis/auth";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import CompareModal from "../CompareModal/CompareModal";
 
 type ProductDetailProps = {
-  productDetail: ProductDetailResponseType | {};
+  productDetail: ProductDetailResponseType | undefined;
   userId: number | null;
   reviewToggle: () => void;
   loginToggle: () => void;
@@ -102,17 +102,3 @@ function ProductDetail({ productDetail, userId, reviewToggle, loginToggle, editT
 }
 
 export default ProductDetail;
-
-{
-  /* <S.Buttons>
-        <StyledPrimaryButton>리뷰 작성하기</StyledPrimaryButton>
-        <StyledProductButton $createdByMe={createdByMe} $buttonType="compare">
-          비교하기
-        </StyledProductButton>
-        {createdByMe && (
-          <StyledProductButton $createdByMe={createdByMe} $buttonType="edit">
-            편집하기
-          </StyledProductButton>
-        )}
-      </S.Buttons> */
-}

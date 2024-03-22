@@ -1,7 +1,7 @@
 import { FieldValues, FormProvider, useForm } from "react-hook-form";
 import * as S from "./styled";
 import Modal from "../../common/modal/Modal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FormImageInput from "../../common/input/FormImageInput";
 import FormTextareaInput from "../../common/input/FormTextareaInput";
 import ERROR_MESSAGE from "@/src/constant/ERROR_MESSAGE";
@@ -12,12 +12,20 @@ import FormSelectCategory from "../../common/input/FormSelectCategory";
 import { postImage } from "@/src/apis/image";
 import { QUERY_KEY } from "@/src/routes";
 import { useRouter } from "next/router";
+import { PatchProductDataType } from "@/src/apis/product/schema";
 
 interface selectedProductDetailType {
   name: string;
   image: string;
   category: { id: number; name: string };
   description: string;
+}
+
+interface newProductDetailType {
+  categoryId: number;
+  image: string;
+  description: string;
+  name: string;
 }
 
 interface ModalEditProps {
@@ -30,6 +38,7 @@ function ModalEdit({ userId, productId: id, onClose }: ModalEditProps) {
   const [selectedProductId, setSelectedProductId] = useState(id);
 
   const methods = useForm();
+  const { setValue } = methods;
   const router = useRouter();
 
   const queryClient = useQueryClient();
@@ -54,8 +63,13 @@ function ModalEdit({ userId, productId: id, onClose }: ModalEditProps) {
     description: "",
   };
 
+  useEffect(() => {
+    setValue("name", name);
+    setValue("categoryId", category.id);
+  }, [setValue, name, category]);
+
   // 상품 수정 요청
-  const patchProductMutation = useMutation({
+  const patchProductMutation = useMutation<PatchProductDataType, newProductDetailType, PatchProductDataType>({
     mutationFn: (newProductDetail) => patchProduct(selectedProductId, newProductDetail),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.PRODUCT_DETAIL, selectedProductId] });
@@ -65,27 +79,15 @@ function ModalEdit({ userId, productId: id, onClose }: ModalEditProps) {
   // 상품편집 저장 버튼 클릭시 발생 이벤트
   const editProductCallback = async (data: FieldValues) => {
     const formData = {
-      categoryId: category.id,
+      categoryId: data.categoryId,
       image: image,
-      description: description,
-      name: name,
+      description: data.description,
+      name: data.name,
     };
 
-    if (data.categoryId) {
-      formData.categoryId = data.categoryId.value;
-    }
-
-    if (data.description) {
-      formData.description = data.description;
-    }
-
-    if (data.name) {
-      formData.name = data.name;
-    }
-
     if (data.image) {
-      let newImageUrl = await postImage(data.image);
-      formData.image = newImageUrl;
+      const newImageUrl = await postImage(data.image);
+      formData.image = newImageUrl.url;
     }
 
     patchProductMutation.mutate(formData, {
@@ -103,6 +105,7 @@ function ModalEdit({ userId, productId: id, onClose }: ModalEditProps) {
             <S.ProductWithCategory>
               <FormSelectProduct
                 productId={selectedProductId}
+                productName={name}
                 name="name"
                 userId={userId}
                 handleChangeOption={handleChangeOption}
