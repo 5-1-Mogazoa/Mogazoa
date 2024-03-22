@@ -18,6 +18,9 @@ const nextConfig = {
       "example.com",
       "images.unsplash.com",
       "img.danawa.com",
+      "pbs.twimg.com",
+      "t1.daumcdn.net",
+      "encrypted-tbn0.gstatic.com",
     ],
   },
   webpack: (config) => {
