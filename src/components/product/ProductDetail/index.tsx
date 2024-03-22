@@ -102,17 +102,3 @@ function ProductDetail({ productDetail, userId, reviewToggle, loginToggle, editT
 }
 
 export default ProductDetail;
-
-{
-  /* <S.Buttons>
-        <StyledPrimaryButton>리뷰 작성하기</StyledPrimaryButton>
-        <StyledProductButton $createdByMe={createdByMe} $buttonType="compare">
-          비교하기
-        </StyledProductButton>
-        {createdByMe && (
-          <StyledProductButton $createdByMe={createdByMe} $buttonType="edit">
-            편집하기
-          </StyledProductButton>
-        )}
-      </S.Buttons> */
-}
