@@ -13,11 +13,23 @@ type ProductDetailProps = {
   reviewToggle: () => void;
   loginToggle: () => void;
   editToggle: () => void;
+  ratingCount: number;
+  favoriteCount: number;
+  reviewCount: number;
 };
 
 type CompareModalType = "first" | "second" | "duplicate" | "change";
 
-function ProductDetail({ productDetail, userId, reviewToggle, loginToggle, editToggle }: ProductDetailProps) {
+function ProductDetail({
+  productDetail,
+  userId,
+  ratingCount,
+  favoriteCount,
+  reviewCount,
+  reviewToggle,
+  loginToggle,
+  editToggle,
+}: ProductDetailProps) {
   const { id, name, image, description, category, isFavorite, writerId } = productDetail as ProductDetailResponseType;
   const createdByMe = writerId === userId;
   const [isCompareModalOpen, setIsCompareModalOpen] = useState(false);
@@ -33,10 +45,16 @@ function ProductDetail({ productDetail, userId, reviewToggle, loginToggle, editT
       setCompareType("first");
       localStorage.setItem("productAId", String(id));
       localStorage.setItem("productAName", name);
+      localStorage.setItem("productARating", String(ratingCount));
+      localStorage.setItem("productAfavorite", String(favoriteCount));
+      localStorage.setItem("productAReview", String(reviewCount));
     } else if (!productBId) {
       setCompareType("second");
       localStorage.setItem("productBId", String(id));
       localStorage.setItem("productBName", name);
+      localStorage.setItem("productBRating", String(ratingCount));
+      localStorage.setItem("productBfavorite", String(favoriteCount));
+      localStorage.setItem("productBReview", String(reviewCount));
     } else {
       setCompareType("change");
     }
@@ -94,6 +112,9 @@ function ProductDetail({ productDetail, userId, reviewToggle, loginToggle, editT
           compareType={compareType as CompareModalType}
           productId={id}
           productName={name}
+          ratingCount={ratingCount}
+          favoriteCount={favoriteCount}
+          reviewCount={reviewCount}
           setIsOpen={setIsCompareModalOpen}
         />
       )}

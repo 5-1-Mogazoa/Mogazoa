@@ -56,6 +56,9 @@ export default function Product() {
       <ProductDetail
         productDetail={productDetail}
         userId={userId}
+        ratingCount={ratingCount}
+        favoriteCount={favoriteCount}
+        reviewCount={reviewCount}
         reviewToggle={reviewToggle}
         loginToggle={loginToggle}
         editToggle={editToggle}

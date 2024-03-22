@@ -12,11 +12,22 @@ interface ModalProps {
   productName: string;
   productId: number;
   compareType: CompareModalType;
+  ratingCount: number;
+  favoriteCount: number;
+  reviewCount: number;
 }
 
 type CompareModalType = "first" | "second" | "duplicate" | "change";
 
-export default function CompareModal({ setIsOpen, productId, productName, compareType }: ModalProps) {
+export default function CompareModal({
+  setIsOpen,
+  productId,
+  productName,
+  compareType,
+  ratingCount,
+  favoriteCount,
+  reviewCount,
+}: ModalProps) {
   const [portalRoot, setPortalRoot] = useState<HTMLElement | null>(null);
   const [productAName, setProductAName] = useState("");
   const [productBName, setProductBName] = useState("");
@@ -38,9 +49,15 @@ export default function CompareModal({ setIsOpen, productId, productName, compar
     if (isSelectedA) {
       localStorage.setItem("productBId", String(productId));
       localStorage.setItem("productBName", productName);
+      localStorage.setItem("productBRating", String(ratingCount));
+      localStorage.setItem("productBfavorite", String(favoriteCount));
+      localStorage.setItem("productBReview", String(reviewCount));
     } else {
       localStorage.setItem("productAId", String(productId));
       localStorage.setItem("productAName", productName);
+      localStorage.setItem("productARating", String(ratingCount));
+      localStorage.setItem("productAfavorite", String(favoriteCount));
+      localStorage.setItem("productAReview", String(reviewCount));
     }
     setIsChanged(true);
   };
