@@ -38,6 +38,7 @@ function FormSelectCategory({ name, defaultValue, categoryName }: FormSelectCate
             options={categoryList}
             value={categoryList.find((category) => category.value === value)}
             onChange={onChange}
+            placeholder="카테고리선택"
             {...field}
             // components={{ DropdownIndicator: Indicator }} TODO 버튼 이미지 에러
           />

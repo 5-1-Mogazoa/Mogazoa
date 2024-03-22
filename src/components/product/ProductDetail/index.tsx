@@ -4,11 +4,11 @@ import { StyledPrimaryButton, StyledProductButton } from "../../common/button/St
 import ProductText from "./ProductText";
 import { ProductDetailResponseType } from "@/src/apis/product/schema";
 import { getToken } from "@/src/apis/auth";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import CompareModal from "../CompareModal/CompareModal";
 
 type ProductDetailProps = {
-  productDetail: ProductDetailResponseType | {};
+  productDetail: ProductDetailResponseType | undefined;
   userId: number | null;
   reviewToggle: () => void;
   loginToggle: () => void;
