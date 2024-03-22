@@ -1,6 +1,5 @@
 import { ReactNode, useState, useEffect } from "react";
 import styled from "styled-components";
-import { StyledCategoryChip } from "@/src/components/common/chip/Styled/StyledCategoryChip";
 import Image from "next/image";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { QUERY_KEY } from "@/src/routes";
@@ -12,7 +11,11 @@ import { useToggle } from "usehooks-ts";
 import FollowInfoModal from "@/src/components/profiles/FollowInfoModal";
 import MyPageProfileButtons from "@/src/components/profiles/MyPageProfileButtons";
 import FollowButton from "@/src/components/profiles/FollowButton";
-import { StyledMyActivities } from "./MyActivity";
+import { StyledMyActivities, StyledMyActivitiesText, StyledMyActivitiesNumber } from "./MyActivity";
+
+import { fontStyle } from "@/styles/theme";
+import MyActivity from "./MyActivity/MyActivity";
+import FilterProduct from "./FilterProduct/FilterProduct";
 
 /**
  * 1. 상품 카드 사이즈 변경
@@ -25,27 +28,18 @@ import { StyledMyActivities } from "./MyActivity";
 const StyledProfileLayout = styled.div`
   display: flex;
   justify-content: center;
-  gap: 30px;
-  @media only screen and (max-width: 900px) {
-    flex-direction: column;
-    align-items: center;
+  flex-direction: column;
+  padding: 30px 20px;
+  @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
   }
-`;
 
-const ActivityList = styled.div`
-  color: white;
-  font-size: 24px;
-  margin-bottom: 30px;
-`;
-
-const StyledRatings = styled.span`
-  color: white;
-  font-size: 24px;
+  @media (min-width: ${({ theme }) => theme.deviceSizes.desktop}) {
+  }
 `;
 
 // 프로필 styled component
 const StyledProfileBox = styled.div`
-  width: 350px;
+  width: 100%;
   border-radius: 12px;
   border: 1px solid var(--black-black_353542, #353542);
   background: var(--black-black_252530, #252530);
@@ -54,6 +48,7 @@ const StyledProfileBox = styled.div`
   align-items: center;
   padding: 24px;
   gap: 30px;
+  margin-bottom: 60px;
 `;
 
 const StyledImageBox = styled.div`
@@ -61,10 +56,6 @@ const StyledImageBox = styled.div`
   height: 200px;
   border-radius: 50%;
   overflow: hidden;
-`;
-
-const StyledMyActivitiesBox = styled.div`
-  display: flex;
 `;
 
 const StyledProfileText = styled.div`
@@ -102,16 +93,6 @@ const StyledFollowNumber = styled.button`
 
 const StyledFollowText = styled.div`
   color: #9fa6b2;
-`;
-
-const StyledFilterButton = styled.button<{ $active?: boolean }>`
-  color: ${(props) => (props.$active ? "white" : "#6E6E82")};
-  margin-right: 40px;
-  font-family: Pretendard;
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
 `;
 
 type Props = {
@@ -219,41 +200,9 @@ export default function Userprofile({ isMe }: Props) {
           </StyledProfileBox>
         </div>
 
-        {/* 활동 내역 */}
-        <div>
-          <ActivityList>활동내역</ActivityList>
-          <StyledMyActivitiesBox>
-            <StyledMyActivities>
-              <div>
-                <span>별아이콘</span> <StyledRatings> {ratingEverage}</StyledRatings>
-              </div>
-            </StyledMyActivities>
-            <StyledMyActivities>
-              <div>
-                <span>리뷰아이콘</span> <StyledRatings> {reviewsCount}</StyledRatings>
-              </div>
-            </StyledMyActivities>
-            {/* 카테고리 없을경우 조건달기 */}
-            <StyledMyActivities>
-              <div>
-                <StyledCategoryChip $category={favoriteCategory}>{favoriteCategory}</StyledCategoryChip>
-              </div>
-            </StyledMyActivities>
-          </StyledMyActivitiesBox>
-          <div>
-            <StyledFilterButton $active={dataType === "REVIEWED"} onClick={() => setDataType("REVIEWED")}>
-              리뷰 남긴 상품
-            </StyledFilterButton>
-            <StyledFilterButton $active={dataType === "CREATED"} onClick={() => setDataType("CREATED")}>
-              등록한 상품
-            </StyledFilterButton>
-            <StyledFilterButton $active={dataType === "FAVORITE"} onClick={() => setDataType("FAVORITE")}>
-              찜한 상품
-            </StyledFilterButton>
-          </div>
-
-          <UserProductList userId={userId} dataType={dataType}></UserProductList>
-        </div>
+        <MyActivity ratingEverage={ratingEverage} reviewsCount={reviewsCount} favoriteCategory={favoriteCategory} />
+        <FilterProduct dataType={dataType} setDataType={setDataType} />
+        <UserProductList userId={userId} dataType={dataType}></UserProductList>
       </StyledProfileLayout>
       {isFollowingModalOpen && (
         <FollowInfoModal
