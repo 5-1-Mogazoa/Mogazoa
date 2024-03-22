@@ -18,7 +18,7 @@ const useFilterSearch = () => {
     updateQuery(query, "category", category);
 
     router.push({
-      pathname: "/products",
+      pathname: router.pathname,
       query: query,
     });
   };

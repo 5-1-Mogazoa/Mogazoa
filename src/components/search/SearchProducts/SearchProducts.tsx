@@ -27,11 +27,11 @@ export default function SearchProducts() {
   const router = useRouter();
   const { keyword, category } = router.query;
 
-  useEffect(() => {
-    if (!keyword && !category) {
-      router.push("/");
-    }
-  }, [keyword, category]);
+  // useEffect(() => {
+  //   if (!keyword && !category) {
+  //     router.push("/");
+  //   }
+  // }, [keyword, category]);
 
   const [isCategory, setIsCategory] = useState(false);
   const handleOpenCategory = () => {

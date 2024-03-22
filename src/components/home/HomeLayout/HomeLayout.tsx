@@ -5,18 +5,25 @@ import ProductAddButton from "../ProductAddButton/ProductAddButton";
 import * as S from "./Styled/StyledHomeLayout";
 import { useEffect, useState } from "react";
 import { getToken } from "@/src/apis/auth";
+import SearchProducts from "../../search/SearchProducts/SearchProducts";
+import { useRouter } from "next/router";
 
 export default function HomeLayout() {
   const [isLogin, setIsLogin] = useState(false);
+  const [isBaseOrSearch, setIsBaseOrSearch] = useState(true);
+  const router = useRouter();
+  const { keyword, category } = router.query;
 
   useEffect(() => {
-    (async () => {
-      if (await getToken()) {
-        setIsLogin(true);
-        return;
-      }
-    })();
+    const checkLogin = async () => {
+      setIsLogin((await getToken()) ? true : false);
+    };
+    checkLogin();
   }, []);
+
+  useEffect(() => {
+    setIsBaseOrSearch(!(category || keyword));
+  }, [category, keyword]);
 
   return (
     <>
@@ -28,9 +35,7 @@ export default function HomeLayout() {
           <S.RankingListWrap>
             <RankingList />
           </S.RankingListWrap>
-          <S.BaseCardListWrap>
-            <BaseCardList />
-          </S.BaseCardListWrap>
+          <S.BaseCardListWrap>{isBaseOrSearch ? <BaseCardList /> : <SearchProducts />}</S.BaseCardListWrap>
         </S.MainWrap>
         {isLogin && (
           <S.ProductAddButtonWrap>
