@@ -78,8 +78,8 @@ export const StyledSelectDropdown = styled(Select).attrs({ classNamePrefix: "rea
 
   .react-select__indicators {
     svg {
-      height: 2.4rem;
-      width: 2.4rem;
+      height: 2rem;
+      width: 2rem;
     }
 
     &:focus {
@@ -88,7 +88,7 @@ export const StyledSelectDropdown = styled(Select).attrs({ classNamePrefix: "rea
   }
 
   .react-select__control--menu-is-open {
-    svg {
+    img {
       transform: scaleY(-1);
     }
   }
