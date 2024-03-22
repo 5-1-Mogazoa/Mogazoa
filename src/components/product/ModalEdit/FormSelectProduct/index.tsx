@@ -4,7 +4,6 @@ import { QUERY_KEY } from "@/src/routes";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import { Controller, useFormContext } from "react-hook-form";
-import Indicator from "../../../../../public/icons/select_arrow.svg";
 import Image from "next/image";
 
 export type selectedOptionType = { value: number; label: string };

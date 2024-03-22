@@ -3,7 +3,6 @@ import { QUERY_KEY } from "@/src/routes";
 import { useQuery } from "@tanstack/react-query";
 import { Controller, useFormContext } from "react-hook-form";
 import { StyledSelectDropdown } from "../../button/Styled/StyledSelectDropdown";
-import Indicator from "../../../../../public/icons/select_arrow.svg";
 import Image from "next/image";
 
 interface FormSelectCategoryProps {
