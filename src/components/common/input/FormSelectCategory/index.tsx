@@ -40,7 +40,7 @@ function FormSelectCategory({ name, defaultValue, categoryName }: FormSelectCate
             onChange={onChange}
             placeholder="카테고리선택"
             {...field}
-            // components={{ DropdownIndicator: Indicator }} TODO 버튼 이미지 에러
+            components={{ DropdownIndicator: Indicator }}
           />
         );
       }}

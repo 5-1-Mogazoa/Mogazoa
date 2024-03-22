@@ -43,11 +43,10 @@ function FormSelectProduct({ productId, productName, name, userId, handleChangeO
           options={userProductList}
           value={userProductList.find((product) => product.value === productId)}
           onChange={(selectedOption) => {
-            // onChange(selectedOption);
             handleChangeOption(selectedOption);
           }}
           {...field}
-          // components={{ DropdownIndicator: Indicator }} TODO 버튼 이미지 에러
+          components={{ DropdownIndicator: Indicator }}
         />
       )}
     />

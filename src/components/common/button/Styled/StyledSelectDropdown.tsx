@@ -50,6 +50,7 @@ export const StyledSelectDropdown = styled(Select).attrs({ classNamePrefix: "rea
 
   .react-select__option {
     display: flex;
+    align-items: center;
     gap: 5rem;
     height: 3.2rem;
     border-radius: 0.6rem;
@@ -77,14 +78,27 @@ export const StyledSelectDropdown = styled(Select).attrs({ classNamePrefix: "rea
 
   .react-select__indicators {
     svg {
-      height: 2rem;
-      width: 2rem;
+      height: 2.4rem;
+      width: 2.4rem;
     }
+
     &:focus {
-      transform: scaleX(1);
+      transform: scaleY(-1);
+    }
+  }
+
+  .react-select__control--menu-is-open {
+    svg {
+      transform: scaleY(-1);
     }
   }
 
   .react-select__placeholder {
+    ${fontStyle({ w: 400, s: 14, l: 20 })};
+    color: var(--color-gray-6e);
+
+    @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
+      ${fontStyle({ w: 400, s: 16, l: 22 })};
+    }
   }
 `;
