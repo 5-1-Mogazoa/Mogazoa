@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import { GnbButton, SidebarButton } from "./GnbButton";
-import { useRouter } from "next/router";
+import router, { useRouter } from "next/router";
 import styled from "styled-components";
+import resetToken from "@/pages/api/resetToken";
 
 type SidebarProps = {
   isLoggedIn?: boolean;
@@ -10,20 +11,23 @@ type SidebarProps = {
 };
 
 const StyledSidebar = styled.div<SidebarProps>`
+  position: fixed;
   width: 0;
-  height: 100%;
   transition: 0.4s;
-  position: absolute;
   top: 0;
   left: 0;
-  z-index: 1;
-  background: rgba(0, 0, 0, 0.8);
+  z-index: 10;
 
+  @media (min-width: ${({ theme }) => theme.deviceSizes.desktop}) {
+    display: none;
+  }
   ${({ $isSidebarOpen }) =>
     $isSidebarOpen &&
     `
     width: 15rem;
+    height: 100%;
     transition: 0.4s; 
+    background: rgba(0, 0, 0, 1);
     `};
 `;
 
@@ -40,7 +44,7 @@ const ButtonContainer = styled.ul<SidebarProps>`
   ${({ $isSidebarOpen }) =>
     $isSidebarOpen &&
     `
-  height: 300px;
+  height: 100vh;
 
   `};
 `;
@@ -57,6 +61,13 @@ function SidebarContent({ isLoggedIn, $isSidebarOpen }: SidebarProps) {
     </>
   );
 }
+// function SidebarLogoutButton({ $isSidebarOpen }: SidebarProps) {
+//   const handleLogOutButton = () => {
+//     //TODO: localStorage 설정 차후 제거
+//     localStorage.clear();
+//     resetToken();
+//     router.push("/");
+//   };
 
 export function Sidebar({ isLoggedIn, $isSidebarOpen }: SidebarProps) {
   return (
