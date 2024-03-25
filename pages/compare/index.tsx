@@ -16,34 +16,31 @@ import { CompareTable } from "@/src/components/compare/Compare";
 import Product1 from "@/src/components/compare/Product1";
 import Product2 from "@/src/components/compare/Product2";
 
-type CompareProps = {
-  $productName: string;
-};
+export default function Compare() {
+  const [productAData, setProductAData] = useState<any>();
+  const [productBData, setProductBData] = useState<any>();
+  const [isOpen, setIsOpen] = useState(false);
 
-export default function Compare(): CompareProps {
-  const [productOneData, setProductOneData] = useState<any>();
-  const [similarProducts, setSimilarProducts] = useState<any>(); // similarProducts 상태 추가
+  const handleIsOpen = () => setIsOpen(true);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setProductOneData(similarProducts?.list[0]);
+  const handleProductAData = (data: string) => {
+    setProductAData(data);
   };
-  const handleSearchProduct = async (productName: string) => {
-    const data = await getProducts({ keyword: productName });
-    setSimilarProducts(data);
+
+  const handleProductBData = (data: string) => {
+    setProductBData(data);
   };
+
   return (
     <>
       <BodyContainer>
-        <form onSubmit={handleSubmit}>
-          <Product1 handleSearchProduct={handleSearchProduct} setSimilarProducts={setSimilarProducts} />
-
-          <Product2 />
-          <StyledPrimaryButton type="submit">비교하기</StyledPrimaryButton>
-        </form>
+        <Product1 handleProductAData={handleProductAData} />
+        <Product2 handleProductBData={handleProductBData} />
+        <StyledPrimaryButton onClick={handleIsOpen}>비교하기</StyledPrimaryButton>
       </BodyContainer>
-      {/* <Loading /> */}
-      {/* <CompareTable productOneData={productOneData} /> */}
+      {/* products.data === undefined && 
+      <Loading /> : <comparetable /> */}
+      {isOpen && <CompareTable productAData={productAData} productBData={productBData} />}
     </>
   );
 }

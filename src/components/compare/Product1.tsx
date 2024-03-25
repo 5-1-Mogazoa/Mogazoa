@@ -7,24 +7,33 @@ import {
 import { ProductInput } from "@/src/components/compare/Styled/StyledProductInput";
 import { Label } from "@/src/components/compare/Styled/StyledProductInput";
 import { useEffect, useState } from "react";
-import { CompareChipA, CompareChipB } from "@/src/components/common/chip/CompareChip";
+import { CompareChipA } from "@/src/components/common/chip/CompareChip";
 import { useQuery } from "@tanstack/react-query";
 import { QUERY_KEY } from "@/src/routes";
-import { getProducts } from "@/src/apis/product";
+import { getProductDetail, getProducts } from "@/src/apis/product";
 import { ProductCheckedNameWrap, ProductCheckedNameItem } from "@/src/components/compare/Styled/StyledItem";
 
 type Product1Props = {
-  product1: string;
-  setProduct1: React.Dispatch<React.SetStateAction<string>>;
-  setProduct1Chip: React.Dispatch<React.SetStateAction<string>>;
-  setIsShowChip1: React.Dispatch<React.SetStateAction<boolean>>;
+  handleProductAData: (productName: string) => void;
 };
-export default function Product1({ product1, setProduct1, setProduct1Chip, setIsShowChip1 }: Product1Props) {
-  // const [product1, setProduct1] = useState("");
-  // const [product1Chip, setProduct1Chip] = useState("");
+
+export default function Product1({ handleProductAData }: Product1Props) {
+  const [product1, setProduct1] = useState("");
+  const [product1Chip, setProduct1Chip] = useState("");
+  const [productId, setProductId] = useState(0);
   const [readOnly, setReadOnly] = useState(false);
-  // const [isShowChip1, setIsShowChip1] = useState(false);
+  const [isShowChip1, setIsShowChip1] = useState(false);
   const [isShow, setIsShow] = useState(false);
+  useEffect(() => {
+    if (localStorage.getItem("productAName")) {
+      setProduct1(localStorage.getItem("productAName") as string);
+      setProduct1Chip(localStorage.getItem("productAName") as string);
+      setProductId(Number(localStorage.getItem("productAId")));
+      setReadOnly(true);
+      setIsShowChip1(true);
+      setProduct1("");
+    }
+  }, []);
 
   const handleProductAChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setProduct1(e.target.value);
@@ -36,7 +45,8 @@ export default function Product1({ product1, setProduct1, setProduct1Chip, setIs
   };
   const handleAddProductA = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && product1.trim() !== "") {
-      setProduct1Chip(e.target.value);
+      const inputElement = e.target as HTMLInputElement;
+      setProduct1Chip(inputElement.value);
       setProduct1("");
       setReadOnly(true);
       setIsShowChip1(true);
@@ -47,19 +57,33 @@ export default function Product1({ product1, setProduct1, setProduct1Chip, setIs
     setReadOnly(false);
   };
 
-  const handleClickSearch = (e: React.MouseEvent<HTMLInputElement>) => {
+  const handleClickSearch = (e: React.MouseEvent<HTMLLIElement>) => {
     const productName = e.currentTarget.innerText;
     setProduct1Chip(productName);
     setReadOnly(true);
     setIsShowChip1(true);
     setProduct1("");
   };
-  const { data: similarProducts, isSuccess } = useQuery({
+
+  const { data: productA, isSuccess } = useQuery({
     queryKey: [QUERY_KEY.PRODUCTS, { keyword: product1Chip }],
     queryFn: () => getProducts({ keyword: product1Chip }),
-    enabled: !!setProduct1Chip,
+    enabled: !!product1Chip,
   });
+
+  const { data: productADetail } = useQuery({
+    queryKey: [QUERY_KEY.PRODUCT_DETAIL, productId],
+    queryFn: () => getProductDetail(productId),
+    // enabled: !!product2Chip,
+  });
+
+  useEffect(() => {
+    console.log(productADetail);
+    handleProductAData(productADetail);
+  }, [productADetail]);
+
   const [productOneData, setProductOneData] = useState<any>();
+
   useEffect(() => {
     setIsShow(false);
     console.log(product1);
@@ -70,7 +94,7 @@ export default function Product1({ product1, setProduct1, setProduct1Chip, setIs
         setIsShow(true);
       }
     }
-  }, [isSuccess, similarProducts, product1Chip, productOneData]);
+  }, [isSuccess, productA, product1Chip, productOneData]);
 
   return (
     <>
@@ -91,8 +115,13 @@ export default function Product1({ product1, setProduct1, setProduct1Chip, setIs
         </TagContainer>
         {isShow && (
           <ProductCheckedNameWrap>
-            {similarProducts?.list?.map((product) => (
-              <ProductCheckedNameItem key={product.id} onClick={handleClickSearch}>
+            {productA?.list?.map((product) => (
+              <ProductCheckedNameItem
+                key={product.id}
+                onClick={(e) => {
+                  handleClickSearch(e);
+                  setProductId(product.id);
+                }}>
                 {product.name}
               </ProductCheckedNameItem>
             ))}
