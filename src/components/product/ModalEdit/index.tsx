@@ -134,25 +134,24 @@
 
 // export default ModalEdit;
 
-import { Controller, FieldValues, FormProvider, useForm } from "react-hook-form";
+import { FieldValues, FormProvider, useForm } from "react-hook-form";
 import * as S from "./styled";
 import Modal from "../../common/modal/Modal";
 import { useEffect, useState } from "react";
-import FormImageInput from "../../common/input/FormImageInput";
-import FormTextareaInput from "../../common/input/FormTextareaInput";
 import ERROR_MESSAGE from "@/src/constant/ERROR_MESSAGE";
-import FormSelectProduct, { selectedOptionType } from "./FormSelectProduct";
+import { selectedOptionType } from "./FormSelectProduct";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getProductDetail, patchProduct } from "@/src/apis/product";
-import FormSelectCategory from "../../common/input/FormSelectCategory";
 import { postImage } from "@/src/apis/image";
 import { QUERY_KEY } from "@/src/routes";
 import { useRouter } from "next/router";
 import { PatchProductDataType, ProductDetailResponseType } from "@/src/apis/product/schema";
-import ReactSelect from "react-select";
 import { getCategoryList } from "@/src/apis/category";
 import { getUserCreated } from "@/src/apis/user";
-import { StyledLetterCount, StyledTextBox, StyledTextBoxContainer } from "../../common/input/Styled/StyledTextBox";
+import FormSelect from "../../common/input/FormSelect";
+import FormTextarea from "../../common/input/FormTextarea";
+import Toast from "../../common/toast/Toast";
+import FormImage from "../../common/input/FormImage";
 
 interface selectedProductDetailType {
   id: number;
@@ -224,17 +223,19 @@ function ModalEdit({ userId, productId, productDetail, onClose }: ModalEditProps
     description,
   };
 
-  const methods = useForm({ defaultValues });
-  const { control, setValue } = methods;
+  const methods = useForm({ mode: "onBlur", defaultValues });
+  const {
+    setValue,
+    formState: { errors },
+  } = methods;
 
   useEffect(() => {
     if (selectedProductDetail) {
-      // const {category, image, description} = selectedProductDetail;
       setValue("categoryId", { value: category.id, label: category.name });
       setValue("image", image);
       setValue("description", description);
     }
-  }, [selectedProductDetail]);
+  }, [selectedProductDetail, category.id, category.name, image, description, setValue]);
 
   // FormSelectProduct에서 옵션선택 Change 이벤트
   const handleChangeOption = (selectedOption: selectedOptionType) => {
@@ -254,13 +255,13 @@ function ModalEdit({ userId, productId, productDetail, onClose }: ModalEditProps
   // 상품편집 저장 버튼 클릭시 발생 이벤트
   const editProductCallback = async (data: FieldValues) => {
     const formData = {
-      categoryId: data.categoryId,
+      categoryId: data.categoryId.value,
       image: image,
       description: data.description,
-      name: data.name,
+      name: data.name.label,
     };
 
-    if (data.image) {
+    if (data.image instanceof File) {
       const newImageUrl = await postImage(data.image);
       formData.image = newImageUrl.url;
     }
@@ -278,65 +279,29 @@ function ModalEdit({ userId, productId, productDetail, onClose }: ModalEditProps
         <S.Container>
           <S.ProductWithCategoryWithImage>
             <S.ProductWithCategory>
-              <section>
-                <Controller
-                  render={({ field }) => (
-                    <ReactSelect
-                      {...field}
-                      options={userProductList}
-                      placeholder="상품명(상품 등록 여부를 확인해 주세요)"
-                      isClearable
-                      onChange={(selectedOption) => {
-                        field.onChange(selectedOption);
-                        if (selectedOption) {
-                          setSelectedProductId(selectedOption.value);
-                        }
-                      }}
-                    />
-                  )}
-                  name="name"
-                  control={control}
-                />
-              </section>
-
-              <section>
-                <Controller
-                  render={({ field }) => (
-                    <ReactSelect {...field} options={categoryList} placeholder="카테고리 선택" isClearable />
-                  )}
-                  name="categoryId"
-                  control={control}
-                />
-              </section>
+              <FormSelect
+                options={userProductList}
+                name="name"
+                placeholder="상품명(상품 등록 여부를 확인해 주세요)"
+                setSelectedProductId={setSelectedProductId}
+              />
+              <FormSelect options={categoryList} name="categoryId" placeholder="카테고리 선택" />
             </S.ProductWithCategory>
             <S.Image>
-              <section>
-                {/* <Controller
-                  render={({ field }) => <input {...field} type="file" accept="image/*" />}
-                  name="image"
-                  control={control}
-                /> */}
-              </section>
+              <FormImage name="image" defaultValue={image} />
             </S.Image>
           </S.ProductWithCategoryWithImage>
-
-          <section>
-            <StyledTextBoxContainer>
-              <Controller
-                rules={{
-                  required: { value: true, message: ERROR_MESSAGE.REQUIRED_DESCRIPTION },
-                  minLength: { value: 10, message: ERROR_MESSAGE.DESCRIPTION_MAX_LENGTH },
-                  maxLength: { value: 500, message: ERROR_MESSAGE.DESCRIPTION_MAX_LENGTH },
-                }}
-                render={({ field }) => (
-                  <StyledTextBox {...field} placeholder="상품 설명을 입력해 주세요."></StyledTextBox>
-                )}
-                name="description"
-                control={control}
-              />
-              <StyledLetterCount>2 / 300</StyledLetterCount>
-            </StyledTextBoxContainer>
-          </section>
+          <FormTextarea
+            rules={{
+              required: { value: true, message: ERROR_MESSAGE.REQUIRED_DESCRIPTION },
+              minLength: { value: 10, message: ERROR_MESSAGE.DESCRIPTION_MAX_LENGTH },
+              maxLength: { value: 300, message: ERROR_MESSAGE.DESCRIPTION_MAX_LENGTH },
+            }}
+            name="description"
+            placeholder="상품 설명을 입력해 주세요."
+            maxLength={300}
+          />
+          {errors.description && <Toast type="error" message={errors?.description.message} />}
         </S.Container>
       </Modal>
     </FormProvider>

@@ -29,7 +29,7 @@ const StyledTextBox = styled.textarea`
 
   @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
     width: 100%;
-    height: 123px;
+    height: 103px;
   }
 
   @media (min-width: ${({ theme }) => theme.deviceSizes.desktop}) {
