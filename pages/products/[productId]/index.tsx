@@ -76,7 +76,14 @@ export default function Product() {
         />
       )}
       {loginModal && <ModalLogin onClose={() => setLoginMdodal(false)} />}
-      {editModal && <ModalEdit userId={userId} productId={productId} onClose={() => setEditMdodal(false)} />}
+      {editModal && (
+        <ModalEdit
+          userId={userId}
+          productId={productId}
+          productDetail={productDetail}
+          onClose={() => setEditMdodal(false)}
+        />
+      )}
     </ProductLayout>
   );
 }
