@@ -10,7 +10,7 @@ const ERROR_MESSAGE = {
   PASSWORD_MIN_LENGTH: "비밀번호는 최소 8자 이상입니다.",
   REQUIRED_PW_COMFIRMATION: "비밀번호 확인을 입력해주세요.",
   NOT_MATCH_PASSWORD: "비밀번호가 일치하지 않습니다.",
-  DESCRIPTION_MAX_LENGTH: "상품 설명은 최소 10자 이상 최대 500자 이하입니다.",
+  DESCRIPTION_MAX_LENGTH: "상품 설명은 최소 10자 이상 최대 300자 이하입니다.",
   REQUIRED_DESCRIPTION: "상품 설명은 필수 입력입니다.",
   REQUIRED_REVIEW: "리뷰 내용을 입력해주세요.",
   REVIEW_MIN_LENGTH: "리뷰는 최소 10자 이상 적어주세요.",

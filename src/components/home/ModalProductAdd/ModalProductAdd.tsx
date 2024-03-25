@@ -2,7 +2,6 @@ import { FieldValues, FormProvider, useForm, useFormContext } from "react-hook-f
 import * as S from "./Styled/StyledModalProductAdd.tsx";
 import Modal from "../../common/modal/Modal";
 import FormImageInput from "../../common/input/FormImageInput";
-import FormTextareaInput from "../../common/input/FormTextareaInput";
 import ERROR_MESSAGE from "@/src/constant/ERROR_MESSAGE";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postProduct } from "@/src/apis/product";
@@ -11,6 +10,7 @@ import { postImage } from "@/src/apis/image";
 import { API_ROUTE } from "@/src/routes";
 import FormNameInput from "@/src/components/common/input/FormNameInput";
 import { copyFileSync } from "fs";
+import FormTextarea from "@/src/components/common/input/FormTextarea";
 
 interface ModalProductAddProps {
   onClose: () => void;
@@ -92,15 +92,15 @@ export default function ModalProductAdd({ onClose }: ModalProductAddProps) {
               <FormImageInput name="image" defaultValue={image} />
             </S.Image>
           </S.ProductWithCategoryWithImage>
-          <FormTextareaInput
-            name="description"
+          <FormTextarea
             rules={{
               required: { value: true, message: ERROR_MESSAGE.REQUIRED_DESCRIPTION },
               minLength: { value: 10, message: ERROR_MESSAGE.DESCRIPTION_MAX_LENGTH },
-              maxLength: { value: 500, message: ERROR_MESSAGE.DESCRIPTION_MAX_LENGTH },
+              maxLength: { value: 300, message: ERROR_MESSAGE.DESCRIPTION_MAX_LENGTH },
             }}
-            defaultValue={description}
+            name="description"
             placeholder="상품 설명을 입력해 주세요."
+            maxLength={300}
           />
         </S.Container>
       </Modal>

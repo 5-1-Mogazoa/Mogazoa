@@ -273,6 +273,10 @@ function ModalEdit({ userId, productId, productDetail, onClose }: ModalEditProps
     });
   };
 
+  const mobileStyle = "position: absolute; bottom: 4rem; right: 0;";
+  const tabletStyle = "position: absolute; right: 10rem;";
+  const desktopStyle = "position: absolute; right: 12rem";
+
   return (
     <FormProvider {...methods}>
       <Modal title="상품편집" modalType="edit" onClose={onClose} callback={editProductCallback} isFormData>
@@ -301,7 +305,15 @@ function ModalEdit({ userId, productId, productDetail, onClose }: ModalEditProps
             placeholder="상품 설명을 입력해 주세요."
             maxLength={300}
           />
-          {errors.description && <Toast type="error" message={errors?.description.message} />}
+          {errors.description && (
+            <Toast
+              type="error"
+              message={errors?.description.message}
+              mobileStyle={mobileStyle}
+              tabletStyle={tabletStyle}
+              desktopStyle={desktopStyle}
+            />
+          )}
         </S.Container>
       </Modal>
     </FormProvider>

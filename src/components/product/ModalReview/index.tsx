@@ -4,7 +4,6 @@ import * as S from "./styled";
 import { FormRatingStars } from "../RatingStar";
 import { FieldValues, FormProvider, useForm } from "react-hook-form";
 import ERROR_MESSAGE from "../../../constant/ERROR_MESSAGE";
-import FormTextareaInput from "../../common/input/FormTextareaInput";
 import FormMultiImageInput from "../../common/input/FormMultiImageInput";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postReview } from "@/src/apis/review";
@@ -13,6 +12,7 @@ import { PostReviewRequestType } from "@/src/apis/review/schema";
 import { postImage } from "@/src/apis/image";
 import { OrderType } from "../ReviewList";
 import { ImageUrlType } from "../ModalEditReview";
+import FormTextarea from "../../common/input/FormTextarea";
 
 interface ModalReviewProps {
   productId: number;
@@ -81,8 +81,7 @@ function ModalReview({ productId, name, category, order, defaultValue, onClose }
             별점
             <FormRatingStars type="modal" defaultValue={defaultRating ? defaultRating : 1} />
           </S.Rating>
-          <FormTextareaInput
-            name="content"
+          <FormTextarea
             rules={{
               required: {
                 value: true,
@@ -97,8 +96,9 @@ function ModalReview({ productId, name, category, order, defaultValue, onClose }
                 message: ERROR_MESSAGE.REVIEW_MAX_LENGTH,
               },
             }}
-            defaultValue={defaultContent}
+            name="content"
             placeholder="리뷰는 최소 10자 이상 작성해 주세요."
+            maxLength={300}
           />
           <FormMultiImageInput name="images" defaultValue={defaultImages} />
         </S.Container>

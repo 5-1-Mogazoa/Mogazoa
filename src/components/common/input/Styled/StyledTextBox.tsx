@@ -14,6 +14,8 @@ const StyledTextBox = styled.textarea`
   border: none;
   background: var(--color-black-25, #252530);
   color: var(--color-white-f1, #f1f1f5);
+  font-family: Pretendard;
+  font-style: normal;
   ${fontStyle({ w: 400, s: 14, l: 20 })};
 
   /* 스크롤바 숨기기 */
@@ -42,20 +44,26 @@ const StyledLetterCount = styled.span`
   background: none;
   color: var(--color-gray-6e, #6e6e82);
   text-align: right;
+  font-family: Pretendard;
+  font-style: normal;
   ${fontStyle({ w: 400, s: 14, l: 10 })};
-
   position: absolute;
   bottom: 20px;
   right: 20px;
 `;
 
-const StyledTextBoxContainer = styled.div`
+type StyledTextBoxContainerProps = {
+  $focused?: boolean;
+};
+
+const StyledTextBoxContainer = styled.div<StyledTextBoxContainerProps>`
   position: relative;
   padding: 20px 20px;
   width: 100%;
   height: 120px;
   border-radius: 8px;
-  border: 1px solid var(--color-black-35, #353542);
+  border: 1px solid ${({ $focused }) => ($focused ? "var(--color-main-blue)" : "var(--color-black-35, #353542)")};
+
   background: var(--color-black-25, #252530);
 
   &:focus {

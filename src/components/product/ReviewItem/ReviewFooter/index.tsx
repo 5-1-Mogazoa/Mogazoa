@@ -97,7 +97,7 @@ function ReviewFooter({ review, createdByMe, order, loginToggle }: ReviewFooterP
           name={name}
           category={category.name}
           order={order}
-          defaultValue={review}
+          review={review}
           onClose={() => setEditReviewModal(false)}
         />
       )}
