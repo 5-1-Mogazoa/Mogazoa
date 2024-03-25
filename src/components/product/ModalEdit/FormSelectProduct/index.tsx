@@ -4,7 +4,7 @@ import { QUERY_KEY } from "@/src/routes";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import { Controller, useFormContext } from "react-hook-form";
-import Indicator from "../../../../../public/icons/select_arrow.svg";
+import Image from "next/image";
 
 export type selectedOptionType = { value: number; label: string };
 
@@ -43,11 +43,12 @@ function FormSelectProduct({ productId, productName, name, userId, handleChangeO
           options={userProductList}
           value={userProductList.find((product) => product.value === productId)}
           onChange={(selectedOption) => {
-            // onChange(selectedOption);
             handleChangeOption(selectedOption);
           }}
           {...field}
-          // components={{ DropdownIndicator: Indicator }} TODO 버튼 이미지 에러
+          components={{
+            DropdownIndicator: () => <Image width={24} height={24} src="/icons/select_arrow.svg" alt="화살표" />,
+          }}
         />
       )}
     />

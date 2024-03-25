@@ -3,7 +3,7 @@ import { QUERY_KEY } from "@/src/routes";
 import { useQuery } from "@tanstack/react-query";
 import { Controller, useFormContext } from "react-hook-form";
 import { StyledSelectDropdown } from "../../button/Styled/StyledSelectDropdown";
-import Indicator from "../../../../../public/icons/select_arrow.svg";
+import Image from "next/image";
 
 interface FormSelectCategoryProps {
   name: string;
@@ -40,7 +40,9 @@ function FormSelectCategory({ name, defaultValue, categoryName }: FormSelectCate
             onChange={onChange}
             placeholder="카테고리선택"
             {...field}
-            // components={{ DropdownIndicator: Indicator }} TODO 버튼 이미지 에러
+            components={{
+              DropdownIndicator: () => <Image width={24} height={24} src="/icons/select_arrow.svg" alt="화살표" />,
+            }}
           />
         );
       }}
