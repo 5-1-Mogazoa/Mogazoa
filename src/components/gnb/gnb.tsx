@@ -23,9 +23,8 @@ export default function Gnb() {
   };
 
   useEffect(() => {
-    let token = "";
     (async () => {
-      token = await getToken();
+      const token = await getToken();
       setIsLoggedIn(token ? true : false);
     })();
   }, [currentPath]);
