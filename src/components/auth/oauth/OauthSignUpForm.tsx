@@ -74,8 +74,6 @@ export default function OauthSignUpForm() {
           const accessToken = result.accessToken;
           const userId = result.user.id;
           await postToken(accessToken);
-          //TODO: localStorage accessToken 설정 삭제 예정
-          localStorage.setItem("accessToken", accessToken);
           localStorage.setItem("userId", String(userId));
           router.push("/");
           return;
