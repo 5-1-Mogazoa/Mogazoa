@@ -12,10 +12,8 @@ export default function MyPageProfileButtons() {
     setIsOpen(true);
   };
 
-  const handleLogOutButton = () => {
-    //TODO: localStorage 설정 차후 제거
-    localStorage.clear();
-    resetToken();
+  const handleLogOutButton = async () => {
+    await resetToken();
     router.push("/");
   };
 
