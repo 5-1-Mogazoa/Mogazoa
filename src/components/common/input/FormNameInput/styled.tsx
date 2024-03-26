@@ -59,7 +59,7 @@ export const matchedStyles = css`
   color: var(--color-white, #f1f1f5);
 `;
 
-export const ProductCheckedNameItem = styled.li`
+export const ProductCheckedNameItem = styled.li<NameItemProps>`
   display: flex;
   padding: 6px 20px;
   gap: 10px;
@@ -73,3 +73,7 @@ export const ProductCheckedNameItem = styled.li`
     ${fontStyle({ w: 400, s: 16, l: 22 })};
   }
 `;
+
+type NameItemProps = {
+  isMatch: boolean;
+};

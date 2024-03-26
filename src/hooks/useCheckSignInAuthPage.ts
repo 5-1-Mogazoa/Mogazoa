@@ -14,7 +14,7 @@ const useCheckSignInAuthPage = () => {
         setIsLoggedIn(false);
       }
     })();
-  }, []);
+  }, [router]);
 
   return isLoggedIn;
 };
