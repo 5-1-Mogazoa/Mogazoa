@@ -80,6 +80,7 @@ const StyledImageBox = styled.div`
   height: 200px;
   border-radius: 50%;
   overflow: hidden;
+  flex-shrink: 0;
 
   @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
     width: 120px;
@@ -260,11 +261,7 @@ export default function Userprofile({ isMe }: Props) {
         <StyledProfileBox>
           <StyledImageBox>
             {/* Next Image로 바꾸기 & next.config.mjs 수정하기 & 사용법 익혀서 하기 */}
-            <StyledImage
-              fill
-              src={USERDATA?.image ? USERDATA?.image : `${location.origin}s/icons/default_profile.svg`}
-              alt="프로필사진"
-            />
+            <StyledImage fill src={USERDATA?.image ? USERDATA?.image : "/icons/default_profile.svg"} alt="프로필사진" />
           </StyledImageBox>
 
           <StyledProfileText>
