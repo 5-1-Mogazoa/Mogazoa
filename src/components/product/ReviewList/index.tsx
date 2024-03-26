@@ -22,7 +22,6 @@ function ReviewList({ productId, order, setOrder, loginToggle }: ReviewListProps
   const [ref, inView] = useInView();
 
   const {
-    status,
     data: reviewData,
     isFetchingNextPage,
     fetchNextPage,
@@ -38,6 +37,7 @@ function ReviewList({ productId, order, setOrder, loginToggle }: ReviewListProps
       return lastPage?.nextCursor ?? undefined;
     },
   });
+  console.log({ reviewData });
 
   useEffect(() => {
     if (inView) {
