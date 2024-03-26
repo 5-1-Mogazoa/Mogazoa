@@ -66,7 +66,6 @@ export default function OauthSignUpForm() {
         token: provider === "kakao" ? kakaoToken : idToken || "",
       };
 
-      console.log(postData);
       //TODO :api 통신 및 닉네임 중복검사 추가 예정
       try {
         if (typeof provider === "string") {
