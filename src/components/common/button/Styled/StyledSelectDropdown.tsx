@@ -78,6 +78,7 @@ export const StyledSelectDropdown = styled(Select).attrs({ classNamePrefix: "rea
 
   .react-select__indicators {
     svg {
+      display: none;
       height: 2rem;
       width: 2rem;
     }
