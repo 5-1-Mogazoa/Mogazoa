@@ -41,7 +41,7 @@ export default function OauthSignUpForm() {
     if (provider === "kakao") {
       getKakaoToken();
     }
-  }, []);
+  }, [provider]);
 
   const {
     register,

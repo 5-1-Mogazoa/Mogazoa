@@ -14,7 +14,7 @@ const useCheckSignIn = () => {
         setIsLoggedIn(true);
       }
     })();
-  }, []);
+  }, [router]);
 
   return isLoggedIn;
 };

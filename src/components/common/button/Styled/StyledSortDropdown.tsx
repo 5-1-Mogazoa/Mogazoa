@@ -1,4 +1,4 @@
-import { OrderOptionType, OrderType } from "@/pages/products/[productId]";
+import { OrderOptionType, OrderType } from "@/src/components/product/ReviewList";
 import { fontStyle } from "@/styles/theme";
 import { HTMLAttributes } from "react";
 import styled from "styled-components";
