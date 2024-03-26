@@ -22,6 +22,7 @@ export default function Compare() {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleIsOpen = () => setIsOpen(true);
+  const handleTableClose = () => setIsOpen(false);
 
   const handleProductAData = (data: string) => {
     setProductAData(data);
@@ -34,8 +35,8 @@ export default function Compare() {
   return (
     <>
       <BodyContainer>
-        <Product1 handleProductAData={handleProductAData} />
-        <Product2 handleProductBData={handleProductBData} />
+        <Product1 handleProductAData={handleProductAData} handleTableClose={handleTableClose} />
+        <Product2 handleProductBData={handleProductBData} handleTableClose={handleTableClose} />
         <StyledPrimaryButton onClick={handleIsOpen}>비교하기</StyledPrimaryButton>
       </BodyContainer>
       {/* products.data === undefined && 

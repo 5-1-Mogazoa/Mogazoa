@@ -11,7 +11,6 @@ import {
   Win1,
   Win2,
 } from "./Styled/StyledTable";
-import { useEffect, useState } from "react";
 import CompareResultTable from "./CompareResultTable";
 import Description from "./Description";
 
@@ -22,20 +21,17 @@ type CompareTableProps = {
 
 //비교하기 테이블 만들기
 export function CompareTable({ productAData, productBData }: CompareTableProps) {
-  const [a, setA] = useState(0);
-  const [b, setB] = useState(0);
-  const handleSetA = () => setA((prev) => prev + 1);
-  const handleSetB = () => setB((prev) => prev + 1);
   return (
     //A데이AData, productBData비교 기능 구현
     <>
       <ResultContainer>
-        {/* <ResultWinner>
+        <ResultWinner>
+          {}
           <ResultProduct>이긴상품</ResultProduct> 상품이 승리하였습니다
-        </ResultWinner> */}
-        {/* <Description productAData={productAData} productBData={productBData} a={a} b={b} /> */}
+        </ResultWinner>
+        <Description a={0} b={0} productAData={undefined} productBData={undefined} />
 
-        <ResultDes>3가지 항목 중 {/** */}가지 항목에서 우세합니다.</ResultDes>
+        {/* <ResultDes>3가지 항목 중 {resultCount}가지 항목에서 우세합니다.</ResultDes> */}
       </ResultContainer>
       <Table>
         <thead>
@@ -46,14 +42,7 @@ export function CompareTable({ productAData, productBData }: CompareTableProps) 
             <Tableline>결과</Tableline>
           </tr>
         </thead>
-        <CompareResultTable
-          // handleSetA={handleSetA}
-          // handleSetB={handleSetB}
-          setA={setA}
-          setB={setB}
-          productAData={productAData}
-          productBData={productBData}
-        />
+        <CompareResultTable productAData={productAData} productBData={productBData} />
       </Table>
     </>
   );

@@ -15,9 +15,10 @@ import { ProductCheckedNameWrap, ProductCheckedNameItem } from "@/src/components
 
 type Product1Props = {
   handleProductAData: (productName: string) => void;
+  handleTableClose: () => void;
 };
 
-export default function Product1({ handleProductAData }: Product1Props) {
+export default function Product1({ handleProductAData, handleTableClose }: Product1Props) {
   const [product1, setProduct1] = useState("");
   const [product1Chip, setProduct1Chip] = useState("");
   const [productId, setProductId] = useState(0);
@@ -55,6 +56,7 @@ export default function Product1({ handleProductAData }: Product1Props) {
   const handleDelete = () => {
     setIsShowChip1(false);
     setReadOnly(false);
+    handleTableClose();
   };
 
   const handleClickSearch = (e: React.MouseEvent<HTMLLIElement>) => {
