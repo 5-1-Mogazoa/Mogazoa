@@ -3,8 +3,8 @@ import * as S from "./styled";
 
 interface ToastProps {
   type?: "success" | "error" | string;
-  message: string;
-  setToastIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  message: string | undefined;
+  setToastIsOpen?: React.Dispatch<React.SetStateAction<boolean>>;
   mobileStyle?: string;
   tabletStyle?: string;
   desktopStyle?: string;
@@ -13,7 +13,9 @@ interface ToastProps {
 function Toast({ type = "success", message, mobileStyle, tabletStyle, desktopStyle, setToastIsOpen }: ToastProps) {
   useEffect(() => {
     const timer = setTimeout(() => {
-      setToastIsOpen(false);
+      if (setToastIsOpen) {
+        setToastIsOpen(false);
+      }
     }, 3000);
     return () => {
       clearTimeout(timer);

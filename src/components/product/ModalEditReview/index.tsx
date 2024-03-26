@@ -4,8 +4,6 @@ import * as S from "../ModalReview/styled";
 import { FormRatingStars } from "../RatingStar";
 import { FieldValues, FormProvider, useForm } from "react-hook-form";
 import ERROR_MESSAGE from "../../../constant/ERROR_MESSAGE";
-import FormTextareaInput from "../../common/input/FormTextareaInput";
-import FormMultiImageInput from "../../common/input/FormMultiImageInput";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { patchReview } from "@/src/apis/review";
 import { QUERY_KEY } from "@/src/routes";
@@ -13,6 +11,8 @@ import { PatchReveiwRequestType } from "@/src/apis/review/schema";
 import { postImage } from "@/src/apis/image";
 import { OrderType } from "../ReviewList";
 import { useRouter } from "next/router";
+import FormTextarea from "../../common/input/FormTextarea";
+import FormImageMulti from "../../common/input/FormImageMulti";
 
 export interface ImageUrlType {
   url: string;
@@ -22,17 +22,20 @@ interface ModalEditReviewProps {
   name: string;
   category?: CategoryType | undefined;
   order: OrderType;
-  defaultValue?: ReviewListType;
+  review?: ReviewListType;
   onClose: () => void;
 }
 
-function ModalEditReview({ name, category, order, defaultValue, onClose }: ModalEditReviewProps) {
-  const { id, reviewImages: defaultImages, content: defaultContent, rating: defaultRating } = defaultValue || {};
+function ModalEditReview({ name, category, order, review, onClose }: ModalEditReviewProps) {
+  const { id, reviewImages, content, rating: defaultRating } = review || {};
 
   const router = useRouter();
   const productId = Number(router.query.productId);
 
-  const methods = useForm<FieldValues>();
+  const defaultValues = { name, content, images: reviewImages, rating: defaultRating };
+
+  const methods = useForm<FieldValues>({ mode: "onBlur", defaultValues });
+
   const queryClient = useQueryClient();
 
   // 리뷰 수정 요청
@@ -96,23 +99,26 @@ function ModalEditReview({ name, category, order, defaultValue, onClose }: Modal
             별점
             <FormRatingStars type="modal" defaultValue={defaultRating ? defaultRating : 1} />
           </S.Rating>
-          <FormTextareaInput
-            name="content"
+          <FormTextarea
             rules={{
               required: {
                 value: true,
                 message: ERROR_MESSAGE.REQUIRED_REVIEW,
+              },
+              minLength: {
+                value: 10,
+                message: ERROR_MESSAGE.REVIEW_MIN_LENGTH,
               },
               maxLength: {
                 value: 300,
                 message: ERROR_MESSAGE.REVIEW_MAX_LENGTH,
               },
             }}
-            defaultValue={defaultContent}
+            name="content"
             placeholder="리뷰는 최소 10자 이상 작성해 주세요."
+            maxLength={300}
           />
-
-          <FormMultiImageInput name="images" defaultValue={defaultImages} />
+          <FormImageMulti name="images" defaultValue={reviewImages} />
         </S.Container>
       </Modal>
     </FormProvider>

@@ -1,27 +1,19 @@
 import { Controller, useFormContext } from "react-hook-form";
 import * as S from "./styled";
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-interface FormImageInputProps {
+interface FormImageProps {
   name: string;
   defaultValue?: string;
 }
 
-function FormImageInput({ name, defaultValue }: FormImageInputProps) {
+function FormImage({ name, defaultValue }: FormImageProps) {
   const [previewImage, setPreviewImage] = useState<string | undefined>(defaultValue);
+  const { control, setValue } = useFormContext();
 
-  const {
-    control,
-    formState: { errors },
-  } = useFormContext();
-
-  const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
-    const fileList = event.target.files;
-    if (!fileList || fileList.length === 0) return;
-
+  const handleFileChange = async (newFile: File) => {
     let reader = new FileReader();
-    let file = fileList[0];
-    reader.readAsDataURL(file);
+    reader.readAsDataURL(newFile);
     reader.onload = () => {
       const previewImageUrl = reader.result as string;
       if (previewImageUrl) {
@@ -37,29 +29,28 @@ function FormImageInput({ name, defaultValue }: FormImageInputProps) {
   return (
     <S.Label htmlFor={name} $previewImage={previewImage}>
       <Controller
-        name={name}
-        control={control}
-        render={({ field: { value, onChange, ...field } }) => (
+        render={({ field: { value, ...field } }) => (
           <S.ImageInput
-            id={name}
+            {...field}
             type="file"
-            value={value?.fileName}
+            id={name}
             accept="image/*"
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
               const files = event.target.files;
               if (!files || files.length === 0) return;
 
-              const newValue = files[0];
-              onChange(newValue);
-              handleFileChange(event);
+              const newFile = files[0];
+              setValue(name, newFile);
+              handleFileChange(newFile);
             }}
-            {...field}
           />
         )}
+        name={name}
+        control={control}
       />
       {!previewImage && <S.Icon />}
     </S.Label>
   );
 }
 
-export default FormImageInput;
+export default FormImage;
