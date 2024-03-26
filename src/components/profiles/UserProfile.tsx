@@ -1,6 +1,5 @@
 import { ReactNode, useState, useEffect } from "react";
 import styled from "styled-components";
-import { StyledCategoryChip } from "@/src/components/common/chip/Styled/StyledCategoryChip";
 import Image from "next/image";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { QUERY_KEY } from "@/src/routes";
@@ -12,6 +11,12 @@ import { useToggle } from "usehooks-ts";
 import FollowInfoModal from "@/src/components/profiles/FollowInfoModal";
 import MyPageProfileButtons from "@/src/components/profiles/MyPageProfileButtons";
 import FollowButton from "@/src/components/profiles/FollowButton";
+import { StyledMyActivities, StyledMyActivitiesText, StyledMyActivitiesNumber } from "./MyActivity";
+
+import { fontStyle } from "@/styles/theme";
+import MyActivity from "./MyActivity/MyActivity";
+import FilterProduct from "./FilterProduct/FilterProduct";
+import { StyledFloatButton } from "../common/button/Styled/StyledFloatButton";
 
 /**
  * 1. 상품 카드 사이즈 변경
@@ -24,32 +29,24 @@ import FollowButton from "@/src/components/profiles/FollowButton";
 const StyledProfileLayout = styled.div`
   display: flex;
   justify-content: center;
-  gap: 30px;
-  @media only screen and (max-width: 900px) {
-    flex-direction: column;
-    align-items: center;
+  flex-direction: column;
+  padding: 30px 20px;
+  @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
+    width: 509px;
+    margin: 0 auto;
+    padding: 0;
   }
-`;
 
-const ActivityList = styled.div`
-  color: white;
-  font-size: 24px;
-  margin-bottom: 30px;
-`;
-
-const StyledMyActivities = styled.div`
-  display: flex;
-  gap: 20px;
-`;
-
-const StyledRatings = styled.span`
-  color: white;
-  font-size: 24px;
+  @media (min-width: ${({ theme }) => theme.deviceSizes.desktop}) {
+    flex-direction: row;
+    width: 1340px;
+    gap: 60px;
+  }
 `;
 
 // 프로필 styled component
 const StyledProfileBox = styled.div`
-  width: 350px;
+  width: 100%;
   border-radius: 12px;
   border: 1px solid var(--black-black_353542, #353542);
   background: var(--black-black_252530, #252530);
@@ -58,13 +55,48 @@ const StyledProfileBox = styled.div`
   align-items: center;
   padding: 24px;
   gap: 30px;
+  margin-bottom: 60px;
+
+  @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
+    width: 509px;
+    height: 451px;
+    margin: 0 auto 60px;
+  }
+
+  @media (min-width: ${({ theme }) => theme.deviceSizes.desktop}) {
+    width: 340px;
+    margin: 0;
+  }
 `;
 
+const StyledPageRight = styled.div`
+  @media (min-width: ${({ theme }) => theme.deviceSizes.desktop}) {
+    width: 940px;
+  }
+`;
 const StyledImageBox = styled.div`
+  position: relative;
   width: 200px;
   height: 200px;
   border-radius: 50%;
   overflow: hidden;
+
+  @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
+    width: 120px;
+    height: 120px;
+  }
+
+  @media (min-width: ${({ theme }) => theme.deviceSizes.desktop}) {
+    width: 180px;
+    height: 180px;
+  }
+`;
+
+const StyledImage = styled(Image)`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  inset: 0px;
 `;
 
 const StyledProfileText = styled.div`
@@ -72,15 +104,43 @@ const StyledProfileText = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 10px;
+  @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
+    width: 300px;
+    gap: 20px;
+  }
+
+  @media (min-width: ${({ theme }) => theme.deviceSizes.desktop}) {
+    gap: 10px;
+  }
 `;
 
 const StyledProfileNickname = styled.div`
-  color: white;
+  color: var(--white-white_F1F1F5, #f1f1f5);
   font-size: 24px;
+  @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
+    /* font-size: 20px; */
+    font-family: Pretendard;
+    ${fontStyle({ w: 600, s: 20, l: 24 })};
+  }
+
+  @media (min-width: ${({ theme }) => theme.deviceSizes.desktop}) {
+    ${fontStyle({ w: 600, s: 24, l: 20 })};
+  }
 `;
 
 const StyledProfileDesc = styled.div`
   color: #9fa6b2;
+  @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
+    font-family: Pretendard;
+
+    ${fontStyle({ w: 400, s: 14, l: 20 })};
+  }
+
+  @media (min-width: ${({ theme }) => theme.deviceSizes.desktop}) {
+    color: var(--gray-gray_6E6E82, #6e6e82);
+    width: 300px;
+    ${fontStyle({ w: 400, s: 16, l: 22 })};
+  }
 `;
 
 const StyledProfileButton = styled.button`
@@ -95,48 +155,83 @@ const StyledFollowInfo = styled.div`
   display: flex;
   justify-content: center;
   gap: 60px;
+  @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
+  }
+
+  @media (min-width: ${({ theme }) => theme.deviceSizes.desktop}) {
+    gap: 50px;
+  }
 `;
 const StyledFollowNumber = styled.button`
-  color: white;
+  color: var(--white-white_F1F1F5, #f1f1f5);
+
+  @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
+  }
+
+  @media (min-width: ${({ theme }) => theme.deviceSizes.desktop}) {
+    line-height: normal;
+    ${fontStyle({ w: 600, s: 20, l: 22 })};
+  }
 `;
 
 const StyledFollowText = styled.div`
-  color: #9fa6b2;
+  color: var(--gray-gray_9FA6B2, #9fa6b2);
+  @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
+  }
+
+  @media (min-width: ${({ theme }) => theme.deviceSizes.desktop}) {
+    ${fontStyle({ w: 400, s: 16, l: 22 })};
+  }
 `;
 
-const StyledFilterButton = styled.button<{ $active?: boolean }>`
-  color: ${(props) => (props.$active ? "white" : "#6E6E82")};
-  margin-right: 40px;
-`;
+// const StyledFloatButton = styled.button`
+//   position: fixed;
+//   bottom: 40px;
+//   right: 40px;
+//   height: 60px;
+//   width: 60px;
+//   border-radius: 50%;
+//   font-size: 36px;
+//   color: white;
+//   background: var(--main-main_gradation, linear-gradient(91deg, #5097fa 0%, #5363ff 100%));
+// `;
 
 type Props = {
-	isMe: boolean;
-}
+  isMe: boolean;
+};
 
 export default function Userprofile({ isMe }: Props) {
   const queryClient = useQueryClient();
   const router = useRouter();
   const [dataType, setDataType] = useState<"REVIEWED" | "CREATED" | "FAVORITE">("REVIEWED");
   const [isFollowingModalOpen, setIsFollowingModalOpen] = useState(false);
-
-  const { userId }: any = router.query;
+  const [isFollowerModalOpen, setIsFollowerModalOpen] = useState(false);
+  const [userId, setUserId] = useState("");
+  useEffect(() => {
+    if (isMe) {
+      setUserId(localStorage.getItem("userId"));
+    } else {
+      setUserId(router.query.userId);
+    }
+  }, [router.query]);
 
   const { data: USERDATA } = useQuery({
     queryKey: ["USERDATA", userId],
     queryFn: () => getUserData(userId),
   });
-  console.log({ USERDATA });
+  console.log(USERDATA);
   const { data: FOLLOWEES } = useQuery({
     queryKey: [QUERY_KEY.FOLLOWEES, userId],
-    queryFn: () => getUserFollowees(userId),
+    queryFn: () => getUserFollowees(userId, 0),
   });
+
   const { data: FOLLOWERS } = useQuery({
     queryKey: [QUERY_KEY.FOLLOWERS, userId],
-    queryFn: () => getUserFollowers(userId),
+    queryFn: () => getUserFollowers(userId, 0),
   });
   const { data: REVIEWS } = useQuery({
     queryKey: [QUERY_KEY.REVIEWS, userId],
-    queryFn: () => getUserReviewed(userId),
+    queryFn: () => getUserReviewed(userId, 0),
   });
   console.log(REVIEWS);
   const followingCount = USERDATA?.followeesCount;
@@ -155,96 +250,78 @@ export default function Userprofile({ isMe }: Props) {
   const maxPropertyKey = Object.keys(categoryCount).find((key) => categoryCount[key] === maxPropertyValue);
 
   const favoriteCategory = categoryList[maxPropertyKey - 1].name;
-
+  console.log(USERDATA);
+  if (!USERDATA) return null;
   return (
     <>
+      <StyledProfileLayout>
+        {/* 프로필 */}
 
-			<StyledProfileLayout>
-			{/* 프로필 */}
-			<div>
-				<StyledProfileBox>
-					<StyledImageBox>
-						{/* Next Image로 바꾸기 & next.config.mjs 수정하기 & 사용법 익혀서 하기 */}
-						<Image
-							width={200}
-							height={200}
-							src="https://images.unsplash.com/photo-1683009427470-a36fee396389?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-							alt="프로필사진"
-						/>
-					</StyledImageBox>
+        <StyledProfileBox>
+          <StyledImageBox>
+            {/* Next Image로 바꾸기 & next.config.mjs 수정하기 & 사용법 익혀서 하기 */}
+            <StyledImage
+              fill
+              src={USERDATA?.image ? USERDATA?.image : `${location.origin}s/icons/default_profile.svg`}
+              alt="프로필사진"
+            />
+          </StyledImageBox>
 
-					<StyledProfileText>
-						<StyledProfileNickname>surisuri마수리</StyledProfileNickname>
-						<StyledProfileDesc>
-							세상에 리뷰 못할 제품은 없다. surisuri마수리와 함께라면 당신도 쇼핑~~~~~
-						</StyledProfileDesc>
-					</StyledProfileText>
-					<StyledFollowInfo>
-						<div>
-							<StyledFollowNumber>{followersCount}</StyledFollowNumber>
-							<StyledFollowText>팔로워</StyledFollowText>
-						</div>
-						<svg xmlns="http://www.w3.org/2000/svg" width="1" height="48" viewBox="0 0 1 48" fill="none">
-							<path d="M0.5 0V48" stroke="#353542" />
-						</svg>
-						<div>
-							{/* 1. 팔로잉 수를 누른다. 
+          <StyledProfileText>
+            <StyledProfileNickname>{USERDATA?.nickname}</StyledProfileNickname>
+            <StyledProfileDesc>{USERDATA?.description}</StyledProfileDesc>
+          </StyledProfileText>
+          <StyledFollowInfo>
+            <button
+              onClick={() => {
+                setIsFollowerModalOpen(true);
+              }}>
+              <StyledFollowNumber>{followersCount}</StyledFollowNumber>
+              <StyledFollowText>팔로워</StyledFollowText>
+            </button>
+            <svg xmlns="http://www.w3.org/2000/svg" width="1" height="48" viewBox="0 0 1 48" fill="none">
+              <path d="M0.5 0V48" stroke="#353542" />
+            </svg>
+            <div>
+              {/* 1. 팔로잉 수를 누른다. 
 								2. 모달이 열린다.
 								3. 모달에 유저 목록이 보인다.
 						*/}
-							<StyledFollowNumber
-								onClick={() => {
-									setIsFollowingModalOpen(true);
-								}}>
-								{followingCount}
-							</StyledFollowNumber>
-							<StyledFollowText>팔로잉</StyledFollowText>
-						</div>
-					</StyledFollowInfo>
-					{isMe ? <MyPageProfileButtons /> : <FollowButton isFollowingData={USERDATA?.isFollowing} userId={userId}/>}
-				</StyledProfileBox>
-			</div>
+              <button
+                onClick={() => {
+                  setIsFollowingModalOpen(true);
+                }}>
+                <StyledFollowNumber>{followingCount}</StyledFollowNumber>
+                <StyledFollowText>팔로잉</StyledFollowText>
+              </button>
+            </div>
+          </StyledFollowInfo>
+          {isMe ? <MyPageProfileButtons /> : <FollowButton isFollowingData={USERDATA?.isFollowing} userId={userId} />}
+        </StyledProfileBox>
 
-			{/* 활동 내역 */}
-			<div>
-				<ActivityList>활동내역</ActivityList>
-				<StyledMyActivities>
-					<div>
-						<span>별아이콘</span> <StyledRatings> {ratingEverage}</StyledRatings>
-					</div>
-
-					<div>
-						<span>리뷰아이콘</span> <StyledRatings> {reviewsCount}</StyledRatings>
-					</div>
-					{/* 카테고리 없을경우 조건달기 */}
-					<div>
-						<StyledCategoryChip $category={favoriteCategory}>{favoriteCategory}</StyledCategoryChip>
-					</div>
-				</StyledMyActivities>
-				<div>
-					<StyledFilterButton $active={dataType === "REVIEWED"} onClick={() => setDataType("REVIEWED")}>
-						리뷰 남긴 상품
-					</StyledFilterButton>
-					<StyledFilterButton $active={dataType === "CREATED"} onClick={() => setDataType("CREATED")}>
-						등록한 상품
-					</StyledFilterButton>
-					<StyledFilterButton $active={dataType === "FAVORITE"} onClick={() => setDataType("FAVORITE")}>
-						찜한 상품
-					</StyledFilterButton>
-				</div>
-
-				<UserProductList userId={userId} dataType={dataType}></UserProductList>
-			</div>
-		</StyledProfileLayout>
-		{isFollowingModalOpen && (
-			<FollowInfoModal
-				setIsOpen={setIsFollowingModalOpen}
-				dataType="followee"
-				userId={userId}
-				nickname="surisuri마수리"
-			/>
-		)}
-      
+        <StyledPageRight>
+          <MyActivity ratingEverage={ratingEverage} reviewsCount={reviewsCount} favoriteCategory={favoriteCategory} />
+          <FilterProduct dataType={dataType} setDataType={setDataType} />
+          <UserProductList userId={userId} dataType={dataType}></UserProductList>
+        </StyledPageRight>
+      </StyledProfileLayout>
+      <StyledFloatButton>+</StyledFloatButton>
+      {isFollowingModalOpen && (
+        <FollowInfoModal
+          setIsOpen={setIsFollowingModalOpen}
+          dataType="followee"
+          userId={userId}
+          nickname={USERDATA?.nickname}
+        />
+      )}
+      {isFollowerModalOpen && (
+        <FollowInfoModal
+          setIsOpen={setIsFollowerModalOpen}
+          dataType="follower"
+          userId={userId}
+          nickname={USERDATA?.nickname}
+        />
+      )}
     </>
   );
 }

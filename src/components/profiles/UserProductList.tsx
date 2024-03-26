@@ -1,7 +1,15 @@
 import { getUserCreated, getUserFavorite, getUserReviewed } from "@/src/apis/user";
 import { useQuery } from "@tanstack/react-query";
 import Card from "../common/card/Card";
-import { CardListBox, CardListBoxWrap } from "../home/BaseCardList/Styled/StyledBaseCardList";
+import { CardListBox } from "../home/BaseCardList/Styled/StyledBaseCardList";
+import styled from "styled-components";
+export const CardListBoxWrap = styled.div`
+  @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
+  }
+
+  @media (min-width: ${({ theme }) => theme.deviceSizes.desktop}) {
+  }
+`;
 
 type UserProductListProps = { userId: number; dataType: "CREATED" | "REVIEWED" | "FAVORITE" };
 export default function UserProductList({ userId, dataType }: UserProductListProps) {
@@ -13,7 +21,7 @@ export default function UserProductList({ userId, dataType }: UserProductListPro
     queryKey: ["REVIEWED", userId],
     queryFn: () => getUserReviewed(userId),
   });
-  console.log({CREATED})
+  console.log({ CREATED });
 
   const { data: FAVORITE } = useQuery({
     queryKey: ["FAVORITE", userId],
