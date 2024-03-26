@@ -1,10 +1,9 @@
-import { CategoryType, ReviewListType } from "@/src/apis/product/schema";
+import { CategoryType } from "@/src/apis/product/schema";
 import Modal from "../../common/modal/Modal";
 import * as S from "./styled";
 import { FormRatingStars } from "../RatingStar";
 import { FieldValues, FormProvider, useForm } from "react-hook-form";
 import ERROR_MESSAGE from "../../../constant/ERROR_MESSAGE";
-import FormMultiImageInput from "../../common/input/FormMultiImageInput";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postReview } from "@/src/apis/review";
 import { QUERY_KEY } from "@/src/routes";
@@ -13,20 +12,18 @@ import { postImage } from "@/src/apis/image";
 import { OrderType } from "../ReviewList";
 import { ImageUrlType } from "../ModalEditReview";
 import FormTextarea from "../../common/input/FormTextarea";
+import FormImageMulti from "../../common/input/FormImageMulti";
 
 interface ModalReviewProps {
   productId: number;
   name: string;
   category?: CategoryType | undefined;
   order: OrderType;
-  defaultValue?: ReviewListType;
   onClose: () => void;
 }
 
-function ModalReview({ productId, name, category, order, defaultValue, onClose }: ModalReviewProps) {
-  const { reviewImages: defaultImages, content: defaultContent, rating: defaultRating } = defaultValue || {};
-
-  const methods = useForm();
+function ModalReview({ productId, name, category, order, onClose }: ModalReviewProps) {
+  const methods = useForm({ mode: "onBlur" });
   const queryClient = useQueryClient();
 
   // 리뷰 생성 요청
@@ -79,7 +76,7 @@ function ModalReview({ productId, name, category, order, defaultValue, onClose }
         <S.Container>
           <S.Rating>
             별점
-            <FormRatingStars type="modal" defaultValue={defaultRating ? defaultRating : 1} />
+            <FormRatingStars type="modal" defaultValue={1} />
           </S.Rating>
           <FormTextarea
             rules={{
@@ -100,7 +97,7 @@ function ModalReview({ productId, name, category, order, defaultValue, onClose }
             placeholder="리뷰는 최소 10자 이상 작성해 주세요."
             maxLength={300}
           />
-          <FormMultiImageInput name="images" defaultValue={defaultImages} />
+          <FormImageMulti name="images" />
         </S.Container>
       </Modal>
     </FormProvider>

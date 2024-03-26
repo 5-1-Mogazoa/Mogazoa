@@ -4,7 +4,6 @@ import * as S from "../ModalReview/styled";
 import { FormRatingStars } from "../RatingStar";
 import { FieldValues, FormProvider, useForm } from "react-hook-form";
 import ERROR_MESSAGE from "../../../constant/ERROR_MESSAGE";
-import FormMultiImageInput from "../../common/input/FormMultiImageInput";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { patchReview } from "@/src/apis/review";
 import { QUERY_KEY } from "@/src/routes";
@@ -13,6 +12,7 @@ import { postImage } from "@/src/apis/image";
 import { OrderType } from "../ReviewList";
 import { useRouter } from "next/router";
 import FormTextarea from "../../common/input/FormTextarea";
+import FormImageMulti from "../../common/input/FormImageMulti";
 
 export interface ImageUrlType {
   url: string;
@@ -118,7 +118,7 @@ function ModalEditReview({ name, category, order, review, onClose }: ModalEditRe
             placeholder="리뷰는 최소 10자 이상 작성해 주세요."
             maxLength={300}
           />
-          <FormMultiImageInput name="images" defaultValue={reviewImages} />
+          <FormImageMulti name="images" defaultValue={reviewImages} />
         </S.Container>
       </Modal>
     </FormProvider>

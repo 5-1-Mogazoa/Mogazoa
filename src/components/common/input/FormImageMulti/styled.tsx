@@ -3,6 +3,7 @@ import PhotoIcon from "../../../../../public/icons/photoSvgr.svg";
 import DeleteIcon from "../../../../../public/icons/closeSvgr.svg";
 
 export const Container = styled.div`
+  position: relative;
   width: 29.5rem;
   overflow-x: scroll;
 

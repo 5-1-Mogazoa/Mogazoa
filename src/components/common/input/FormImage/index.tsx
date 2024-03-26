@@ -48,6 +48,7 @@ function FormImage({ name, defaultValue }: FormImageProps) {
         name={name}
         control={control}
       />
+      {!previewImage && <S.Icon />}
     </S.Label>
   );
 }
