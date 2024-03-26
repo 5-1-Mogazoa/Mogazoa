@@ -97,7 +97,7 @@ export const StyledSelectDropdown = styled(Select).attrs({ classNamePrefix: "rea
     ${fontStyle({ w: 400, s: 14, l: 20 })};
     color: var(--color-gray-6e);
 
-    @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
+    @media (min-width: ${({ theme }) => theme.deviceSizes.desktop}) {
       ${fontStyle({ w: 400, s: 16, l: 22 })};
     }
   }

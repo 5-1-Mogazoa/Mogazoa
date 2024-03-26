@@ -35,9 +35,7 @@ function ModalEditReview({ name, category, order, review, onClose }: ModalEditRe
   const defaultValues = { name, content, images: reviewImages, rating: defaultRating };
 
   const methods = useForm<FieldValues>({ mode: "onBlur", defaultValues });
-  const {
-    formState: { errors },
-  } = methods;
+
   const queryClient = useQueryClient();
 
   // 리뷰 수정 요청

@@ -3,7 +3,6 @@ import * as S from "./styled";
 import Modal from "../../common/modal/Modal";
 import { useEffect, useState } from "react";
 import ERROR_MESSAGE from "@/src/constant/ERROR_MESSAGE";
-import { selectedOptionType } from "./FormSelectProduct";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getProductDetail, patchProduct } from "@/src/apis/product";
 import { postImage } from "@/src/apis/image";
@@ -14,7 +13,6 @@ import { getCategoryList } from "@/src/apis/category";
 import { getUserCreated } from "@/src/apis/user";
 import FormSelect from "../../common/input/FormSelect";
 import FormTextarea from "../../common/input/FormTextarea";
-import Toast from "../../common/toast/Toast";
 import FormImage from "../../common/input/FormImage";
 
 interface selectedProductDetailType {
@@ -88,10 +86,7 @@ function ModalEdit({ userId, productId, productDetail, onClose }: ModalEditProps
   };
 
   const methods = useForm({ mode: "onBlur", defaultValues });
-  const {
-    setValue,
-    formState: { errors },
-  } = methods;
+  const { setValue } = methods;
 
   useEffect(() => {
     if (selectedProductDetail) {
@@ -100,13 +95,6 @@ function ModalEdit({ userId, productId, productDetail, onClose }: ModalEditProps
       setValue("description", description);
     }
   }, [selectedProductDetail, category.id, category.name, image, description, setValue]);
-
-  // FormSelectProduct에서 옵션선택 Change 이벤트
-  const handleChangeOption = (selectedOption: selectedOptionType) => {
-    queryClient.invalidateQueries({ queryKey: ["selectedProductDetail", selectedProductId] });
-
-    setSelectedProductId(selectedOption.value);
-  };
 
   // 상품 수정 요청
   const patchProductMutation = useMutation<PatchProductDataType, newProductDetailType, PatchProductDataType>({
@@ -137,10 +125,6 @@ function ModalEdit({ userId, productId, productDetail, onClose }: ModalEditProps
     });
   };
 
-  const mobileStyle = "position: absolute; bottom: 4rem; right: 0;";
-  const tabletStyle = "position: absolute; right: 10rem;";
-  const desktopStyle = "position: absolute; right: 12rem";
-
   return (
     <FormProvider {...methods}>
       <Modal title="상품편집" modalType="edit" onClose={onClose} callback={editProductCallback} isFormData>
@@ -162,22 +146,13 @@ function ModalEdit({ userId, productId, productDetail, onClose }: ModalEditProps
           <FormTextarea
             rules={{
               required: { value: true, message: ERROR_MESSAGE.REQUIRED_DESCRIPTION },
-              minLength: { value: 10, message: ERROR_MESSAGE.DESCRIPTION_MAX_LENGTH },
+              minLength: { value: 10, message: ERROR_MESSAGE.DESCRIPTION_MIN_LENGTH },
               maxLength: { value: 300, message: ERROR_MESSAGE.DESCRIPTION_MAX_LENGTH },
             }}
             name="description"
             placeholder="상품 설명을 입력해 주세요."
             maxLength={300}
           />
-          {errors.description && (
-            <Toast
-              type="error"
-              message={errors?.description.message}
-              mobileStyle={mobileStyle}
-              tabletStyle={tabletStyle}
-              desktopStyle={desktopStyle}
-            />
-          )}
         </S.Container>
       </Modal>
     </FormProvider>

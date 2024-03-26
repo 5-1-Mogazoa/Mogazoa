@@ -95,7 +95,7 @@ export default function ModalProductAdd({ onClose }: ModalProductAddProps) {
           <FormTextarea
             rules={{
               required: { value: true, message: ERROR_MESSAGE.REQUIRED_DESCRIPTION },
-              minLength: { value: 10, message: ERROR_MESSAGE.DESCRIPTION_MAX_LENGTH },
+              minLength: { value: 10, message: ERROR_MESSAGE.DESCRIPTION_MIN_LENGTH },
               maxLength: { value: 300, message: ERROR_MESSAGE.DESCRIPTION_MAX_LENGTH },
             }}
             name="description"
