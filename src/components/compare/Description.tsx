@@ -6,7 +6,7 @@ type DescriptionProps = {
   productBData: any;
 };
 
-export default function Description({ productAData, productBData }: DescriptionProps) {
+export default function Description({ a, b, productAData, productBData }: DescriptionProps) {
   if (a > b) {
     return (
       <S.ResultWinner>

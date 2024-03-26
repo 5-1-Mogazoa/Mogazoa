@@ -57,6 +57,8 @@ export default function Product1({ handleProductAData, handleTableClose }: Produ
     setIsShowChip1(false);
     setReadOnly(false);
     handleTableClose();
+    localStorage.removeItem("productAName");
+    localStorage.removeItem("productAId");
   };
 
   const handleClickSearch = (e: React.MouseEvent<HTMLLIElement>) => {
@@ -82,6 +84,11 @@ export default function Product1({ handleProductAData, handleTableClose }: Produ
   useEffect(() => {
     console.log(productADetail);
     handleProductAData(productADetail);
+    if (productADetail) {
+      //undefined 안뜨게 if로 조건 설정
+      localStorage.setItem("productAName", productADetail?.name);
+      localStorage.setItem("productAId", String(productADetail?.id));
+    }
   }, [productADetail]);
 
   const [productOneData, setProductOneData] = useState<any>();

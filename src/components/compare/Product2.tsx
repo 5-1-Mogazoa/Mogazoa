@@ -1,13 +1,8 @@
-import {
-  BodyContainer,
-  InputContainer,
-  TagContainer,
-  ChipContainer,
-} from "@/src/components/compare/Styled/BodyContainer";
+import { InputContainer, TagContainer, ChipContainer } from "@/src/components/compare/Styled/BodyContainer";
 import { ProductInput } from "@/src/components/compare/Styled/StyledProductInput";
 import { Label } from "@/src/components/compare/Styled/StyledProductInput";
 import { useEffect, useState } from "react";
-import { CompareChipA, CompareChipB } from "@/src/components/common/chip/CompareChip";
+import { CompareChipB } from "@/src/components/common/chip/CompareChip";
 import { useQuery } from "@tanstack/react-query";
 import { QUERY_KEY } from "@/src/routes";
 import { getProducts, getProductDetail } from "@/src/apis/product";
@@ -58,6 +53,8 @@ export default function Product2({ handleProductBData, handleTableClose }: Produ
     setIsShowChip2(false);
     setReadOnly(false);
     handleTableClose();
+    localStorage.removeItem("productBName");
+    localStorage.removeItem("productBId");
   };
 
   const handleClickSearch = (e: React.MouseEvent<HTMLInputElement>) => {
@@ -82,6 +79,11 @@ export default function Product2({ handleProductBData, handleTableClose }: Produ
   useEffect(() => {
     console.log(productBDetail);
     handleProductBData(productBDetail);
+    if (productBDetail) {
+      //undefined 안뜨게 if로 조건 설정
+      localStorage.setItem("productBName", productBDetail?.name);
+      localStorage.setItem("productBId", String(productBDetail?.id));
+    }
   }, [productBDetail]);
 
   const [product2Data, setProduct2Data] = useState<any>();
