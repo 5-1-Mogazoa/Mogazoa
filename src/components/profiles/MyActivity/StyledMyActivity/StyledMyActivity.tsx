@@ -2,12 +2,24 @@ import ReactNode from "react"; // Import ReactNode directly
 import styled from "styled-components";
 import { fontStyle } from "@/styles/theme";
 
-export const StyledActivities = styled.div``;
+export const StyledActivities = styled.div`
+  @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
+    width: 509px;
+    margin: 0 auto;
+  }
+  @media (min-width: ${({ theme }) => theme.deviceSizes.desktop}) {
+    width: 100%;
+  }
+`;
 
 export const ActivityList = styled.div`
   color: var(--white-white_F1F1F5, #f1f1f5);
   margin-bottom: 30px;
   ${fontStyle({ w: 600, s: 18, l: 21 })};
+
+  @media (min-width: ${({ theme }) => theme.deviceSizes.desktop}) {
+    ${fontStyle({ w: 600, s: 20, l: 24 })};
+  }
 `;
 
 export const StyledMyActivitiesBox = styled.div`
@@ -39,10 +51,8 @@ export const StyledMyActivitiesText = styled.div`
   text-align: center;
   ${fontStyle({ w: 500, s: 14, l: 20 })};
 
-  @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
-  }
-
   @media (min-width: ${({ theme }) => theme.deviceSizes.desktop}) {
+    ${fontStyle({ w: 600, s: 16, l: 19 })};
   }
 `;
 export const StyledMyActivitiesNumber = styled.div`

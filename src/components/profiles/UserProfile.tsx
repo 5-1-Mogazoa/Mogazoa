@@ -16,6 +16,7 @@ import { StyledMyActivities, StyledMyActivitiesText, StyledMyActivitiesNumber } 
 import { fontStyle } from "@/styles/theme";
 import MyActivity from "./MyActivity/MyActivity";
 import FilterProduct from "./FilterProduct/FilterProduct";
+import { StyledFloatButton } from "../common/button/Styled/StyledFloatButton";
 
 /**
  * 1. 상품 카드 사이즈 변경
@@ -31,9 +32,15 @@ const StyledProfileLayout = styled.div`
   flex-direction: column;
   padding: 30px 20px;
   @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
+    width: 509px;
+    margin: 0 auto;
+    padding: 0;
   }
 
   @media (min-width: ${({ theme }) => theme.deviceSizes.desktop}) {
+    flex-direction: row;
+    width: 1340px;
+    gap: 60px;
   }
 `;
 
@@ -49,13 +56,47 @@ const StyledProfileBox = styled.div`
   padding: 24px;
   gap: 30px;
   margin-bottom: 60px;
+
+  @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
+    width: 509px;
+    height: 451px;
+    margin: 0 auto 60px;
+  }
+
+  @media (min-width: ${({ theme }) => theme.deviceSizes.desktop}) {
+    width: 340px;
+    margin: 0;
+  }
 `;
 
+const StyledPageRight = styled.div`
+  @media (min-width: ${({ theme }) => theme.deviceSizes.desktop}) {
+    width: 940px;
+  }
+`;
 const StyledImageBox = styled.div`
+  position: relative;
   width: 200px;
   height: 200px;
   border-radius: 50%;
   overflow: hidden;
+
+  @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
+    width: 120px;
+    height: 120px;
+  }
+
+  @media (min-width: ${({ theme }) => theme.deviceSizes.desktop}) {
+    width: 180px;
+    height: 180px;
+  }
+`;
+
+const StyledImage = styled(Image)`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  inset: 0px;
 `;
 
 const StyledProfileText = styled.div`
@@ -63,15 +104,43 @@ const StyledProfileText = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 10px;
+  @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
+    width: 300px;
+    gap: 20px;
+  }
+
+  @media (min-width: ${({ theme }) => theme.deviceSizes.desktop}) {
+    gap: 10px;
+  }
 `;
 
 const StyledProfileNickname = styled.div`
-  color: white;
+  color: var(--white-white_F1F1F5, #f1f1f5);
   font-size: 24px;
+  @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
+    /* font-size: 20px; */
+    font-family: Pretendard;
+    ${fontStyle({ w: 600, s: 20, l: 24 })};
+  }
+
+  @media (min-width: ${({ theme }) => theme.deviceSizes.desktop}) {
+    ${fontStyle({ w: 600, s: 24, l: 20 })};
+  }
 `;
 
 const StyledProfileDesc = styled.div`
   color: #9fa6b2;
+  @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
+    font-family: Pretendard;
+
+    ${fontStyle({ w: 400, s: 14, l: 20 })};
+  }
+
+  @media (min-width: ${({ theme }) => theme.deviceSizes.desktop}) {
+    color: var(--gray-gray_6E6E82, #6e6e82);
+    width: 300px;
+    ${fontStyle({ w: 400, s: 16, l: 22 })};
+  }
 `;
 
 const StyledProfileButton = styled.button`
@@ -86,14 +155,46 @@ const StyledFollowInfo = styled.div`
   display: flex;
   justify-content: center;
   gap: 60px;
+  @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
+  }
+
+  @media (min-width: ${({ theme }) => theme.deviceSizes.desktop}) {
+    gap: 50px;
+  }
 `;
 const StyledFollowNumber = styled.button`
-  color: white;
+  color: var(--white-white_F1F1F5, #f1f1f5);
+
+  @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
+  }
+
+  @media (min-width: ${({ theme }) => theme.deviceSizes.desktop}) {
+    line-height: normal;
+    ${fontStyle({ w: 600, s: 20, l: 22 })};
+  }
 `;
 
 const StyledFollowText = styled.div`
-  color: #9fa6b2;
+  color: var(--gray-gray_9FA6B2, #9fa6b2);
+  @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
+  }
+
+  @media (min-width: ${({ theme }) => theme.deviceSizes.desktop}) {
+    ${fontStyle({ w: 400, s: 16, l: 22 })};
+  }
 `;
+
+// const StyledFloatButton = styled.button`
+//   position: fixed;
+//   bottom: 40px;
+//   right: 40px;
+//   height: 60px;
+//   width: 60px;
+//   border-radius: 50%;
+//   font-size: 36px;
+//   color: white;
+//   background: var(--main-main_gradation, linear-gradient(91deg, #5097fa 0%, #5363ff 100%));
+// `;
 
 type Props = {
   isMe: boolean;
@@ -155,55 +256,56 @@ export default function Userprofile({ isMe }: Props) {
     <>
       <StyledProfileLayout>
         {/* 프로필 */}
-        <div>
-          <StyledProfileBox>
-            <StyledImageBox>
-              {/* Next Image로 바꾸기 & next.config.mjs 수정하기 & 사용법 익혀서 하기 */}
-              <Image
-                width={200}
-                height={200}
-                src={USERDATA?.image ? USERDATA?.image : `${location.origin}/icons/default_profile.svg`}
-                alt="프로필사진"
-              />
-            </StyledImageBox>
 
-            <StyledProfileText>
-              <StyledProfileNickname>{USERDATA?.nickname}</StyledProfileNickname>
-              <StyledProfileDesc>{USERDATA?.description}</StyledProfileDesc>
-            </StyledProfileText>
-            <StyledFollowInfo>
-              <button
-                onClick={() => {
-                  setIsFollowerModalOpen(true);
-                }}>
-                <StyledFollowNumber>{followersCount}</StyledFollowNumber>
-                <StyledFollowText>팔로워</StyledFollowText>
-              </button>
-              <svg xmlns="http://www.w3.org/2000/svg" width="1" height="48" viewBox="0 0 1 48" fill="none">
-                <path d="M0.5 0V48" stroke="#353542" />
-              </svg>
-              <div>
-                {/* 1. 팔로잉 수를 누른다. 
+        <StyledProfileBox>
+          <StyledImageBox>
+            {/* Next Image로 바꾸기 & next.config.mjs 수정하기 & 사용법 익혀서 하기 */}
+            <StyledImage
+              fill
+              src={USERDATA?.image ? USERDATA?.image : `${location.origin}s/icons/default_profile.svg`}
+              alt="프로필사진"
+            />
+          </StyledImageBox>
+
+          <StyledProfileText>
+            <StyledProfileNickname>{USERDATA?.nickname}</StyledProfileNickname>
+            <StyledProfileDesc>{USERDATA?.description}</StyledProfileDesc>
+          </StyledProfileText>
+          <StyledFollowInfo>
+            <button
+              onClick={() => {
+                setIsFollowerModalOpen(true);
+              }}>
+              <StyledFollowNumber>{followersCount}</StyledFollowNumber>
+              <StyledFollowText>팔로워</StyledFollowText>
+            </button>
+            <svg xmlns="http://www.w3.org/2000/svg" width="1" height="48" viewBox="0 0 1 48" fill="none">
+              <path d="M0.5 0V48" stroke="#353542" />
+            </svg>
+            <div>
+              {/* 1. 팔로잉 수를 누른다. 
 								2. 모달이 열린다.
 								3. 모달에 유저 목록이 보인다.
 						*/}
-                <button
-                  onClick={() => {
-                    setIsFollowingModalOpen(true);
-                  }}>
-                  <StyledFollowNumber>{followingCount}</StyledFollowNumber>
-                  <StyledFollowText>팔로잉</StyledFollowText>
-                </button>
-              </div>
-            </StyledFollowInfo>
-            {isMe ? <MyPageProfileButtons /> : <FollowButton isFollowingData={USERDATA?.isFollowing} userId={userId} />}
-          </StyledProfileBox>
-        </div>
+              <button
+                onClick={() => {
+                  setIsFollowingModalOpen(true);
+                }}>
+                <StyledFollowNumber>{followingCount}</StyledFollowNumber>
+                <StyledFollowText>팔로잉</StyledFollowText>
+              </button>
+            </div>
+          </StyledFollowInfo>
+          {isMe ? <MyPageProfileButtons /> : <FollowButton isFollowingData={USERDATA?.isFollowing} userId={userId} />}
+        </StyledProfileBox>
 
-        <MyActivity ratingEverage={ratingEverage} reviewsCount={reviewsCount} favoriteCategory={favoriteCategory} />
-        <FilterProduct dataType={dataType} setDataType={setDataType} />
-        <UserProductList userId={userId} dataType={dataType}></UserProductList>
+        <StyledPageRight>
+          <MyActivity ratingEverage={ratingEverage} reviewsCount={reviewsCount} favoriteCategory={favoriteCategory} />
+          <FilterProduct dataType={dataType} setDataType={setDataType} />
+          <UserProductList userId={userId} dataType={dataType}></UserProductList>
+        </StyledPageRight>
       </StyledProfileLayout>
+      <StyledFloatButton>+</StyledFloatButton>
       {isFollowingModalOpen && (
         <FollowInfoModal
           setIsOpen={setIsFollowingModalOpen}

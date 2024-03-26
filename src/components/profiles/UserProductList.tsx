@@ -7,7 +7,7 @@ export const CardListBoxWrap = styled.div`
   @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
   }
 
-  @media (min-width: 1090px) {
+  @media (min-width: ${({ theme }) => theme.deviceSizes.desktop}) {
   }
 `;
 

@@ -11,6 +11,9 @@ const StyledFilterButton = styled.button<{ $active?: boolean }>`
   margin-right: 20px;
   font-family: Pretendard;
   ${fontStyle({ w: 600, s: 18, l: 21 })};
+  @media (min-width: ${({ theme }) => theme.deviceSizes.desktop}) {
+    ${fontStyle({ w: 600, s: 20, l: 24 })};
+  }
 `;
 
 export default function FilterProduct({ dataType, setDataType }) {
