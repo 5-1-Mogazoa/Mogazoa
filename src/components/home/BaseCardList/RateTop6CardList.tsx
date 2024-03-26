@@ -4,7 +4,7 @@ import { CardListBox } from "./Styled/StyledBaseCardList";
 import { Item } from "./type";
 
 export default function RateTop6CardList({ productList }: any) {
-  const [rateTop6CardList, setRateTop6CardList] = useState<Item>();
+  const [rateTop6CardList, setRateTop6CardList] = useState<Item[]>([]);
 
   useEffect(() => {
     const rateTop6 = productList?.list.slice(0, 6);

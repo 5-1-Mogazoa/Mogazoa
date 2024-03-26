@@ -2,7 +2,7 @@ import { fontStyle } from "@/styles/theme";
 import styled from "styled-components";
 
 type CategoryListWrapProps = {
-  $isCategory: boolean;
+  $isCategory: boolean | undefined;
 };
 
 export const CategoryListWrap = styled.div<CategoryListWrapProps>`

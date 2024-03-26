@@ -11,7 +11,7 @@ import FormNameInput from "@/src/components/common/input/FormNameInput";
 import { copyFileSync } from "fs";
 import FormTextarea from "@/src/components/common/input/FormTextarea";
 import FormImage from "../../common/input/FormImage";
-
+import { PatchProductDataType } from "@/src/apis/product/schema.js";
 interface ModalProductAddProps {
   onClose: () => void;
 }
@@ -29,11 +29,11 @@ export default function ModalProductAdd({ onClose }: ModalProductAddProps) {
 
   // 상품 생성 요청
   const postProductMutation = useMutation({
-    mutationFn: (newProduct) => postProduct(newProduct),
+    mutationFn: (newProduct: PatchProductDataType) => postProduct(newProduct),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [API_ROUTE.PRODUCTS] });
     },
-    onError: (error) => {
+    onError: (error: any) => {
       const err = error.response.data.details;
       if (err["requestBody.image"]) {
         alert("이미지가 필요합니다.");
@@ -63,7 +63,7 @@ export default function ModalProductAdd({ onClose }: ModalProductAddProps) {
       data.image = newImageUrl.url;
     }
 
-    postProductMutation.mutate(data, {
+    postProductMutation.mutate(data as PatchProductDataType, {
       onSuccess: () => {
         console.log("상품이 성공적으로 업로드 되었습니다!");
       },
