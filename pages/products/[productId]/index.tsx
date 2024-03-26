@@ -1,4 +1,4 @@
-import { getProductDetail } from "@/src/apis/product";
+import { getProductDetail, getProductReviews } from "@/src/apis/product";
 import ProductDetail from "@/src/components/product/ProductDetail";
 import ProductLayout from "@/src/components/product/ProductLayout";
 import StatisticsItem from "@/src/components/product/StatisticsItem";
@@ -11,7 +11,7 @@ import ModalReview from "@/src/components/product/ModalReview";
 import React, { useEffect, useState } from "react";
 import { QUERY_KEY } from "@/src/routes";
 import { useToggle } from "usehooks-ts";
-import { ProductDetailResponseType } from "@/src/apis/product/schema";
+import { ProductDetailResponseType, getReviewsListResponseType } from "@/src/apis/product/schema";
 import ModalLogin from "@/src/components/product/MadalLogin";
 import ModalEdit from "@/src/components/product/ModalEdit";
 
@@ -92,11 +92,25 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const queryClient = new QueryClient();
 
   const productId = Number(context.query["productId"]);
+  const defaultOrder = "recent";
 
   // 상품 상세 조회
   await queryClient.prefetchQuery({
     queryKey: [QUERY_KEY.PRODUCT_DETAIL, productId],
     queryFn: () => getProductDetail(productId),
+  });
+
+  // 리뷰 목록 조회
+  await queryClient.prefetchInfiniteQuery({
+    queryKey: [QUERY_KEY.REVIEWS, productId, defaultOrder],
+    queryFn: async ({ pageParam }) => {
+      const param = typeof pageParam === "number" ? pageParam : undefined;
+      return await getProductReviews({ productId, order: defaultOrder, pageParam: param });
+    },
+    initialPageParam: 0,
+    getNextPageParam: (lastPage: getReviewsListResponseType) => {
+      return lastPage?.nextCursor ?? undefined;
+    },
   });
 
   return {
