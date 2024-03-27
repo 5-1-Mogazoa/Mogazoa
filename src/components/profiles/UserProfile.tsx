@@ -38,13 +38,13 @@ const StyledProfileLayout = styled.div`
     flex-direction: row;
     width: 1340px;
     gap: 60px;
+    height: 608px;
   }
 `;
 
 // 프로필 styled component
 const StyledProfileBox = styled.div`
   width: 100%;
-  height: 100%;
   border-radius: 12px;
   border: 1px solid var(--black-black_353542, #353542);
   background: var(--black-black_252530, #252530);
@@ -54,10 +54,10 @@ const StyledProfileBox = styled.div`
   padding: 24px;
   gap: 30px;
   margin-bottom: 60px;
+  align-self: flex-start;
 
   @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
     width: 509px;
-    height: 451px;
     margin: 0 auto 60px;
   }
 
@@ -109,7 +109,7 @@ const StyledProfileText = styled.div`
   }
 
   @media (min-width: ${({ theme }) => theme.deviceSizes.desktop}) {
-    gap: 10px;
+    gap: 20px;
   }
 `;
 
