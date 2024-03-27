@@ -34,7 +34,7 @@ export default function SearchCardList({ order, category, keyword }: SearchCardL
   return (
     <>
       <CardListbox>
-        {data?.pages.map((page) =>
+        {data?.pages.map((page: any) =>
           page?.list.map(
             (
               card: any, // index 제거
