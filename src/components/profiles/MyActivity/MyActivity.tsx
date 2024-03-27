@@ -29,9 +29,10 @@ export default function MyActivity({ ratingEverage, reviewsCount, favoriteCatego
         </S.StyledMyActivities>
         {/* 카테고리 없을 경우 조건 추가 */}
         <S.StyledMyActivities>
-          <S.StyledMyActivitiesText>{"관심 카테고리"}</S.StyledMyActivitiesText>          
-          <StyledCategoryChip $category={favoriteCategory}>{favoriteCategory}</StyledCategoryChip>
-
+          <S.StyledMyActivitiesText>{"관심 카테고리"}</S.StyledMyActivitiesText>
+          <StyledCategoryChip $small={false} $category={favoriteCategory}>
+            {favoriteCategory}
+          </StyledCategoryChip>
         </S.StyledMyActivities>
       </S.StyledMyActivitiesBox>
     </S.StyledActivities>
