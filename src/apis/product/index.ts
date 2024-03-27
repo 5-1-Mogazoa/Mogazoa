@@ -11,10 +11,54 @@ import {
 export const getProductDetail = (productId: number): Promise<ProductDetailResponseType> => {
   const requestProps: apiCallProps = { method: "get", endPoint: API_ROUTE.PRODUCT_DETAIL(productId) };
 
-  return apiCall(requestProps);
+  return apiCall<ProductDetail>(requestProps) as unknown as Promise<ProductDetailResponseType>;
 };
 
 //상품 전체 조회하는 함수
+type Product = {
+  updatedAt: string;
+  createdAt: string;
+  writerId: number;
+  categoryId: number;
+  favoriteCount: number;
+  reviewCount: number;
+  rating: number;
+  image: string;
+  name: string;
+  id: number;
+};
+
+type ProductListResponse = {
+  nextCursor: number;
+  list: Product[];
+};
+type ProductDetail = {
+  id: number;
+  name: string;
+  description: string;
+  image: string;
+  rating: number;
+  reviewCount: number;
+  favoriteCount: number;
+  categoryId: number;
+  createdAt: string;
+  updatedAt: string;
+  writerId: number;
+  isFavorite: boolean;
+  category: Category[];
+  categoryMetric: CategoryMetric[];
+};
+
+type Category = {
+  id: number;
+  name: string;
+};
+
+type CategoryMetric = {
+  rating: number;
+  favoriteCount: number;
+  reviewCount: number;
+};
 
 export interface getProductsProps {
   keyword?: string | null;
@@ -39,7 +83,7 @@ export const getProducts = ({
     endPoint: `${API_ROUTE.PRODUCTS}${queryParams}`,
   };
 
-  return apiCall(requestProps);
+  return apiCall<ProductListResponse>(requestProps);
 };
 
 // 상품 리뷰 목록 조회

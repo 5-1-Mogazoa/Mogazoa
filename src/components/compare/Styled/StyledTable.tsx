@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { fontStyle } from "@/styles/theme";
+import { API_ROUTE } from "./../../../routes";
 
 const StyledResultContainer = styled.div`
   color: var(--white-white_F1F1F5, #f1f1f5);
@@ -28,8 +29,10 @@ const StyledResultWinner = styled.div`
     ${fontStyle({ w: 600, s: 24, l: 29 })};
   }
 `;
-
-const StyledResultProduct = styled.span`
+const StyledResultProduct1 = styled.span`
+  color: var(--green-green_FFC83C, #05d58b);
+`;
+const StyledResultProduct2 = styled.span`
   color: var(--pink-pink_FF1066, #ff2f9f);
 `;
 
@@ -45,14 +48,15 @@ const StyledResultDes = styled.span`
 
 const StyledTable = styled.table`
   width: 100%;
-  height: 318px;
+  height: 31.8rem;
   color: var(--gray-gray_9FA6B2, #9fa6b2);
   text-align: center;
+  justify-content: center;
   border-radius: 12px;
   border: 1px solid var(--black-black_353542, #353542);
   background: var(--black-black_252530, #252530);
   border-collapse: collapse;
-  text-align: center;
+
   ${fontStyle({ w: 400, s: 12, l: 10 })};
 
   @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
@@ -92,7 +96,8 @@ const StyledTableWin2 = styled.td`
 export {
   StyledResultContainer as ResultContainer,
   StyledResultWinner as ResultWinner,
-  StyledResultProduct as ResultProduct,
+  StyledResultProduct1 as ResultProduct1,
+  StyledResultProduct2 as ResultProduct2,
   StyledResultDes as ResultDes,
   StyledTable as Table,
   StyledTableline as Tableline,
