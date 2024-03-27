@@ -46,7 +46,7 @@ export interface apiCallProps<U = unknown> {
   config?: AxiosRequestConfig;
 }
 
-export async function apiCall<T, U>({ method, endPoint, data, config }: apiCallProps<U>) {
+export async function apiCall<T = unknown, U = unknown>({ method, endPoint, data, config }: apiCallProps<U>) {
   try {
     const response: AxiosResponse<T> = await instance({
       method,

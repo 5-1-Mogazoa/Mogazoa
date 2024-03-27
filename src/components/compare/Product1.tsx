@@ -57,6 +57,7 @@ export default function Product1({ handleProductAData, handleTableClose }: Produ
     setIsShowChip1(false);
     setReadOnly(false);
     handleTableClose();
+    handleProductAData("");
     localStorage.removeItem("productAName");
     localStorage.removeItem("productAId");
   };

@@ -53,6 +53,8 @@ export default function Product2({ handleProductBData, handleTableClose }: Produ
     setIsShowChip2(false);
     setReadOnly(false);
     handleTableClose();
+    handleProductBData("");
+
     localStorage.removeItem("productBName");
     localStorage.removeItem("productBId");
   };
@@ -77,8 +79,7 @@ export default function Product2({ handleProductBData, handleTableClose }: Produ
   });
 
   useEffect(() => {
-    console.log(productBDetail);
-    handleProductBData(productBDetail);
+    handleProductBData(productBDetail as any);
     if (productBDetail) {
       //undefined 안뜨게 if로 조건 설정
       localStorage.setItem("productBName", productBDetail?.name);
@@ -122,7 +123,7 @@ export default function Product2({ handleProductBData, handleTableClose }: Produ
               <ProductCheckedNameItem
                 key={product.id}
                 onClick={(e) => {
-                  handleClickSearch(e);
+                  handleClickSearch(e as any);
                   setProductId(product.id);
                 }}>
                 {product.name}

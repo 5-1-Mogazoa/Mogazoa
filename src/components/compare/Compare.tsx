@@ -3,7 +3,8 @@ import styled from "styled-components";
 import {
   ResultContainer,
   ResultWinner,
-  ResultProduct,
+  ResultProduct1,
+  ResultProduct2,
   ResultDes,
   Table,
   TableWhite,
@@ -13,25 +14,26 @@ import {
 } from "./Styled/StyledTable";
 import CompareResultTable from "./CompareResultTable";
 import Description from "./Description";
+import { useState } from "react";
 
 type CompareTableProps = {
   productAData: any;
   productBData: any;
-  resultCount: number;
 };
-
 //비교하기 테이블 만들기
-export function CompareTable({ productAData, productBData, resultCount }: CompareTableProps) {
+export function CompareTable({ productAData, productBData }: CompareTableProps) {
+  const [resultCount, setResultCount] = useState(0);
+  const [finalWinner, setFinalWinner] = useState("");
+  const handleResultCount = (value: number) => setResultCount(value);
+  const handleFinalWinner = (value: string) => setFinalWinner(value);
+
   return (
     //A데이AData, productBData비교 기능 구현
     <>
       <ResultContainer>
-        <ResultWinner>
-          <ResultProduct>이긴상품</ResultProduct> 상품이 승리하였습니다
-        </ResultWinner>
-        <Description a={0} b={0} productAData={undefined} productBData={undefined} />
+        <Description resultCount={resultCount} finalWinner={finalWinner} />
 
-        <ResultDes>3가지 항목 중 {resultCount}가지 항목에서 우세합니다.</ResultDes>
+        <ResultDes>3가지 항목 중 {resultCount} 가지 항목에 우세합니다.</ResultDes>
       </ResultContainer>
       <Table>
         <thead>
@@ -42,7 +44,12 @@ export function CompareTable({ productAData, productBData, resultCount }: Compar
             <Tableline>결과</Tableline>
           </tr>
         </thead>
-        <CompareResultTable productAData={productAData} productBData={productBData} />
+        <CompareResultTable
+          handleResultCount={handleResultCount}
+          handleFinalWinner={handleFinalWinner}
+          productAData={productAData}
+          productBData={productBData}
+        />
       </Table>
     </>
   );

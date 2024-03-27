@@ -2,7 +2,7 @@ import { fontStyle } from "@/styles/theme";
 import styled from "styled-components";
 
 export const ProductCheckedNameWrap = styled.ul`
-  display: flex;
+  display: none;
   width: 295px;
   padding: 10px;
   flex-direction: column;
@@ -13,6 +13,10 @@ export const ProductCheckedNameWrap = styled.ul`
   position: absolute;
   top: 80px;
   z-index: 1;
+
+  &:has(li) {
+    display: flex;
+  }
 
   @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
     width: 360px;
@@ -26,7 +30,6 @@ export const ProductCheckedNameItem = styled.li`
   border-radius: 6px;
   color: var(--color-gray-6e, #6e6e82);
   ${fontStyle({ w: 400, s: 14, l: 20 })};
-  // ${(props) => props.isMatch && matchedStyles}
 
   &:hover {
     background: var(--color-black-35, #353542);
