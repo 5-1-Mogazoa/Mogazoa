@@ -3,7 +3,12 @@ import StarIcon from "@/public/icons/star.svg";
 import MessageIcon from "@/public/icons/messagebubble.svg";
 import { StyledCategoryChip } from "@/src/components/common/chip/Styled/StyledCategoryChip";
 
-export default function MyActivity({ ratingEverage, reviewsCount, favoriteCategory }) {
+type Props = {
+  ratingEverage: number;
+  reviewsCount: number;
+  favoriteCategory: any;
+};
+export default function MyActivity({ ratingEverage, reviewsCount, favoriteCategory }: Props) {
   return (
     <S.StyledActivities>
       <S.ActivityList>활동내역</S.ActivityList>
@@ -25,7 +30,9 @@ export default function MyActivity({ ratingEverage, reviewsCount, favoriteCatego
         {/* 카테고리 없을 경우 조건 추가 */}
         <S.StyledMyActivities>
           <S.StyledMyActivitiesText>{"관심 카테고리"}</S.StyledMyActivitiesText>
-          <StyledCategoryChip $category={favoriteCategory}>{favoriteCategory}</StyledCategoryChip>
+          <StyledCategoryChip $small={false} $category={favoriteCategory}>
+            {favoriteCategory}
+          </StyledCategoryChip>
         </S.StyledMyActivities>
       </S.StyledMyActivitiesBox>
     </S.StyledActivities>

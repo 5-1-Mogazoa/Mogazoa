@@ -15,8 +15,12 @@ const StyledFilterButton = styled.button<{ $active?: boolean }>`
     ${fontStyle({ w: 600, s: 20, l: 24 })};
   }
 `;
+type Props = {
+  dataType: any;
+  setDataType: any;
+};
 
-export default function FilterProduct({ dataType, setDataType }) {
+export default function FilterProduct({ dataType, setDataType }: Props) {
   return (
     <div>
       <StyledFilter>
