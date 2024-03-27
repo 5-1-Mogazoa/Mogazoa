@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import Sidebar from "./SideBar";
 import { Logo } from "./Logo";
+import { getToken } from "@/src/apis/auth";
 
 export default function Gnb() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -20,11 +21,12 @@ export default function Gnb() {
   const handleClick = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
+
   useEffect(() => {
-    const token = localStorage.getItem("accessToken");
-    if (token) {
-      setIsLoggedIn(true);
-    }
+    (async () => {
+      const token = await getToken();
+      setIsLoggedIn(token ? true : false);
+    })();
   }, [currentPath]);
 
   return (

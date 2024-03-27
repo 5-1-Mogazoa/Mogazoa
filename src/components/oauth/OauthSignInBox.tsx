@@ -46,7 +46,6 @@ export default function OauthSignInBox() {
           const accessToken = result.accessToken;
           const userId = result.user.id;
           await postToken(accessToken);
-          localStorage.setItem("accessToken", accessToken);
           localStorage.setItem("userId", String(userId));
           router.push("/");
         } catch (error: any) {
