@@ -34,7 +34,6 @@ export default function CompareResultTable({
       : productAData?.favoriteCount > productBData?.favoriteCount
         ? 1
         : -1;
-  console.log(resultRating, resultReview, resultFavorite);
 
   const resultCountArr = ["rating", "reviewCount", "favoriteCount"].map<number>((compareKey) => {
     //number 리턴

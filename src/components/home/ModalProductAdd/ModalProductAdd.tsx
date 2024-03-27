@@ -67,7 +67,7 @@ export default function ModalProductAdd({ onClose }: ModalProductAddProps) {
 
     postProductMutation.mutate(data as PatchProductDataType, {
       onSuccess: () => {
-        console.log("상품이 성공적으로 업로드 되었습니다!");
+        alert("상품이 성공적으로 업로드 되었습니다!");
       },
       onError: (error) => console.error(error),
     });

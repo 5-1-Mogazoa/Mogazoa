@@ -21,6 +21,5 @@ const StyledLogo = styled(Image)<LogoProps>`
 export function Logo({ $isOpen }: LogoProps) {
   const logo = "/icons/LogoLarge.svg";
 
-  console.log($isOpen);
   return <StyledLogo $isOpen={$isOpen} src={logo} width={112} height={18} alt="mogazoa 로고"></StyledLogo>;
 }

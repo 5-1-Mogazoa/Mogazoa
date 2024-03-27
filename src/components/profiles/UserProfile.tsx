@@ -239,7 +239,6 @@ export default function Userprofile({ isMe }: Props) {
   const maxPropertyKey = Object.keys(categoryCount).find((key) => categoryCount[Number(key)] === maxPropertyValue);
 
   const favoriteCategory = categoryList[Number(maxPropertyKey) - 1].name;
-  console.log(USERDATA);
   if (!USERDATA) return null;
   return (
     <>

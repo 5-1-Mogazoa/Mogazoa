@@ -83,7 +83,6 @@ export default function Product1({ handleProductAData, handleTableClose }: Produ
   });
 
   useEffect(() => {
-    console.log(productADetail);
     handleProductAData(productADetail as any);
     if (productADetail) {
       //undefined 안뜨게 if로 조건 설정
@@ -96,7 +95,6 @@ export default function Product1({ handleProductAData, handleTableClose }: Produ
 
   useEffect(() => {
     setIsShow(false);
-    console.log(product1);
     if (isSuccess) {
       if (product1 === "") {
         setIsShow(false);

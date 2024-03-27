@@ -37,7 +37,6 @@ function ReviewList({ productId, order, setOrder, loginToggle }: ReviewListProps
       return lastPage?.nextCursor ?? undefined;
     },
   });
-  console.log({ reviewData });
 
   useEffect(() => {
     if (inView) {

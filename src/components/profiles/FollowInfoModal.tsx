@@ -78,7 +78,6 @@ function FollowInfoModal({ setIsOpen, dataType, userId, nickname, followList }: 
           <StyledProfileUl ref={scrollableRef} onScroll={handleScroll}>
             {dataList.length
               ? dataList.map((item) => {
-                  console.log(item);
                   return dataType === "follower" ? (
                     <Link
                       onClick={handleCloseButton}

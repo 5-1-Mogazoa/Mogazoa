@@ -1,17 +1,4 @@
-import Gnb from "../gnb/gnb";
-import styled from "styled-components";
-import {
-  ResultContainer,
-  ResultWinner,
-  ResultProduct1,
-  ResultProduct2,
-  ResultDes,
-  Table,
-  TableWhite,
-  Tableline,
-  Win1,
-  Win2,
-} from "./Styled/StyledTable";
+import { ResultContainer, ResultDes, Table, Tableline } from "./Styled/StyledTable";
 import CompareResultTable from "./CompareResultTable";
 import Description from "./Description";
 import { useState } from "react";
