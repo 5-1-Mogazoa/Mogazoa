@@ -19,7 +19,7 @@ export default function UserProductList({ userId, dataType }: UserProductListPro
   });
   const { data: REVIEWED } = useQuery({
     queryKey: ["REVIEWED", userId],
-    queryFn: () => getUserReviewed(userId),
+    queryFn: () => getUserReviewed(userId, null),
   });
   console.log({ CREATED });
 
