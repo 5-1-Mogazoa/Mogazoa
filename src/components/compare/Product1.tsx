@@ -84,7 +84,7 @@ export default function Product1({ handleProductAData, handleTableClose }: Produ
 
   useEffect(() => {
     console.log(productADetail);
-    handleProductAData(productADetail);
+    handleProductAData(productADetail as any);
     if (productADetail) {
       //undefined 안뜨게 if로 조건 설정
       localStorage.setItem("productAName", productADetail?.name);
