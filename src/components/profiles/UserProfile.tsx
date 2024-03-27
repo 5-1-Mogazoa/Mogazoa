@@ -1,4 +1,4 @@
-import { ReactNode, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import Image from "next/image";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -7,12 +7,9 @@ import { useRouter } from "next/router";
 import { getUserData, getUserFollowees, getUserFollowers, getUserReviewed } from "@/src/apis/user";
 import { categoryList } from "@/src/utils/categoryList";
 import UserProductList from "@/src/components/profiles/UserProductList";
-import { useToggle } from "usehooks-ts";
 import FollowInfoModal from "@/src/components/profiles/FollowInfoModal";
 import MyPageProfileButtons from "@/src/components/profiles/MyPageProfileButtons";
 import FollowButton from "@/src/components/profiles/FollowButton";
-import { StyledMyActivities, StyledMyActivitiesText, StyledMyActivitiesNumber } from "./MyActivity";
-
 import { fontStyle } from "@/styles/theme";
 import MyActivity from "./MyActivity/MyActivity";
 import FilterProduct from "./FilterProduct/FilterProduct";
@@ -47,6 +44,7 @@ const StyledProfileLayout = styled.div`
 // 프로필 styled component
 const StyledProfileBox = styled.div`
   width: 100%;
+  height: 100%;
   border-radius: 12px;
   border: 1px solid var(--black-black_353542, #353542);
   background: var(--black-black_252530, #252530);
@@ -207,20 +205,22 @@ export default function Userprofile({ isMe }: Props) {
   const [dataType, setDataType] = useState<"REVIEWED" | "CREATED" | "FAVORITE">("REVIEWED");
   const [isFollowingModalOpen, setIsFollowingModalOpen] = useState(false);
   const [isFollowerModalOpen, setIsFollowerModalOpen] = useState(false);
-  const [userId, setUserId] = useState("");
+  const [userId, setUserId] = useState(0);
   useEffect(() => {
     if (isMe) {
-      setUserId(localStorage.getItem("userId"));
+      const userIdData = Number(localStorage.getItem("userId"));
+      setUserId(userIdData);
     } else {
-      setUserId(router.query.userId);
+      const userIdNumber = Number(router.query.userId);
+      setUserId(userIdNumber);
     }
-  }, [router.query]);
+  }, [router.query, isMe]);
 
   const { data: USERDATA } = useQuery({
     queryKey: ["USERDATA", userId],
     queryFn: () => getUserData(userId),
   });
-  console.log(USERDATA);
+
   const { data: FOLLOWEES } = useQuery({
     queryKey: [QUERY_KEY.FOLLOWEES, userId],
     queryFn: () => getUserFollowees(userId, 0),
@@ -234,23 +234,23 @@ export default function Userprofile({ isMe }: Props) {
     queryKey: [QUERY_KEY.REVIEWS, userId],
     queryFn: () => getUserReviewed(userId, 0),
   });
-  console.log(REVIEWS);
+
   const followingCount = USERDATA?.followeesCount;
   const followersCount = USERDATA?.followersCount;
-  const reviewsCount = REVIEWS?.list.length;
+  const reviewsCount = REVIEWS?.list.length ?? 0;
   const ratingEverage = REVIEWS?.list.length
     ? Math.floor((REVIEWS?.list.reduce((acc, item) => acc + item.rating, 0) / reviewsCount) * 10) / 10
     : 0;
 
-  const categoryCount = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0 };
+  const categoryCount: Record<number, number> = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0 };
   REVIEWS?.list.forEach((item) => categoryCount[item.categoryId]++);
   // 프로퍼티 값 중 최대값을 구합니다.
   const maxPropertyValue = Math.max(...Object.values(categoryCount));
 
   // 최대값을 가진 프로퍼티의 키를 찾습니다.
-  const maxPropertyKey = Object.keys(categoryCount).find((key) => categoryCount[key] === maxPropertyValue);
+  const maxPropertyKey = Object.keys(categoryCount).find((key) => categoryCount[Number(key)] === maxPropertyValue);
 
-  const favoriteCategory = categoryList[maxPropertyKey - 1].name;
+  const favoriteCategory = categoryList[Number(maxPropertyKey) - 1].name;
   console.log(USERDATA);
   if (!USERDATA) return null;
   return (
