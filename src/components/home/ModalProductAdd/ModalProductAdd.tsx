@@ -12,6 +12,7 @@ import { copyFileSync } from "fs";
 import FormTextarea from "@/src/components/common/input/FormTextarea";
 import FormImage from "../../common/input/FormImage";
 import { PatchProductDataType } from "@/src/apis/product/schema.js";
+import axios from "axios";
 interface ModalProductAddProps {
   onClose: () => void;
 }
@@ -33,8 +34,9 @@ export default function ModalProductAdd({ onClose }: ModalProductAddProps) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [API_ROUTE.PRODUCTS] });
     },
-    onError: (error: any) => {
-      const err = error.response.data.details;
+    onError: (error: Error) => {
+      if (!axios.isAxiosError(error)) return;
+      const err = error.response?.data.details;
       if (err["requestBody.image"]) {
         alert("이미지가 필요합니다.");
       } else if (err.name.message) {
