@@ -1,7 +1,8 @@
 import { deleteFollow, postFollow } from "@/src/apis/follow";
 import { StyledFollowButton } from "./Styled/StyledFollowButton";
 import { useMutation } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getToken } from "@/src/apis/auth";
 
 type FollowButtonProps = {
   isFollowingData: boolean;
@@ -10,6 +11,16 @@ type FollowButtonProps = {
 
 export default function FollowButton({ isFollowingData, userId }: FollowButtonProps) {
   const [isFollowing, setIsFollowing] = useState(isFollowingData);
+  const [isLoggined, setIsLoggined] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      if (await getToken()) {
+        setIsLoggined(true);
+      }
+    })();
+  }, []);
+
   const postFollowMutation = useMutation({
     mutationFn: (userId: number) => postFollow(userId),
   });
@@ -26,7 +37,7 @@ export default function FollowButton({ isFollowingData, userId }: FollowButtonPr
   };
 
   return (
-    <StyledFollowButton onClick={handleButtonClick} $isFollowing={isFollowing}>
+    <StyledFollowButton disabled={!isLoggined} onClick={handleButtonClick} $isFollowing={isFollowing}>
       {isFollowing ? "팔로우 취소" : "팔로우"}
     </StyledFollowButton>
   );
