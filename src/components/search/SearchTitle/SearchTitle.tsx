@@ -8,17 +8,8 @@ type SearchTitleProps = {
 
 export default function SearchTitle({ keyword, category }: SearchTitleProps) {
   const [searchKeyword, setSearchKeyword] = useState<string>("");
-  const resultJSX = (
-    <div>
-      {`${category} 카테고리의`} <br />
-      {`${keyword}로 검색한 상품`}
-    </div>
-  );
-
   useEffect(() => {
-    if (keyword && category) {
-      setSearchKeyword(resultJSX);
-    } else if (category) {
+    if (category) {
       setSearchKeyword(`${category}의 모든 상품`);
     } else if (keyword) {
       setSearchKeyword(`${keyword}로 검색한 상품`);
@@ -27,7 +18,17 @@ export default function SearchTitle({ keyword, category }: SearchTitleProps) {
 
   return (
     <div>
-      <SearchTitleName>{searchKeyword}</SearchTitleName>
+      <SearchTitleName>
+        {keyword && category ? (
+          <>
+            {`${category} 카테고리의`}
+            <br />
+            {`${keyword}로 검색한 상품`}
+          </>
+        ) : (
+          <>{searchKeyword}</>
+        )}
+      </SearchTitleName>
     </div>
   );
 }

@@ -9,7 +9,7 @@ import { QUERY_KEY, PRODUCT_LIMIT } from "@/src/routes";
 type CardListBoxWrapPorps = {
   title: string;
   description?: string;
-  children: ReactNode;
+  children: React.ReactNode;
 };
 
 const CardListBoxWrap = ({ title, description, children }: CardListBoxWrapPorps) => (

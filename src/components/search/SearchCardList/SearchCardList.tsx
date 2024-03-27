@@ -15,7 +15,8 @@ export default function SearchCardList({ order, category, keyword }: SearchCardL
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
     queryKey: [QUERY_KEY.PRODUCTS, { order, category, keyword }],
     queryFn: ({ pageParam = 0 }) => getProducts({ order, category, keyword, cursor: pageParam, limit: PRODUCT_LIMIT }),
-    getNextPageParam: (lastPage, pages) => lastPage.nextCursor,
+    getNextPageParam: (lastPage, pages) => (lastPage as any).nextCursor,
+    initialPageParam: 0,
   });
 
   const handleScroll = () => {
@@ -33,7 +34,7 @@ export default function SearchCardList({ order, category, keyword }: SearchCardL
   return (
     <>
       <CardListbox>
-        {data?.pages.map((page) =>
+        {data?.pages.map((page: any) =>
           page?.list.map(
             (
               card: any, // index 제거

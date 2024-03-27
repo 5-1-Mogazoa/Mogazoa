@@ -23,7 +23,7 @@ export default function CategoryList({ onClose, isCategory }: CategoryListProps)
     return null;
   }
 
-  const onChange = (e) => {
+  const onChange = (e: any) => {
     const selectValue = e.target.value;
     const selectedId = e.target.id;
 
