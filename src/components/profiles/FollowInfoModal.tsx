@@ -15,18 +15,17 @@ interface ModalProps {
   dataType: "follower" | "followee";
   userId: number;
   nickname: string;
-  followList: any;
 }
 
-function FollowInfoModal({ setIsOpen, dataType, userId, nickname, followList }: ModalProps) {
+function FollowInfoModal({ setIsOpen, dataType, userId, nickname }: ModalProps) {
   const [portalRoot, setPortalRoot] = useState<HTMLElement | null>(null);
   const [cursor, setCursor] = useState<number | null>(null);
   const title = `${nickname}님${dataType === "follower" ? "을" : "이"} 팔로우하는 유저`;
-  const [dataList, setDataList] = useState<FollowerType[] | FolloweeType[]>(followList);
+  const [dataList, setDataList] = useState<FollowerType[] | FolloweeType[]>([]);
   const [noMoreUsers, setNoMoreUsers] = useState(false);
 
   const { data: userList } = useQuery<FollowDataType>({
-    queryKey: ["usersList", cursor],
+    queryKey: ["usersList", cursor, dataType],
     queryFn: () =>
       (dataType === "follower"
         ? getUserFollowers(userId, cursor)
