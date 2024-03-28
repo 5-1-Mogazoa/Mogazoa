@@ -32,20 +32,11 @@ export const postToken = async (token: string) => {
 };
 
 export const getToken = async () => {
-  try {
-    const res = await axios.get(API_ROUTE.API_GETTOKEN);
-    const result = res.data.accessToken;
-    return result;
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
+  const token = localStorage.getItem("accessToken");
+  return token;
 };
 
 export const resetToken = async () => {
-  try {
-    await axios.post(API_ROUTE.API_RESETTOKEN);
-  } catch (error) {
-    console.error(error);
-  }
+  localStorage.setItem("accessToken", "");
+  localStorage.setItem("userId", "");
 };

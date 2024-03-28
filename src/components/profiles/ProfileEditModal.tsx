@@ -85,7 +85,7 @@ export default function ProfileEditModal({ setIsOpen }: ModalProps) {
     handleClose();
   };
 
-  const handleImageUpload = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = (e: any) => {
     if (e.target.files) {
       (async () => {
         //TODO: type 설정

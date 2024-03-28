@@ -14,7 +14,7 @@ import { StyledPrimaryButton } from "../../common/button/Styled/StyledButton";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { AuthDataType, AuthResponseType } from "@/src/types/auth/authDataType";
-import { postSignInData, postToken } from "@/src/apis/auth";
+import { postSignInData } from "@/src/apis/auth";
 import { StyledSignInButtonContainer, StyledSignInForm } from "../Styled/StyledAuthForm";
 import PLACEHODLER_MESSAGE from "@/src/constant/PLACEHOLDER_MESSAGE";
 
@@ -38,7 +38,7 @@ export default function SignInForm() {
 
       const accessToken = result.accessToken;
       const userId = result.user.id;
-      await postToken(accessToken);
+      localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("userId", String(userId));
       router.push("/");
       return;
