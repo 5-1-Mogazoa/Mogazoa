@@ -18,7 +18,13 @@ export default function Card({ imageUrl, imageAlt, cardProductTitle, review, pic
       <S.StyledCardWarp>
         <S.StyledImageWrap>
           <S.StyedImageWidth>
-            <S.StyledImage src={imageUrl} alt={imageAlt} fill objectFit="cover" />
+            <S.StyledImage
+              src={imageUrl}
+              alt={imageAlt}
+              fill
+              priority={true}
+              sizes="(min-width: 1600px) 10rem, (min-width: 744px) 8rem, 6rem"
+            />
           </S.StyedImageWidth>
         </S.StyledImageWrap>
 

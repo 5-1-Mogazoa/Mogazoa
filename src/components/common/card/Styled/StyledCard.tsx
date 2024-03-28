@@ -28,6 +28,7 @@ export const StyledImageWrap = styled.div`
 `;
 
 export const StyedImageWidth = styled.div`
+  position: relative;
   padding-top: 70%;
 `;
 
@@ -37,6 +38,7 @@ export const StyledImage = styled(Image)`
   width: 100%;
   inset: 0px;
   color: transparent;
+  object-fit: cover;
 `;
 
 export const CardTextBox = styled.div`
