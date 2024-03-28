@@ -16,8 +16,8 @@ export default function Ranking() {
 
   useEffect(() => {
     if (userRank) {
-      const RankingArr = userRank.slice(0, 5);
-      setUserDetails(RankingArr);
+      const rankingArr = userRank.slice(0, 5);
+      setUserDetails(rankingArr);
     }
   }, [userRank]);
 
