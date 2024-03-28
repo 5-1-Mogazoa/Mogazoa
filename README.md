@@ -31,7 +31,7 @@ Mogazoa는 음악, 식당, 영화, 강의, 여행지, 전자기기, 호텔, 와�
 
 <img src="https://img.shields.io/badge/React-2DDEF9?style=flat&logo=React&logoColor=white"/> <img src="https://img.shields.io/badge/Typescript-005ADC?style=flat&logo=Typescript&logoColor=white"/> <img src="https://img.shields.io/badge/Next.js-000000?style=flat&logo=Next.js&logoColor=white"/> <img src="https://img.shields.io/badge/Javascript-F7DF1E?style=flat&logo=JAVASCTIPT&logoColor=white"/> <img src="https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=HTML5&logoColor=white"/>
 <img src="https://img.shields.io/badge/StyledComponent-FF6AED?style=flat&logo=StyledComponent&logoColor=white"/>
-<img src="https://img.shields.io/badge/Git-F05032?style=flat&logo=git&logoColor=white"/> <img src="https://img.shields.io/badge/Reacthookform-EC5990?style=flat&logo=Reacthookform&logoColor=white"/> <img src="https://img.shields.io/badge/Axios-000000?style=flat&logo=Axios&logoColor=white"/>
+<img src="https://img.shields.io/badge/Git-F05032?style=flat&logo=git&logoColor=white"/> <img src="https://img.shields.io/badge/Reacthookform-EC5990?style=flat&logo=Reacthookform&logoColor=white"/> <img src="https://img.shields.io/badge/Axios-000000?style=flat&logo=Axios&logoColor=white"/> <img src="https://img.shields.io/badge/usehooksts-F7DF1E?style=flat&logo=usehooksts&logoColor=white"/>
 
 <br/>
 
