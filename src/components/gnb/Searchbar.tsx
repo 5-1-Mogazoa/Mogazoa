@@ -1,8 +1,7 @@
 import { fontStyle } from "@/styles/theme";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
-import useFilterSearch, { filterSearchProps } from "../../hooks/useFilterSearch";
-import { useRouter } from "next/router";
+import useFilterSearch from "../../hooks/useFilterSearch";
 
 type SearchInputProps = {
   $isOpen: boolean;
@@ -74,7 +73,7 @@ export default function Searchbar({ isOpen, setIsOpen }: SearchbarProps) {
     setIsOpen(!isOpen);
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e: any) => {
     const newValue = e.target.value;
     setSearch(newValue);
     if (e.key === "Enter")

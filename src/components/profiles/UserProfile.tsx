@@ -185,24 +185,15 @@ const StyledFollowText = styled.div`
 
 type Props = {
   isMe: boolean;
+  userId: number;
 };
 
-export default function Userprofile({ isMe }: Props) {
+export default function Userprofile({ isMe, userId }: Props) {
   const queryClient = useQueryClient();
   const router = useRouter();
   const [dataType, setDataType] = useState<"REVIEWED" | "CREATED" | "FAVORITE">("REVIEWED");
   const [isFollowingModalOpen, setIsFollowingModalOpen] = useState(false);
   const [isFollowerModalOpen, setIsFollowerModalOpen] = useState(false);
-  const [userId, setUserId] = useState(0);
-  useEffect(() => {
-    if (isMe) {
-      const userIdData = Number(localStorage.getItem("userId"));
-      setUserId(userIdData);
-    } else {
-      const userIdNumber = Number(router.query.userId);
-      setUserId(userIdNumber);
-    }
-  }, [router.query, isMe]);
 
   const { data: USERDATA } = useQuery({
     queryKey: ["USERDATA", userId],
@@ -239,7 +230,6 @@ export default function Userprofile({ isMe }: Props) {
   const maxPropertyKey = Object.keys(categoryCount).find((key) => categoryCount[Number(key)] === maxPropertyValue);
 
   const favoriteCategory = categoryList[Number(maxPropertyKey) - 1].name;
-  console.log(USERDATA);
   if (!USERDATA) return null;
   return (
     <>
@@ -249,7 +239,12 @@ export default function Userprofile({ isMe }: Props) {
         <StyledProfileBox>
           <StyledImageBox>
             {/* Next Image로 바꾸기 & next.config.mjs 수정하기 & 사용법 익혀서 하기 */}
-            <StyledImage fill src={USERDATA?.image ? USERDATA?.image : "/icons/default_profile.svg"} alt="프로필사진" />
+            <StyledImage
+              fill
+              src={USERDATA?.image ? USERDATA?.image : "/icons/default_profile.svg"}
+              alt="프로필사진"
+              priority={true}
+            />
           </StyledImageBox>
 
           <StyledProfileText>
@@ -257,13 +252,13 @@ export default function Userprofile({ isMe }: Props) {
             <StyledProfileDesc>{USERDATA?.description}</StyledProfileDesc>
           </StyledProfileText>
           <StyledFollowInfo>
-            <button
+            <div
               onClick={() => {
                 setIsFollowerModalOpen(true);
               }}>
               <StyledFollowNumber>{followersCount}</StyledFollowNumber>
               <StyledFollowText>팔로워</StyledFollowText>
-            </button>
+            </div>
             <svg xmlns="http://www.w3.org/2000/svg" width="1" height="48" viewBox="0 0 1 48" fill="none">
               <path d="M0.5 0V48" stroke="#353542" />
             </svg>
@@ -272,13 +267,13 @@ export default function Userprofile({ isMe }: Props) {
 								2. 모달이 열린다.
 								3. 모달에 유저 목록이 보인다.
 						*/}
-              <button
+              <div
                 onClick={() => {
                   setIsFollowingModalOpen(true);
                 }}>
                 <StyledFollowNumber>{followingCount}</StyledFollowNumber>
                 <StyledFollowText>팔로잉</StyledFollowText>
-              </button>
+              </div>
             </div>
           </StyledFollowInfo>
           {isMe ? <MyPageProfileButtons /> : <FollowButton isFollowingData={USERDATA?.isFollowing} userId={userId} />}

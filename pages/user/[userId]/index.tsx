@@ -14,5 +14,5 @@ export default function Profile() {
     }
     setIsChecked(true);
   }, [router, userId]);
-  return <>{isChecked && <Userprofile isMe={false} />}</>;
+  return <>{isChecked && userId && <Userprofile userId={Number(userId)} isMe={false} />}</>;
 }
