@@ -6,7 +6,7 @@ export const PAGE_ROUTES = {
   OAUTH_SIGNUP: "/oauth/signup",
   COMPARE: "/compare",
   MY_PAGE: "/mypage",
-  PRODUCT_DETAIL: (productId: number) => `/product/${productId}`,
+  PRODUCT_DETAIL: (productId: number) => `/products/${productId}`,
   USER_DETAIL: (userId: number) => `/user/${userId}`,
 };
 

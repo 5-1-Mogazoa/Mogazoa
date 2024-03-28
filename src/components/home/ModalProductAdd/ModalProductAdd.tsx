@@ -6,13 +6,14 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postProduct } from "@/src/apis/product";
 import FormSelectCategory from "../../common/input/FormSelectCategory";
 import { postImage } from "@/src/apis/image";
-import { API_ROUTE } from "@/src/routes";
+import { API_ROUTE, PAGE_ROUTES } from "@/src/routes";
 import FormNameInput from "@/src/components/common/input/FormNameInput";
 import { copyFileSync } from "fs";
 import FormTextarea from "@/src/components/common/input/FormTextarea";
 import FormImage from "../../common/input/FormImage";
 import { PatchProductDataType } from "@/src/apis/product/schema.js";
 import axios from "axios";
+import { useRouter } from "next/router.js";
 interface ModalProductAddProps {
   onClose: () => void;
 }
@@ -20,6 +21,7 @@ interface ModalProductAddProps {
 export default function ModalProductAdd({ onClose }: ModalProductAddProps) {
   const methods = useForm();
   const queryClient = useQueryClient();
+  const router = useRouter();
 
   const { name, image, category, description } = {
     name: "",
@@ -31,8 +33,9 @@ export default function ModalProductAdd({ onClose }: ModalProductAddProps) {
   // 상품 생성 요청
   const postProductMutation = useMutation({
     mutationFn: (newProduct: PatchProductDataType) => postProduct(newProduct),
-    onSuccess: () => {
+    onSuccess: (response) => {
       queryClient.invalidateQueries({ queryKey: [API_ROUTE.PRODUCTS] });
+      router.push(PAGE_ROUTES.PRODUCT_DETAIL((response as any).id as number));
     },
     onError: (error: Error) => {
       if (!axios.isAxiosError(error)) return;
@@ -66,9 +69,7 @@ export default function ModalProductAdd({ onClose }: ModalProductAddProps) {
     }
 
     postProductMutation.mutate(data as PatchProductDataType, {
-      onSuccess: () => {
-        alert("상품이 성공적으로 업로드 되었습니다!");
-      },
+      onSuccess: () => {},
       onError: (error) => console.error(error),
     });
   };

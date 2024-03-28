@@ -77,7 +77,7 @@ export default function Product1({ handleProductAData, handleTableClose }: Produ
   });
 
   const { data: productADetail } = useQuery({
-    queryKey: [QUERY_KEY.PRODUCT_DETAIL, productId],
+    queryKey: [QUERY_KEY.PRODUCT_DETAIL, productId, product1],
     queryFn: () => getProductDetail(productId),
     // enabled: !!product2Chip,
   });
