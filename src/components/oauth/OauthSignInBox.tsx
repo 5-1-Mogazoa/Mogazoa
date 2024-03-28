@@ -12,7 +12,6 @@ import { OauthResponseType } from "@/src/types/oauth/oauthDataType";
 import { postOauthSignInData } from "@/src/apis/oauth";
 import { PAGE_ROUTES } from "@/src/routes";
 import { useOauth } from "@/src/lib/OauthProvider";
-import { postToken } from "@/src/apis/auth";
 
 type mutationParameterType = {
   idToken: string;
@@ -45,7 +44,7 @@ export default function OauthSignInBox() {
           })) as OauthResponseType;
           const accessToken = result.accessToken;
           const userId = result.user.id;
-          await postToken(accessToken);
+          localStorage.setItem("accessToken", accessToken);
           localStorage.setItem("userId", String(userId));
           router.push("/");
         } catch (error: any) {
