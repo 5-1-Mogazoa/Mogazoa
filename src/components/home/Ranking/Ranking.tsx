@@ -5,19 +5,21 @@ import { Fragment, useEffect, useState } from "react";
 import Link from "next/link";
 import { PAGE_ROUTES } from "@/src/routes";
 import { GetUserRankResponseType } from "@/src/apis/user/schema";
-// interface UserDetails {
-//   id: number;
-//   followers: number;
-//   allReviews: number;
-// }
 
 export default function Ranking() {
   const { data: userRank } = useQuery<any>({
     queryKey: ["userRank"],
     queryFn: () => getUserRank(),
   });
-  const userDetails = userRank.slice(0, 5);
-  console.log(userDetails);
+
+  const [userDetails, setUserDetails] = useState<GetUserRankResponseType[]>([]);
+
+  useEffect(() => {
+    if (userRank) {
+      const RankingArr = userRank.slice(0, 5);
+      setUserDetails(RankingArr);
+    }
+  }, [userRank]);
 
   return (
     <>
