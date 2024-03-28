@@ -288,7 +288,6 @@ export default function Userprofile({ isMe, userId }: Props) {
       <StyledFloatButton>+</StyledFloatButton>
       {isFollowingModalOpen && (
         <FollowInfoModal
-          followList={(FOLLOWEES as any).list}
           setIsOpen={setIsFollowingModalOpen}
           dataType="followee"
           userId={userId}
@@ -297,7 +296,6 @@ export default function Userprofile({ isMe, userId }: Props) {
       )}
       {isFollowerModalOpen && (
         <FollowInfoModal
-          followList={(FOLLOWERS as any).list}
           setIsOpen={setIsFollowerModalOpen}
           dataType="follower"
           userId={userId}
