@@ -1,5 +1,4 @@
 import { Controller, useFormContext } from "react-hook-form";
-import ReactSelect from "react-select";
 import { StyledSelectDropdown } from "../../button/Styled/StyledSelectDropdown";
 import Image from "next/image";
 
