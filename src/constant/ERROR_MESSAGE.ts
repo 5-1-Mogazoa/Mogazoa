@@ -12,6 +12,7 @@ const ERROR_MESSAGE = {
   NOT_MATCH_PASSWORD: "비밀번호가 일치하지 않습니다.",
   DESCRIPTION_MIN_LENGTH: "상품 설명은 최소 10자 이상 입력해주세요.",
   DESCRIPTION_MAX_LENGTH: "상품 설명은 최대 300자 이하입니다.",
+  REQUIRED_PRODUCT_NAME: "상품명은 필수 입력입니다.",
   REQUIRED_DESCRIPTION: "상품 설명은 필수 입력입니다.",
   REQUIRED_REVIEW: "리뷰 내용을 입력해주세요.",
   REVIEW_MIN_LENGTH: "리뷰는 최소 10자 이상 적어주세요.",
@@ -20,7 +21,7 @@ const ERROR_MESSAGE = {
   CHECK_EMAIL: "이메일을 확인해 주세요.",
   CHECK_PASSWORD: "비밀번호를 확인해 주세요.",
   PRODUCT_NAME: "상품 이름은 필수 입력입니다.",
-  PRODUCT_MIN_LENGTH: "상품 이름은 최소 1자 이상입니다.",
+  PRODUCT_MIN_LENGTH: "상품 이름은 최소 10자 이상입니다.",
   PRODUCT_MAX_LENGTH: "상품 이름은 최대 20자 이하입니다.",
 };
 

@@ -38,7 +38,6 @@ export default function Product() {
     favoriteCount,
     rating: ratingCountData,
     categoryMetric,
-    writerId,
   } = productDetail as ProductDetailResponseType;
   const ratingCount = Number(ratingCountData.toFixed(1)); // 별정평균은 소수점 1자리 까지만
   const ratingAverage = Number(categoryMetric.rating.toFixed(1));
