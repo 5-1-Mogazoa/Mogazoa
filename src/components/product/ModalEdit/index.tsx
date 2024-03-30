@@ -12,7 +12,7 @@ import { getCategoryList } from "@/src/apis/category";
 import FormSelect from "../../common/input/FormSelect";
 import FormTextarea from "../../common/input/FormTextarea";
 import FormImage from "../../common/input/FormImage";
-import FormInput from "../../common/input/FormInput";
+import FormProductNameInput from "../../common/input/FormProductNameInput";
 
 export interface SelectOptionType {
   readonly value: number;
@@ -94,7 +94,7 @@ function ModalEdit({ productDetail, onClose }: ModalEditProps) {
         <S.Container>
           <S.ProductWithCategoryWithImage>
             <S.ProductWithCategory>
-              <FormInput
+              <FormProductNameInput
                 rules={{
                   required: { value: true, message: ERROR_MESSAGE.REQUIRED_PRODUCT_NAME },
                   maxLength: { value: 20, message: ERROR_MESSAGE.PRODUCT_MAX_LENGTH },

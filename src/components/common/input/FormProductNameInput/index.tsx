@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { QUERY_KEY } from "@/src/routes";
 import { getProducts } from "@/src/apis/product";
 
-interface FormInputProps {
+interface FormProductNameInputProps {
   rules?: Pick<RegisterOptions, "required" | "maxLength" | "minLength" | "validate">;
   name: string;
   maxLength?: number;
@@ -13,7 +13,7 @@ interface FormInputProps {
   placeholder: string;
 }
 
-function FormInput({ rules, name, maxLength = 20, defaultValue, placeholder }: FormInputProps) {
+function FormProductNameInput({ rules, name, maxLength = 20, defaultValue, placeholder }: FormProductNameInputProps) {
   const [keyword, setKeyword] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const { control } = useFormContext();
@@ -74,4 +74,4 @@ function FormInput({ rules, name, maxLength = 20, defaultValue, placeholder }: F
   );
 }
 
-export default FormInput;
+export default FormProductNameInput;
