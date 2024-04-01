@@ -10,11 +10,20 @@ import { FieldValues, useFormContext } from "react-hook-form";
 interface ModalProps {
   title: string;
   subTitle?: string;
-  modalType: "follow" | "compare" | "compare_comfirm" | "review" | "edit" | "profile" | "add" | "login" | "delete";
+  modalType:
+    | "follow"
+    | "compare"
+    | "compare_comfirm"
+    | "review"
+    | "edit"
+    | "profile"
+    | "add"
+    | "login"
+    | "delete"
+    | "edit_error_name";
   category?: CategoryType | undefined;
   isFormData?: boolean;
-  // callback?: (data: FieldValues) => Promise<T>;
-  callback?: any;
+  callback?: ((data: FieldValues) => boolean) | ((data: FieldValues) => void);
   onClose: () => void;
   children?: ReactNode;
 }
@@ -26,7 +35,11 @@ function Modal({ title, subTitle, modalType, category, isFormData, callback, onC
 
   const isValid = formContext && formContext.formState.isValid;
   const isReview = modalType === "review";
-  const isSmall = modalType === "compare_comfirm" || modalType === "login" || modalType === "delete";
+  const isSmall =
+    modalType === "compare_comfirm" ||
+    modalType === "login" ||
+    modalType === "delete" ||
+    modalType === "edit_error_name";
   const isConfirmButton = isSmall || modalType === "compare";
   const isFollow = modalType === "follow";
 
@@ -37,8 +50,9 @@ function Modal({ title, subTitle, modalType, category, isFormData, callback, onC
   const handleButtonClick = async (data: FieldValues) => {
     if (typeof callback === "function") {
       try {
-        await callback(data);
-        onClose();
+        const isSuccess = await callback(data);
+
+        if (isSuccess) onClose();
       } catch (error) {
         throw error;
       }
