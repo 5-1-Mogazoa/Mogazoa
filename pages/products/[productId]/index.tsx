@@ -23,7 +23,7 @@ export default function Product() {
   const [editModal, editToggle, setEditMdodal] = useToggle();
   const [reviewModal, reviewToggle, setReviewMdodal] = useToggle();
   const [loginModal, loginToggle, setLoginMdodal] = useToggle();
-  const [userId, setUserId] = useState(0);
+  const [userId, setUserId] = useState<number>(0);
 
   // SSR로 받은 상품 상세 정보
   const { data: productDetail } = useQuery({
@@ -44,10 +44,11 @@ export default function Product() {
   const favoriteAverage = Number(categoryMetric.favoriteCount.toFixed(0));
   const reviewAverage = Number(categoryMetric.reviewCount.toFixed(0));
 
-  // TODO 안됨
   useEffect(() => {
-    const userIdData = Number(localStorage.getItem("userId"));
-    setUserId(userIdData);
+    if (typeof window === "object") {
+      const userIdData = Number(localStorage.getItem("userId"));
+      setUserId(userIdData);
+    }
 
     if (typeof window !== "undefined") {
       window.scroll(0, 0);
