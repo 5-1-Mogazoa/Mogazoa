@@ -50,6 +50,11 @@ Mogazoa는 음악, 식당, 영화, 강의, 여행지, 전자기기, 호텔, 와�
 
 ![Image](https://github.com/5-1-Mogazoa/Mogazoa/assets/131663155/e46ba4c5-01ec-4a2c-a6ec-54a46ecb01d9)
 
+
+https://github.com/5-1-Mogazoa/Mogazoa/assets/131663155/e299a761-a553-4d03-887f-adf97d62465e
+
+
+
 <br/>
 <br/>
 
