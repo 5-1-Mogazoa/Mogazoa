@@ -48,6 +48,10 @@ export default function Product() {
   useEffect(() => {
     const userIdData = Number(localStorage.getItem("userId"));
     setUserId(userIdData);
+
+    if (typeof window !== "undefined") {
+      window.scroll(0, 0);
+    }
   }, []);
 
   return (

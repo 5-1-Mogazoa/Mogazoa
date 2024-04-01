@@ -17,7 +17,13 @@ export const TitleWithOrer = styled.div`
   align-items: center;
 `;
 
-export const List = styled(S.List)`
+interface ListProps {
+  $listHeight: number | undefined;
+}
+
+export const List = styled(S.List)<ListProps>`
+  min-height: ${({ $listHeight }) => ($listHeight ? `${$listHeight}px` : 0)};
+
   @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
     flex-direction: column;
   }
