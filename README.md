@@ -48,11 +48,9 @@ Mogazoa는 음악, 식당, 영화, 강의, 여행지, 전자기기, 호텔, 와�
 
 ### 메인 홈 화면(/)
 
-![Image](https://github.com/5-1-Mogazoa/Mogazoa/assets/131663155/e46ba4c5-01ec-4a2c-a6ec-54a46ecb01d9)
-
-
-https://github.com/5-1-Mogazoa/Mogazoa/assets/131663155/e299a761-a553-4d03-887f-adf97d62465e
-
+![home](https://github.com/5-1-Mogazoa/Mogazoa/assets/131663155/7777bfbe-7e06-46a5-8065-8287ed1ad9e5)
+<br/>
+![상품등록](https://github.com/5-1-Mogazoa/Mogazoa/assets/131663155/ce0a5d03-0867-4e8a-ad4c-6756c614348f)
 
 
 <br/>
@@ -66,7 +64,11 @@ https://github.com/5-1-Mogazoa/Mogazoa/assets/131663155/e299a761-a553-4d03-887f-
 
 ### 상품 상세 화면(/product/{productId})
 
-![Image](https://github.com/5-1-Mogazoa/Mogazoa/assets/131663155/7c70e81c-3507-4412-9e75-83b08117cad2)
+![products 페이지](https://github.com/5-1-Mogazoa/Mogazoa/assets/131663155/686c7646-63dd-4e47-bab5-a8dbdb80de26)
+<br/>
+![상품 수정](https://github.com/5-1-Mogazoa/Mogazoa/assets/131663155/9c3d2ec7-5167-4b34-8ba2-ec1b9a5b52bf)
+
+
 <br/>
 <br/>
 
