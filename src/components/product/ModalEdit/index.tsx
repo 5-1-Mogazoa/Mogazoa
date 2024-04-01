@@ -13,6 +13,8 @@ import FormSelect from "../../common/input/FormSelect";
 import FormTextarea from "../../common/input/FormTextarea";
 import FormImage from "../../common/input/FormImage";
 import FormProductNameInput from "../../common/input/FormProductNameInput";
+import axios from "axios";
+import { useToggle } from "usehooks-ts";
 
 export interface SelectOptionType {
   readonly value: number;
@@ -38,6 +40,7 @@ function ModalEdit({ productDetail, onClose }: ModalEditProps) {
   const router = useRouter();
   const queryClient = useQueryClient();
 
+  const [errorModal, errorToggle, setErrorModal] = useToggle();
   const { id, name, image, category, description } = productDetail as ProductDetailResponseType;
 
   // 카테고리 조회
@@ -65,10 +68,18 @@ function ModalEdit({ productDetail, onClose }: ModalEditProps) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.PRODUCT_DETAIL, id] });
     },
+    onError: (error: unknown) => {
+      if (!axios.isAxiosError(error)) return;
+
+      const errorDetail = error.response?.data.details;
+      if (errorDetail.name.message) {
+        setErrorModal(true);
+      }
+    },
   });
 
   // 상품편집 저장 버튼 클릭시 발생 이벤트
-  const editProductCallback = async (data: FieldValues) => {
+  const editProductCallback = async (data: FieldValues): Promise<boolean> => {
     const formData = {
       categoryId: data.categoryId.value,
       image: image,
@@ -81,48 +92,58 @@ function ModalEdit({ productDetail, onClose }: ModalEditProps) {
       formData.image = newImageUrl.url;
     }
 
-    patchProductMutation.mutate(formData, {
-      onSuccess: () => {
-        router.push(`/products/${id}`);
-      },
-    });
+    try {
+      await patchProductMutation.mutateAsync(formData, {
+        onSuccess: () => {
+          router.push(`/products/${id}`);
+        },
+      });
+      return true;
+    } catch {
+      return false;
+    }
   };
 
   return (
-    <FormProvider {...methods}>
-      <Modal title="상품편집" modalType="edit" onClose={onClose} callback={editProductCallback} isFormData>
-        <S.Container>
-          <S.ProductWithCategoryWithImage>
-            <S.ProductWithCategory>
-              <FormProductNameInput
-                rules={{
-                  required: { value: true, message: ERROR_MESSAGE.REQUIRED_PRODUCT_NAME },
-                  maxLength: { value: 20, message: ERROR_MESSAGE.PRODUCT_MAX_LENGTH },
-                }}
-                name="name"
-                maxLength={20}
-                defaultValue={name}
-                placeholder="상품명(상품 등록 여부를 확인해 주세요)"
-              />
-              <FormSelect options={categoryList} name="categoryId" placeholder="카테고리 선택" />
-            </S.ProductWithCategory>
-            <S.Image>
-              <FormImage name="image" defaultValue={image} />
-            </S.Image>
-          </S.ProductWithCategoryWithImage>
-          <FormTextarea
-            rules={{
-              required: { value: true, message: ERROR_MESSAGE.REQUIRED_DESCRIPTION },
-              minLength: { value: 10, message: ERROR_MESSAGE.DESCRIPTION_MIN_LENGTH },
-              maxLength: { value: 300, message: ERROR_MESSAGE.DESCRIPTION_MAX_LENGTH },
-            }}
-            name="description"
-            placeholder="상품 설명을 입력해 주세요."
-            maxLength={300}
-          />
-        </S.Container>
-      </Modal>
-    </FormProvider>
+    <>
+      <FormProvider {...methods}>
+        <Modal title="상품편집" modalType="edit" onClose={onClose} callback={editProductCallback} isFormData>
+          <S.Container>
+            <S.ProductWithCategoryWithImage>
+              <S.ProductWithCategory>
+                <FormProductNameInput
+                  rules={{
+                    required: { value: true, message: ERROR_MESSAGE.REQUIRED_PRODUCT_NAME },
+                    maxLength: { value: 20, message: ERROR_MESSAGE.PRODUCT_MAX_LENGTH },
+                  }}
+                  name="name"
+                  maxLength={20}
+                  defaultValue={name}
+                  placeholder="상품명(상품 등록 여부를 확인해 주세요)"
+                />
+                <FormSelect options={categoryList} name="categoryId" placeholder="카테고리 선택" />
+              </S.ProductWithCategory>
+              <S.Image>
+                <FormImage name="image" defaultValue={image} />
+              </S.Image>
+            </S.ProductWithCategoryWithImage>
+            <FormTextarea
+              rules={{
+                required: { value: true, message: ERROR_MESSAGE.REQUIRED_DESCRIPTION },
+                minLength: { value: 10, message: ERROR_MESSAGE.DESCRIPTION_MIN_LENGTH },
+                maxLength: { value: 300, message: ERROR_MESSAGE.DESCRIPTION_MAX_LENGTH },
+              }}
+              name="description"
+              placeholder="상품 설명을 입력해 주세요."
+              maxLength={300}
+            />
+          </S.Container>
+        </Modal>
+      </FormProvider>
+      {errorModal && (
+        <Modal title="이미 등록된 상품명이에요." modalType="edit_error_name" onClose={() => setErrorModal(false)} />
+      )}
+    </>
   );
 }
 
