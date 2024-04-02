@@ -194,11 +194,18 @@ export default function Userprofile({ isMe, userId }: Props) {
   const [dataType, setDataType] = useState<"REVIEWED" | "CREATED" | "FAVORITE">("REVIEWED");
   const [isFollowingModalOpen, setIsFollowingModalOpen] = useState(false);
   const [isFollowerModalOpen, setIsFollowerModalOpen] = useState(false);
+  const [isDataUpdated, setIsDataUpdated] = useState(false);
+
+  const handleIsDataUpdated = () => setIsDataUpdated(!isDataUpdated);
 
   const { data: USERDATA } = useQuery({
-    queryKey: ["USERDATA", userId],
+    queryKey: ["USERDATA", userId, isDataUpdated],
     queryFn: () => getUserData(userId),
   });
+
+  useEffect(() => {
+    handleIsDataUpdated();
+  }, [USERDATA]);
 
   const { data: FOLLOWEES } = useQuery({
     queryKey: [QUERY_KEY.FOLLOWEES, userId],
@@ -276,7 +283,11 @@ export default function Userprofile({ isMe, userId }: Props) {
               </div>
             </div>
           </StyledFollowInfo>
-          {isMe ? <MyPageProfileButtons /> : <FollowButton isFollowingData={USERDATA?.isFollowing} userId={userId} />}
+          {isMe ? (
+            <MyPageProfileButtons handleIsDataUpdated={handleIsDataUpdated} />
+          ) : (
+            <FollowButton isFollowingData={USERDATA?.isFollowing} userId={userId} />
+          )}
         </StyledProfileBox>
 
         <StyledPageRight>

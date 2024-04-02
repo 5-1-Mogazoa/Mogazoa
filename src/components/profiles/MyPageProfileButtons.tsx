@@ -4,7 +4,11 @@ import { resetToken } from "@/src/apis/auth";
 import ProfileEditModal from "./ProfileEditModal";
 import { useState } from "react";
 
-export default function MyPageProfileButtons() {
+type MyPageProfileButtons = {
+  handleIsDataUpdated: () => void;
+};
+
+export default function MyPageProfileButtons({ handleIsDataUpdated }: MyPageProfileButtons) {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -20,7 +24,7 @@ export default function MyPageProfileButtons() {
   return (
     <StyledButtonsContainer>
       <StyledProfileEditButton onClick={handleProfileEditButton}>프로필 편집</StyledProfileEditButton>
-      {isOpen && <ProfileEditModal setIsOpen={setIsOpen} />}
+      {isOpen && <ProfileEditModal handleIsDataUpdated={handleIsDataUpdated} setIsOpen={setIsOpen} />}
       <StyledLogOutButton onClick={handleLogOutButton}>로그아웃</StyledLogOutButton>
     </StyledButtonsContainer>
   );

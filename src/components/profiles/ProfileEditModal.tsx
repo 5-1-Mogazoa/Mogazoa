@@ -24,10 +24,11 @@ import { postImage } from "@/src/apis/image";
 
 interface ModalProps {
   setIsOpen: (value: boolean) => void;
+  handleIsDataUpdated: () => void;
 }
 
 // hasOptionsbutton 대신 modalType으로 review는 헤더부분 다르게 함
-export default function ProfileEditModal({ setIsOpen }: ModalProps) {
+export default function ProfileEditModal({ setIsOpen, handleIsDataUpdated }: ModalProps) {
   const [portalRoot, setPortalRoot] = useState<HTMLElement | null>(null);
 
   const { data: myData } = useQuery<UserPatchDataType>({
@@ -74,6 +75,7 @@ export default function ProfileEditModal({ setIsOpen }: ModalProps) {
     }
     try {
       await postMutation.mutateAsync(data);
+      handleIsDataUpdated();
     } catch (error: any) {
       //TODO: error 타입지정
       console.error(error);
