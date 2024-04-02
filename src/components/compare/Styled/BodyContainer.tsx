@@ -10,7 +10,7 @@ export const AllContainer = styled.div`
     width: 684px;
   }
   @media (min-width: ${({ theme }) => theme.deviceSizes.desktop}) {
-    width: 1920px;
+    width: 940px;
   }
 `;
 

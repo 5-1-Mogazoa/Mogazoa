@@ -31,7 +31,7 @@ const StyledPrimaryButton = styled.button`
   }
 
   @media (min-width: ${({ theme }) => theme.deviceSizes.desktop}) {
-    width: 200px;
+    width: 100%;
     height: 70px;
     ${fontStyle({ w: 600, s: 18, l: 20 })};
   }
