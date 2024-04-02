@@ -25,14 +25,14 @@ const StyledPrimaryButton = styled.button`
   ${fontStyle({ w: 600, s: 16, l: 18 })};
 
   @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
-    width: 440px;
+    width: 164px;
     height: 55px;
     flex-shrink: 1;
   }
 
   @media (min-width: ${({ theme }) => theme.deviceSizes.desktop}) {
-    width: 640px;
-    height: 65px;
+    width: 200px;
+    height: 70px;
     ${fontStyle({ w: 600, s: 18, l: 20 })};
   }
 `;
