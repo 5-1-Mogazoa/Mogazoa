@@ -1,9 +1,4 @@
-import {
-  BodyContainer,
-  InputContainer,
-  TagContainer,
-  ChipContainer,
-} from "@/src/components/compare/Styled/BodyContainer";
+import * as S from "@/src/components/compare/Styled/BodyContainer";
 import { ProductInput } from "@/src/components/compare/Styled/StyledProductInput";
 import { Label } from "@/src/components/compare/Styled/StyledProductInput";
 import { useEffect, useState } from "react";
@@ -108,9 +103,9 @@ export default function Product1({ handleProductAData, handleTableClose }: Produ
 
   return (
     <>
-      <InputContainer>
+      <S.InputContainer>
         <Label>상품1</Label>
-        <TagContainer>
+        <S.TagContainer>
           <ProductInput
             value={product1}
             onChange={handleProductAChange}
@@ -118,11 +113,11 @@ export default function Product1({ handleProductAData, handleTableClose }: Produ
             readOnly={readOnly}
           />
           {isShowChip1 && (
-            <ChipContainer onClick={handleDelete}>
+            <S.ChipContainer onClick={handleDelete}>
               <CompareChipA $productName={product1Chip} />
-            </ChipContainer>
+            </S.ChipContainer>
           )}
-        </TagContainer>
+        </S.TagContainer>
         {isShow && (
           <ProductCheckedNameWrap>
             {productA?.list?.map((product) => (
@@ -137,7 +132,7 @@ export default function Product1({ handleProductAData, handleTableClose }: Produ
             ))}
           </ProductCheckedNameWrap>
         )}
-      </InputContainer>
+      </S.InputContainer>
     </>
   );
 }
