@@ -27,7 +27,8 @@ export default function RankingListItem({
   Followers,
   Reviewer,
 }: RankingListItemProps) {
-  const rankText = rankNum ? `${rankNum}등` : "";
+  const rankText = rankNum ? `${rankNum}등` : "없음";
+  type RankingType = "1등" | "2등" | "3등" | "4등" | "5등" | "없음";
   return (
     <>
       {/* 아래 상세 내용은 props로 채워주시면 될 것 같습니다. */}
@@ -35,7 +36,7 @@ export default function RankingListItem({
         <StyledRankingListItemImage $imageURL={userImage} />
         <StyledTextContainer>
           <StyledReviewerContainer>
-            <StyledRankingChip $ranking={rankText}>{ranking}등</StyledRankingChip>
+            <StyledRankingChip $ranking={rankText as RankingType}>{ranking}등</StyledRankingChip>
             <StyledReviewerName>{reviewerName}</StyledReviewerName>
           </StyledReviewerContainer>
           <StyledDatasContainer>

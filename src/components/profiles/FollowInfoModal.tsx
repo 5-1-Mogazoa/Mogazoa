@@ -25,7 +25,7 @@ function FollowInfoModal({ setIsOpen, dataType, userId, nickname }: ModalProps) 
   const [noMoreUsers, setNoMoreUsers] = useState(false);
 
   const { data: userList } = useQuery<FollowDataType>({
-    queryKey: ["usersList", cursor],
+    queryKey: ["usersList", cursor, dataType],
     queryFn: () =>
       (dataType === "follower"
         ? getUserFollowers(userId, cursor)
@@ -41,7 +41,7 @@ function FollowInfoModal({ setIsOpen, dataType, userId, nickname }: ModalProps) 
   }, []);
 
   useEffect(() => {
-    if (userList) {
+    if (userList?.list.length) {
       setDataList([...dataList, ...userList.list] as FollowerType[] | FolloweeType[]);
     }
   }, [userList]);
@@ -75,29 +75,31 @@ function FollowInfoModal({ setIsOpen, dataType, userId, nickname }: ModalProps) 
             </S.CloseButton>
           </S.Header>
           <StyledProfileUl ref={scrollableRef} onScroll={handleScroll}>
-            {dataList.map((item) => {
-              return dataType === "follower" ? (
-                <Link
-                  onClick={handleCloseButton}
-                  key={(item as FollowerType).follower.id}
-                  href={PAGE_ROUTES.USER_DETAIL((item as FollowerType).follower.id)}>
-                  <StyledProfileContainer>
-                    <StyledProfileImage $image={(item as FollowerType).follower.image} />
-                    <StyledUserName>{(item as FollowerType).follower.nickname}</StyledUserName>
-                  </StyledProfileContainer>
-                </Link>
-              ) : (
-                <Link
-                  onClick={handleCloseButton}
-                  key={(item as FolloweeType).followee.id}
-                  href={PAGE_ROUTES.USER_DETAIL((item as FolloweeType).followee.id)}>
-                  <StyledProfileContainer>
-                    <StyledProfileImage $image={(item as FolloweeType).followee.image} />
-                    <StyledUserName>{(item as FolloweeType).followee.nickname}</StyledUserName>
-                  </StyledProfileContainer>
-                </Link>
-              );
-            })}
+            {dataList.length
+              ? dataList.map((item) => {
+                  return dataType === "follower" ? (
+                    <Link
+                      onClick={handleCloseButton}
+                      key={(item as FollowerType).follower?.id}
+                      href={PAGE_ROUTES.USER_DETAIL((item as FollowerType).follower?.id)}>
+                      <StyledProfileContainer>
+                        <StyledProfileImage $image={(item as FollowerType).follower?.image} />
+                        <StyledUserName>{(item as FollowerType).follower?.nickname}</StyledUserName>
+                      </StyledProfileContainer>
+                    </Link>
+                  ) : (
+                    <Link
+                      onClick={handleCloseButton}
+                      key={(item as FolloweeType).followee?.id}
+                      href={PAGE_ROUTES.USER_DETAIL((item as FolloweeType).followee?.id)}>
+                      <StyledProfileContainer>
+                        <StyledProfileImage $image={(item as FolloweeType).followee?.image} />
+                        <StyledUserName>{(item as FolloweeType).followee?.nickname}</StyledUserName>
+                      </StyledProfileContainer>
+                    </Link>
+                  );
+                })
+              : null}
             {noMoreUsers && <StyledDescription>더 이상 불러올 유저가 없습니다</StyledDescription>}
           </StyledProfileUl>
         </S.Container>

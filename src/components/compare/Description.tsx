@@ -5,8 +5,6 @@ type DescriptionProps = {
 };
 
 export default function Description({ resultCount, finalWinner }: DescriptionProps) {
-  console.log(resultCount, finalWinner);
-
   return resultCount === 0 ? (
     <S.ResultWinner>무승부입니다.</S.ResultWinner>
   ) : (

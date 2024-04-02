@@ -31,7 +31,7 @@ Mogazoa는 음악, 식당, 영화, 강의, 여행지, 전자기기, 호텔, 와�
 
 <img src="https://img.shields.io/badge/React-2DDEF9?style=flat&logo=React&logoColor=white"/> <img src="https://img.shields.io/badge/Typescript-005ADC?style=flat&logo=Typescript&logoColor=white"/> <img src="https://img.shields.io/badge/Next.js-000000?style=flat&logo=Next.js&logoColor=white"/> <img src="https://img.shields.io/badge/Javascript-F7DF1E?style=flat&logo=JAVASCTIPT&logoColor=white"/> <img src="https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=HTML5&logoColor=white"/>
 <img src="https://img.shields.io/badge/StyledComponent-FF6AED?style=flat&logo=StyledComponent&logoColor=white"/>
-<img src="https://img.shields.io/badge/Git-F05032?style=flat&logo=git&logoColor=white"/> <img src="https://img.shields.io/badge/Reacthookform-EC5990?style=flat&logo=Reacthookform&logoColor=white"/> <img src="https://img.shields.io/badge/Axios-000000?style=flat&logo=Axios&logoColor=white"/>
+<img src="https://img.shields.io/badge/Git-F05032?style=flat&logo=git&logoColor=white"/> <img src="https://img.shields.io/badge/Reacthookform-EC5990?style=flat&logo=Reacthookform&logoColor=white"/> <img src="https://img.shields.io/badge/Axios-000000?style=flat&logo=Axios&logoColor=white"/> <img src="https://img.shields.io/badge/usehooksts-F7DF1E?style=flat&logo=usehooksts&logoColor=white"/>
 
 <br/>
 
@@ -48,31 +48,39 @@ Mogazoa는 음악, 식당, 영화, 강의, 여행지, 전자기기, 호텔, 와�
 
 ### 메인 홈 화면(/)
 
-![Image](https://github.com/5-1-Mogazoa/Mogazoa/assets/131663155/e46ba4c5-01ec-4a2c-a6ec-54a46ecb01d9)
+![home](https://github.com/5-1-Mogazoa/Mogazoa/assets/131663155/ad24be7f-9cdb-417b-af41-ad2d1c843568)
+<br/>
+![상품추가](https://github.com/5-1-Mogazoa/Mogazoa/assets/131663155/a3af507c-7a7f-4ed7-9890-9c2f7749c59e)
 
 <br/>
 <br/>
 
 ### 회원가입 화면(/signup), 로그인 화면(/signin), 간편 회원가입 화면(/oauth/signup/{google|kakao})
 
-![Image](https://github.com/5-1-Mogazoa/Mogazoa/assets/131663155/1294ef68-d768-45ff-9ad7-51de3891d31e)
+![회원가입](https://github.com/5-1-Mogazoa/Mogazoa/assets/131663155/8365842a-503e-481b-b3d5-d04cedfa858b)
 <br/>
 <br/>
 
 ### 상품 상세 화면(/product/{productId})
 
-![Image](https://github.com/5-1-Mogazoa/Mogazoa/assets/131663155/7c70e81c-3507-4412-9e75-83b08117cad2)
+![상세](https://github.com/5-1-Mogazoa/Mogazoa/assets/131663155/0cb80c6b-c9bd-492e-8c91-7e70467f316f)
+<br/>
+![상품편집](https://github.com/5-1-Mogazoa/Mogazoa/assets/131663155/9bb2ef3f-d301-4fc3-b7ee-fb1f5c84652e)
+
 <br/>
 <br/>
 
 ### 비교하기 화면(/compare)
 
-![Image](https://github.com/5-1-Mogazoa/Mogazoa/assets/131663155/cdf9f1ac-c8fe-45a2-b8fd-1f7d5ac4cea6)
+![비교하기](https://github.com/5-1-Mogazoa/Mogazoa/assets/131663155/889a9e00-bb26-4f8e-9625-2301538aa6d3)
 <br/>
 <br/>
 
 ### 유저 프로필 화면(/user/{userId}), 내 프로필 화면(/mypage)
 
-![Image](https://github.com/5-1-Mogazoa/Mogazoa/assets/131663155/c6cb09d2-6dd4-40b1-9a9e-14a0e6038bc7)
+![프로필편집](https://github.com/5-1-Mogazoa/Mogazoa/assets/131663155/2fedb74d-7dda-4799-a539-50738ba44b79)
+<br/>
+![유저 프로필](https://github.com/5-1-Mogazoa/Mogazoa/assets/131663155/78c89d6a-7514-4f1d-a33e-a89441ccc93c)
+
 <br/>
 <br/>

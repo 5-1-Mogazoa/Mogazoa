@@ -4,50 +4,22 @@ import { getUserRank, getUserReviewed, getUserData } from "@/src/apis/user";
 import { Fragment, useEffect, useState } from "react";
 import Link from "next/link";
 import { PAGE_ROUTES } from "@/src/routes";
+import { GetUserRankResponseType } from "@/src/apis/user/schema";
 
 export default function Ranking() {
-  const { data: userRank } = useQuery({
+  const { data: userRank } = useQuery<any>({
     queryKey: ["userRank"],
     queryFn: () => getUserRank(),
   });
 
-  const [userDetails, setUserDetails] = useState([]);
+  const [userDetails, setUserDetails] = useState<GetUserRankResponseType[]>([]);
 
   useEffect(() => {
-    // 유저 랭킹 정보가 로딩되었을 때만 실행
     if (userRank) {
-      const fetchUserDetails = async () => {
-        const userDetailsPromises = userRank.map(async (user) => {
-          const userId = user.id;
-          const followers = await getUserData(userId);
-          const allReviews = await fetchAllUserReviews(userId);
-
-          return {
-            ...user,
-            followers,
-            allReviews,
-          };
-        });
-        const userDetailsData = await Promise.all(userDetailsPromises);
-        setUserDetails(userDetailsData?.slice(0, 5));
-      };
-
-      fetchUserDetails();
+      const rankingArr = userRank.slice(0, 5);
+      setUserDetails(rankingArr);
     }
   }, [userRank]);
-
-  const fetchAllUserReviews = async (userId: number) => {
-    let allReviews: any = [];
-    let cursor = null;
-
-    do {
-      const { list, nextCursor } = await getUserReviewed(userId, cursor);
-      allReviews = [...allReviews, ...list];
-      cursor = nextCursor;
-    } while (cursor !== null);
-
-    return allReviews;
-  };
 
   return (
     <>
@@ -59,8 +31,8 @@ export default function Ranking() {
               rankNum={String(index + 1)}
               ranking={index + 1}
               reviewerName={user.nickname}
-              Followers={user.followers.followersCount}
-              Reviewer={user.allReviews.length}
+              Followers={user.followersCount}
+              Reviewer={user.reviewCount}
             />
           </Link>
         );

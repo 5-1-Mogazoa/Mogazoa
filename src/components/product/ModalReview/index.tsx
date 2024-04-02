@@ -61,7 +61,13 @@ function ModalReview({ productId, name, category, order, onClose }: ModalReviewP
         console.error("이미지 업로드를 실패했어요.");
       }
     }
-    postReviewMutation.mutate(formData);
+
+    try {
+      await postReviewMutation.mutateAsync(formData);
+      return true;
+    } catch {
+      return false;
+    }
   };
 
   return (

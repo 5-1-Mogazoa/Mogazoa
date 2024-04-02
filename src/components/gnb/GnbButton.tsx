@@ -24,7 +24,7 @@ function SidebarButton({ children }: buttonProps) {
         router.push(PAGE_ROUTES.MY_PAGE);
         break;
       default:
-        console.log("error!");
+        alert("error!");
         break;
     }
   };
@@ -49,7 +49,7 @@ function GnbButton({ children }: buttonProps) {
         router.push(PAGE_ROUTES.MY_PAGE);
         break;
       default:
-        console.log("error!");
+        alert("error!");
         break;
     }
   };

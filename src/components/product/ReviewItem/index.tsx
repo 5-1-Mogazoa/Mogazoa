@@ -20,13 +20,20 @@ type ReviewItemProps = {
 function ReviewItem({ review, order, loginToggle }: ReviewItemProps) {
   const [userCount, setUserCount] = useState({ ranking: 0, follower: 0, reviewed: 0 });
   const { user, reviewImages, content, rating, userId: writerId } = review;
-  const userId = Number(localStorage.getItem("userId"));
+  const [userId, setUserId] = useState<number>();
   const createdByMe = writerId === userId;
 
   const { data: userRank } = useQuery({
     queryKey: ["userRank"],
     queryFn: getUserRank,
   });
+
+  useEffect(() => {
+    if (typeof window === "object") {
+      const userIdData = Number(localStorage.getItem("userId"));
+      setUserId(userIdData);
+    }
+  }, []);
 
   useEffect(() => {
     // 유저 랭킹 정보가 로딩되었을 때만 실행(배열이고 빈배열이 아닐 경우)

@@ -7,6 +7,7 @@ const MODAL_BUTTON: Record<string, string> = {
   add: "추가하기",
   login: "로그인하기",
   delete: "삭제하기",
+  edit_error_name: "상품명 바꾸기",
 };
 
 export default MODAL_BUTTON;

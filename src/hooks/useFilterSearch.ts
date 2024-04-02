@@ -11,14 +11,13 @@ const useFilterSearch = () => {
 
   const filterSearch = ({ category, order, keyword }: filterSearchProps) => {
     const { query } = router; // pathname 추가
-    console.log({ category, order, keyword }, query);
 
     updateQuery(query, "keyword", keyword);
     updateQuery(query, "order", order);
     updateQuery(query, "category", category);
 
     router.push({
-      pathname: router.pathname,
+      pathname: "/",
       query: query,
     });
   };

@@ -73,7 +73,7 @@ export default function Product2({ handleProductBData, handleTableClose }: Produ
   });
 
   const { data: productBDetail } = useQuery({
-    queryKey: [QUERY_KEY.PRODUCT_DETAIL, productId],
+    queryKey: [QUERY_KEY.PRODUCT_DETAIL, productId, product2],
     queryFn: () => getProductDetail(productId),
     // enabled: !!product2Chip,
   });
@@ -90,7 +90,6 @@ export default function Product2({ handleProductBData, handleTableClose }: Produ
   const [product2Data, setProduct2Data] = useState<any>();
   useEffect(() => {
     setIsShow(false);
-    console.log(product2);
     if (isSuccess) {
       if (product2 === "") {
         setIsShow(false);

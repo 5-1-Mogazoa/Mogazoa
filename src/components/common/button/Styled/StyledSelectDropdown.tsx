@@ -29,6 +29,10 @@ export const StyledSelectDropdown = styled(Select).attrs({ classNamePrefix: "rea
     padding: 0;
   }
 
+  .react-select__input-container {
+    color: var(--color-white);
+  }
+
   .react-select__single-value {
     ${fontStyle({ w: 400, s: 14, l: 16.7 })};
     color: var(--color-white);

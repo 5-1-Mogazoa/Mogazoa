@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { fontStyle } from "@/styles/theme";
 
 const ProductCheckedNameWrap = styled.ul`
   display: flex;
@@ -30,7 +31,6 @@ const ProductCheckedNameItem = styled.li`
   border-radius: 6px;
   color: var(--color-gray-6e, #6e6e82);
   ${fontStyle({ w: 400, s: 14, l: 20 })};
-  // ${(props) => props.isMatch && matchedStyles}
 
   &:hover {
     background: var(--color-black-35, #353542);

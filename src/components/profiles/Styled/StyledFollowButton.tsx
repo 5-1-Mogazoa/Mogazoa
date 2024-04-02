@@ -16,6 +16,11 @@ export const StyledFollowButton = styled.button<StyledFollowButtonProps>`
   flex-shrink: 0;
   border-radius: 8px;
 
+  &:disabled {
+    background: var(--color-black-35, #353542);
+    color: var(--color-gray-6e, #6e6e82);
+  }
+
   ${({ $isFollowing }) =>
     !$isFollowing
       ? `background: var(--color-main-gradation, linear-gradient(91deg, #5097fa 0%, #5363ff 100%));

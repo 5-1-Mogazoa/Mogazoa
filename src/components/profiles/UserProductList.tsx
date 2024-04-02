@@ -21,7 +21,6 @@ export default function UserProductList({ userId, dataType }: UserProductListPro
     queryKey: ["REVIEWED", userId],
     queryFn: () => getUserReviewed(userId, null),
   });
-  console.log({ CREATED });
 
   const { data: FAVORITE } = useQuery({
     queryKey: ["FAVORITE", userId],

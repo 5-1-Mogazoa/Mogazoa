@@ -17,7 +17,7 @@ export function CompareTable({ productAData, productBData }: CompareTableProps) 
   const handleFinalWinner = (value: string) => setFinalWinner(value);
 
   return (
-    //A데이AData, productBData비교 기능 구현
+ 
     <>
       <S.ResultContainer>
         <Description resultCount={resultCount} finalWinner={finalWinner} />
