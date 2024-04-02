@@ -82,7 +82,12 @@ function ModalEditReview({ name, category, order, review, onClose }: ModalEditRe
       }
     }
 
-    patchReviewMutation.mutate(formData);
+    try {
+      await patchReviewMutation.mutate(formData);
+      return true;
+    } catch {
+      return false;
+    }
   };
 
   return (
