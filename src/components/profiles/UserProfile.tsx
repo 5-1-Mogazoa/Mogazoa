@@ -203,10 +203,6 @@ export default function Userprofile({ isMe, userId }: Props) {
     queryFn: () => getUserData(userId),
   });
 
-  useEffect(() => {
-    handleIsDataUpdated();
-  }, [USERDATA]);
-
   const { data: FOLLOWEES } = useQuery({
     queryKey: [QUERY_KEY.FOLLOWEES, userId],
     queryFn: () => getUserFollowees(userId, 0),
