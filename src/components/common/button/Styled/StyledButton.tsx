@@ -25,7 +25,7 @@ const StyledPrimaryButton = styled.button`
   ${fontStyle({ w: 600, s: 16, l: 18 })};
 
   @media (min-width: ${({ theme }) => theme.deviceSizes.tablet}) {
-    width: 164px;
+    width: 100%;
     height: 55px;
     flex-shrink: 1;
   }
