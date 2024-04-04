@@ -16,7 +16,9 @@ export default function HomeLayout() {
 
   useEffect(() => {
     const checkLogin = async () => {
-      setIsLogin(localStorage.getItem("userId") ? true : false);
+      if (typeof window !== "undefined") {
+        setIsLogin(localStorage.getItem("userId") ? true : false);
+      }
     };
     checkLogin();
   }, []);
