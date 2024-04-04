@@ -161,6 +161,10 @@ const StyledFollowInfo = styled.div`
     gap: 50px;
   }
 `;
+const StyledFollowNumberCenter = styled.div`
+  display: flex;
+  justify-content: center;
+`;
 const StyledFollowNumber = styled.button`
   color: var(--white-white_F1F1F5, #f1f1f5);
 
@@ -259,7 +263,9 @@ export default function Userprofile({ isMe, userId }: Props) {
               onClick={() => {
                 setIsFollowerModalOpen(true);
               }}>
-              <StyledFollowNumber>{followersCount}</StyledFollowNumber>
+              <StyledFollowNumberCenter>
+                <StyledFollowNumber>{followersCount}</StyledFollowNumber>
+              </StyledFollowNumberCenter>
               <StyledFollowText>팔로워</StyledFollowText>
             </div>
             <svg xmlns="http://www.w3.org/2000/svg" width="1" height="48" viewBox="0 0 1 48" fill="none">
@@ -274,7 +280,9 @@ export default function Userprofile({ isMe, userId }: Props) {
                 onClick={() => {
                   setIsFollowingModalOpen(true);
                 }}>
-                <StyledFollowNumber>{followingCount}</StyledFollowNumber>
+                <StyledFollowNumberCenter>
+                  <StyledFollowNumber>{followingCount}</StyledFollowNumber>
+                </StyledFollowNumberCenter>
                 <StyledFollowText>팔로잉</StyledFollowText>
               </div>
             </div>
