@@ -23,5 +23,5 @@ const StyledAddButton = styled.button`
   align-items: center;
   width: 60px;
   height: 60px;
-  background: url("/icons/addbutton.svg") no-repeat center / cover;
+  background: url("/icons/addButton.svg") no-repeat center / cover;
 `;
