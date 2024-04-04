@@ -13,11 +13,11 @@ type CompareTableProps = {
 export function CompareTable({ productAData, productBData }: CompareTableProps) {
   const [resultCount, setResultCount] = useState(0);
   const [finalWinner, setFinalWinner] = useState("");
+
   const handleResultCount = (value: number) => setResultCount(value);
   const handleFinalWinner = (value: string) => setFinalWinner(value);
 
   return (
- 
     <>
       <S.ResultContainer>
         <Description resultCount={resultCount} finalWinner={finalWinner} />

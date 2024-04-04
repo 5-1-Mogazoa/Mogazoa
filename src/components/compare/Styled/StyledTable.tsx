@@ -45,6 +45,9 @@ const StyledResultDes = styled.span`
     ${fontStyle({ w: 400, s: 16, l: 19 })}
   }
 `;
+const StyledFinalResult = styled.span`
+  color: var(--color-main-blue, #5097fa);
+`;
 
 const StyledTable = styled.table`
   width: 100%;
@@ -104,4 +107,5 @@ export {
   StyledTableWhite as TableWhite,
   StyledTableWin1 as Win1,
   StyledTableWin2 as Win2,
+  StyledFinalResult as FinalResult,
 };
