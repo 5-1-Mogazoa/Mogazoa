@@ -7,9 +7,9 @@ const StyledCompareChipA = styled.div`
   gap: 10px;
 
   border-radius: 6px;
-  background: var(--pink-pink-10, rgba(255, 47, 159, 0.1));
+  background: var(--color-green-10, rgba(5, 213, 139, 0.1));
 
-  color: var(--color-pink-ff, #ff2f9f);
+  color: var(--color-green-ff, #05d58b);
   font-family: Pretendard;
   font-style: normal;
   ${fontStyle({ w: 400, s: 14, l: 16 })};
@@ -25,9 +25,10 @@ const StyledCompareChipB = styled.div`
   gap: 10px;
 
   border-radius: 6px;
-  background: var(--color-green-10, rgba(5, 213, 139, 0.1));
+  background: var(--pink-pink-10, rgba(255, 47, 159, 0.1));
 
-  color: var(--color-green-ff, #05d58b);
+  color: var(--color-pink-ff, #ff2f9f);
+
   font-family: Pretendard;
   font-style: normal;
   ${fontStyle({ w: 400, s: 14, l: 16 })};

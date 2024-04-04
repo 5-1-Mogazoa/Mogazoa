@@ -9,7 +9,7 @@ export default function Description({ resultCount, finalWinner }: DescriptionPro
     <S.ResultWinner>무승부입니다.</S.ResultWinner>
   ) : (
     <S.ResultWinner>
-      <S.ResultProduct1>{finalWinner}</S.ResultProduct1> 상품이 승리하였습니다
+      <S.FinalResult>{finalWinner}</S.FinalResult> 상품이 승리하였습니다
     </S.ResultWinner>
   );
 }
