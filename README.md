@@ -1,7 +1,7 @@
 ## 📱 다양한 분야의 상품을 리뷰하는 플랫폼, Mogazoa
 
 > 개발기간: 2024. 3. 2 ~ 진행중 <br/>
-> 배포링크: <br/>
+> 배포링크: https://mogazoa.vercel.app/<br/>
 
 ![Image](https://github.com/5-1-Mogazoa/Mogazoa/assets/131663155/bd9224d0-cb8c-4069-b89b-bb741d353e7b)
 
